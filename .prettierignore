@@ -1,0 +1,5 @@
+.history/
+.vscode/
+bash-scripts/
+dist/
+package-lock.json

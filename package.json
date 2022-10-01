@@ -15,12 +15,17 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4"
   },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  },
   "license": "MIT",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
+    "prettier-fix": "npm run prettier-check -- --write"
   },
   "eslintConfig": {
     "extends": [
