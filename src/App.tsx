@@ -1,7 +1,10 @@
 import './App.css'
+import { Demo } from './Demo'
+import { TraceLog } from './react-hook-tracer/components/TraceLog'
 
-function App() {
-  return <div className="App"></div>
-}
-
-export default App
+export const App = (): JSX.Element => (
+  <div className="app">
+    <Demo />
+    <TraceLog />
+  </div>
+)

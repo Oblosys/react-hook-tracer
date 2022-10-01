@@ -1,0 +1,90 @@
+.trace-log {
+  padding: 3px 8px 5px 8px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.trace-log.header {
+  flex-basis: 3ex;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.trace-log .controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 22px;
+}
+.trace-log .title {
+  font-size: 130%;
+  font-weight: bold;
+}
+
+.trace-log .buttons {
+  display: flex;
+  align-items: center;
+}
+
+.trace-log .simple-button {
+  position: relative;
+  top: 1px;
+}
+
+.trace-log .emoji-button {
+  font-size: 140%;
+}
+
+.trace-log .hint {
+  padding-top: 2px;
+  line-height: 20px;
+  text-align: left;
+}
+
+.trace-log .entries {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  flex-grow: 1;
+  overflow-y: scroll;
+  background-color: #f0f0f0;
+  border: solid #ccc 1px;
+}
+.trace-log .entry {
+  animation-name: emphasize;
+  animation-duration: 5s;
+}
+
+@keyframes emphasize {
+  from {
+    background-color: lightblue;
+  }
+  to {
+    background-color: inherit;
+  }
+}
+
+.trace-log .entry {
+  padding-left: 2px;
+  padding-right: 2px;
+  white-space: pre;
+  cursor: default;
+}
+.trace-log .entry[data-is-highlighted='true'] {
+  background-color: yellow;
+}
+
+.trace-log .simple-button {
+  display: inline-block;
+  padding: 1px 3px 0 3px;
+  margin-bottom: 2px;
+  height: 13px;
+  line-height: 12px;
+  font-size: 12px;
+  border: solid #aaa 1px;
+  border-radius: 4px;
+  user-select: none;
+  background-color: white;
+}
+
+.trace-log .simple-button:hover {
+  background-color: #ddd;
+}
