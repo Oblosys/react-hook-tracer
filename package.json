@@ -4,10 +4,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "lint-check": "eslint --cache .",
     "lint-fix": "npm run lint-check -- --fix",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
@@ -47,12 +47,14 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "5.38.1",
+    "customize-cra": "^1.0.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "27.0.4",
     "eslint-plugin-react": "7.31.8",
     "eslint-plugin-react-hooks": "4.6.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-app-rewired": "^2.2.1"
   }
 }
