@@ -1,5 +1,5 @@
-import { useState, useTracer } from './react-hook-tracer/hookTracer'
-import * as internals from './react-hook-tracer/internals'
+import { useState, useTracer } from '../packages/react-hook-tracer/src/hookTracer'
+import * as internals from '../packages/react-hook-tracer/src/internals'
 
 interface CounterProps {
   p: string

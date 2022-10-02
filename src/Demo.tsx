@@ -1,5 +1,5 @@
+import { useEffect, useState, useTracer } from '../packages/react-hook-tracer/src/hookTracer'
 import { Counter } from './Counter'
-import { useEffect, useState, useTracer } from './react-hook-tracer/hookTracer'
 
 export const Demo = (): JSX.Element => {
   useTracer()
