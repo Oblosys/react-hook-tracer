@@ -9,8 +9,8 @@ import './TraceLog.css'
 export const TraceLog = (): JSX.Element => {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([])
 
-  // Do we even need highlighted index in state?
-  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
+  // const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(0)
 
   const clearLog = () => tracer.clearLog()
 
