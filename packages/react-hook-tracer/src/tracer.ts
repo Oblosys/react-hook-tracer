@@ -44,8 +44,8 @@ export const trace = (label: string, stage: string, message = ''): void => {
   }
   tracer.trace(logEntry)
   if (message === '') {
-    console.log('Trace:', logEntry.label, logEntry.stage, logEntry.message)
+    // console.log('Trace:', logEntry.label, logEntry.stage, logEntry.message)
   } else {
-    console.log('Trace:', logEntry.label, logEntry.stage)
+    // console.log('Trace:', logEntry.label, logEntry.stage)
   }
 }

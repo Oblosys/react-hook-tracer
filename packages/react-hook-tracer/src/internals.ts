@@ -7,7 +7,6 @@ declare module 'react' {
 }
 
 /*
-
 FiberNode {
   _debugHookTypes: Array(4) [ "useRef", "useEffect", "useRef", … ]
   <prototype>: Array []
@@ -75,16 +74,22 @@ export interface Fiber {
 export const getCurrentOwner = (): Fiber | null =>
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner.current
 
-export const getComponentLabel = (): string => {
+export const getComponentInfo = (): Info => {
   const currentOwner = getCurrentOwner()
-  const { label } = getFiberNodeInfo(currentOwner)
-  return label
+  const info = getFiberNodeInfo(currentOwner)
+  // console.log(info.label, currentOwner)
+  return info
 }
+
+export const getComponentLabel = (): string => getComponentInfo().label
 
 interface Info {
   name: string
   id: number
   label: string
+  isTraced: boolean // Mutable, set to true by useTracer
+  nextHookIndex: number // Mutable
+  registeredHooks: string[] // Array is mutable
 }
 
 const fiberNodes = new WeakMap<Fiber, Info>()
@@ -92,7 +97,14 @@ let idCounter = 0 // TODO: counters per name
 
 const getFiberNodeInfo = (n: Fiber | null): Info => {
   if (n === null) {
-    return { name: '<unknown>', id: 0, label: '<unknown>-0' }
+    return {
+      name: '<unknown>',
+      id: 0,
+      label: '<unknown>-0',
+      isTraced: false,
+      nextHookIndex: 0,
+      registeredHooks: [],
+    }
   }
   const info = fiberNodes.get(n)
   if (info !== undefined) {
@@ -102,7 +114,14 @@ const getFiberNodeInfo = (n: Fiber | null): Info => {
     if (alternateInfo) {
       return alternateInfo
     } else {
-      const newInfo = { name: n.type.name, id: idCounter, label: `${n.type.name}-${idCounter}` }
+      const newInfo = {
+        name: n.type.name,
+        id: idCounter,
+        label: `${n.type.name}-${idCounter}`,
+        isTraced: false,
+        nextHookIndex: 0,
+        registeredHooks: [],
+      }
       fiberNodes.set(n, newInfo)
       // console.log(`New fiberNode ${newInfo.label}`, n)
       idCounter += 1
@@ -110,4 +129,38 @@ const getFiberNodeInfo = (n: Fiber | null): Info => {
       return newInfo
     }
   }
+}
+
+// Registered hooks will be stable due to Rules of Hooks.
+
+export const initHookRegister = () => {
+  const componentInfo = getComponentInfo()
+
+  componentInfo.nextHookIndex = 0
+}
+
+export type HookType = 'state' | 'effect'
+
+// TODO: Can we bind the actual state to state effects? and maybe dependencies to effect? (unnamed though)
+export const registerHook = (hookType: HookType) => {
+  const label = getComponentLabel()
+  const componentInfo = getComponentInfo()
+  const { nextHookIndex, registeredHooks } = componentInfo
+
+  console.log(label, `${hookType} nextHookIndex`, nextHookIndex)
+
+  const previouslyRegisteredHook = registeredHooks[nextHookIndex]
+  if (previouslyRegisteredHook === undefined) {
+    registeredHooks[nextHookIndex] = hookType
+  } else {
+    if (previouslyRegisteredHook !== hookType) {
+      console.error(
+        `The ${hookType} hook at index ${nextHookIndex} was previously registered as ${previouslyRegisteredHook} hook`,
+      )
+      // Either Rules of Hooks were broken or internal error
+      // (can this also happen when adding/removing hooks with hot reload?)
+    }
+  }
+
+  componentInfo.nextHookIndex += 1
 }
