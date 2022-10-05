@@ -1,10 +1,16 @@
-import React, { Dispatch, SetStateAction, useRef } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 
 import * as internals from './internals'
 import { trace } from './tracer'
 
-export const useTracer = (): { label: string } => {
+interface UseTracer {
+  label: string
+  trace: (message: string) => void
+}
+export const useTracer = (): UseTracer => {
   const label = internals.getComponentLabel()
+  const customTrace = useCallback((message: string) => trace(label, 'trace', message), [label])
+
   const isInitialized = useRef(false)
 
   if (!isInitialized.current) {
@@ -22,7 +28,7 @@ export const useTracer = (): { label: string } => {
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
 
-  return { label: internals.getComponentLabel() }
+  return { label, trace: customTrace }
 }
 
 const isUpdateFn = <S>(setStateAction: SetStateAction<S>): setStateAction is (prevState: S) => S =>
