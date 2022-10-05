@@ -62,11 +62,11 @@ export interface Fiber {
   alternate: Fiber | null
 
   // // Input is the data coming into process this fiber. Arguments. Props.
-  // pendingProps: any // This type will be more specific once we overload the tag.
-  // memoizedProps: any // The props used to create the output.
+  pendingProps: Record<string, unknown> // This type will be more specific once we overload the tag.
+  memoizedProps: Record<string, unknown> // The props used to create the output.
 
   // // The state used to create the output
-  // memoizedState: any
+  memoizedState: Record<string, unknown>
 
   // // Dependencies (contexts, events) for this fiber, if it has any
   // dependencies: Dependencies | null
