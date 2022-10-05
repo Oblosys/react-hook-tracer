@@ -93,7 +93,16 @@ interface Info {
 }
 
 const fiberNodes = new WeakMap<Fiber, Info>()
-let idCounter = 0 // TODO: counters per name
+
+const nextComponentIdByLabel: Record<string, number> = {}
+const getFreshIdForName = (name: string) => {
+  if (nextComponentIdByLabel[name] === undefined) {
+    nextComponentIdByLabel[name] = 1
+  }
+  const id = nextComponentIdByLabel[name]
+  nextComponentIdByLabel[name] += 1
+  return id
+}
 
 const getFiberNodeInfo = (n: Fiber | null): Info => {
   if (n === null) {
@@ -114,17 +123,19 @@ const getFiberNodeInfo = (n: Fiber | null): Info => {
     if (alternateInfo) {
       return alternateInfo
     } else {
+      // TODO: Delay this, so we only do it when useTracer was called.
+      const name = n.type.name
+      const id = getFreshIdForName(name)
       const newInfo = {
-        name: n.type.name,
-        id: idCounter,
-        label: `${n.type.name}-${idCounter}`,
+        name,
+        id,
+        label: `${name}-${id}`,
         isTraced: false,
         nextHookIndex: 0,
         registeredHooks: [],
       }
       fiberNodes.set(n, newInfo)
       // console.log(`New fiberNode ${newInfo.label}`, n)
-      idCounter += 1
 
       return newInfo
     }
