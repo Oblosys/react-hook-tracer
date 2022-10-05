@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 
-import * as internals from './internals'
+import * as internal from './internal'
 import { trace } from './tracer'
 
 interface UseTracer {
@@ -9,9 +9,9 @@ interface UseTracer {
   hooks: string[]
 }
 export const useTracer = (): UseTracer => {
-  internals.getComponentInfo().isTraced = true
-  internals.initHookRegister()
-  const label = internals.getComponentLabel()
+  internal.getComponentInfo().isTraced = true
+  internal.initHookRegister()
+  const label = internal.getComponentLabel()
 
   const customTrace = useCallback((message: string) => trace(label, 'trace', message), [label])
 
@@ -22,12 +22,12 @@ export const useTracer = (): UseTracer => {
     trace(label, 'mount')
   }
 
-  // const pendingProps = internals.getCurrentOwner()?.pendingProps ?? {}
-  // const memoizedProps = internals.getCurrentOwner()?.memoizedProps ?? {}
+  // const pendingProps = internal.getCurrentOwner()?.pendingProps ?? {}
+  // const memoizedProps = internal.getCurrentOwner()?.memoizedProps ?? {}
   // const updatedProps = util
   //   .getObjectKeys(pendingProps)
   //   .filter((prop) => pendingProps[prop] !== memoizedProps[prop])
-  // const memoizedState = internals.getCurrentOwner()?.memoizedState ?? {}
+  // const memoizedState = internal.getCurrentOwner()?.memoizedState ?? {}
   // trace(label, 'render', JSON.stringify(updatedProps))
 
   // Effect with empty dependencies to track component unmount
@@ -38,16 +38,16 @@ export const useTracer = (): UseTracer => {
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
 
-  return { label, trace: customTrace, hooks: internals.getComponentInfo().registeredHooks }
+  return { label, trace: customTrace, hooks: internal.getComponentInfo().registeredHooks }
 }
 
 export const useState = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
-  const f = internals.getComponentInfo().isTraced ? useStateTraced : React.useState
+  const f = internal.getComponentInfo().isTraced ? useStateTraced : React.useState
   return f(initialState)
 }
 
 export const useEffect = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
-  const f = internals.getComponentInfo().isTraced ? useEffectTraced : React.useEffect
+  const f = internal.getComponentInfo().isTraced ? useEffectTraced : React.useEffect
   return f(effectRaw, deps)
 }
 
@@ -55,8 +55,8 @@ const isUpdateFn = <S>(setStateAction: SetStateAction<S>): setStateAction is (pr
   typeof setStateAction === 'function'
 
 const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
-  internals.registerHook('state')
-  const label = internals.getComponentLabel()
+  internal.registerHook('state')
+  const label = internal.getComponentLabel()
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
@@ -81,8 +81,8 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
 }
 
 const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
-  internals.registerHook('effect')
-  const label = internals.getComponentLabel()
+  internal.registerHook('effect')
+  const label = internal.getComponentLabel()
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
