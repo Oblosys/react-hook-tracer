@@ -43,6 +43,7 @@ FiberNode {
 }
 */
 
+// TODO: Rename to FiberNode, like the actual object
 // See `Fiber` at https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js
 export interface Fiber {
   // // Tag identifying the type of fiber.
@@ -74,26 +75,6 @@ export interface Fiber {
 export const getCurrentOwner = (): Fiber | null =>
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner.current
 
-export const getComponentInfo = (): Info => {
-  const currentOwner = getCurrentOwner()
-  const info = getFiberNodeInfo(currentOwner)
-  // console.log(info.label, currentOwner)
-  return info
-}
-
-export const getComponentLabel = (): string => getComponentInfo().label
-
-interface Info {
-  name: string
-  id: number
-  label: string
-  isTraced: boolean // Mutable, set to true by useTracer
-  nextHookIndex: number // Mutable
-  registeredHooks: string[] // Array is mutable
-}
-
-const fiberNodes = new WeakMap<Fiber, Info>()
-
 const nextComponentIdByLabel: Record<string, number> = {}
 const getFreshIdForName = (name: string) => {
   if (nextComponentIdByLabel[name] === undefined) {
@@ -104,58 +85,98 @@ const getFreshIdForName = (name: string) => {
   return id
 }
 
-const getFiberNodeInfo = (n: Fiber | null): Info => {
-  if (n === null) {
-    return {
-      name: '<unknown>',
-      id: 0,
-      label: '<unknown>-0',
-      isTraced: false,
-      nextHookIndex: 0,
-      registeredHooks: [],
-    }
-  }
-  const info = fiberNodes.get(n)
-  if (info !== undefined) {
-    return info
-  } else {
-    const alternateInfo = n.alternate && fiberNodes.get(n.alternate)
-    if (alternateInfo) {
-      return alternateInfo
-    } else {
-      // TODO: Delay this, so we only do it when useTracer was called.
-      const name = n.type.name
-      const id = getFreshIdForName(name)
-      const newInfo = {
-        name,
-        id,
-        label: `${name}-${id}`,
-        isTraced: false,
-        nextHookIndex: 0,
-        registeredHooks: [],
-      }
-      fiberNodes.set(n, newInfo)
-      // console.log(`New fiberNode ${newInfo.label}`, n)
+interface Info {
+  name: string
+  id: number
+  label: string
+  nextHookIndex: number // Mutable
+  registeredHooks: string[] // Array is mutable
+}
 
-      return newInfo
-    }
+const componentInfoMap = new WeakMap<Fiber, Info>()
+
+export const isCurrentComponentTraced = (): boolean => {
+  const currentOwner = getCurrentOwner()
+
+  if (currentOwner === null) {
+    throw new Error('isComponentTraced: no current owner')
+  } else {
+    return (
+      componentInfoMap.has(currentOwner) ||
+      (currentOwner.alternate !== null && componentInfoMap.has(currentOwner.alternate))
+    )
   }
+}
+
+const createComponentInfo = (currentOwner: Fiber) => {
+  const name = currentOwner.type.name
+  const id = getFreshIdForName(name)
+  return {
+    name,
+    id,
+    label: `${name}-${id}`,
+    isTraced: false,
+    nextHookIndex: 0,
+    registeredHooks: [],
+  }
+}
+
+const getComponentInfo = (currentOwner: Fiber): Info => {
+  const componentInfo = componentInfoMap.get(currentOwner)
+  if (componentInfo !== undefined) {
+    return componentInfo
+  } else {
+    if (currentOwner.alternate !== null) {
+      const componentAlternateInfo = componentInfoMap.get(currentOwner.alternate)
+      if (componentAlternateInfo !== undefined) {
+        componentInfoMap.set(currentOwner, componentAlternateInfo)
+        return componentAlternateInfo
+      }
+    }
+
+    // Component was not registered, and either had no alternate or alternate wasn't registered.
+    const newComponentInfo = createComponentInfo(currentOwner)
+    componentInfoMap.set(currentOwner, newComponentInfo)
+    return newComponentInfo
+  }
+}
+
+const getCurrentComponentInfoOrThrow = (message: string): Info => {
+  const currentOwner = getCurrentOwner()
+  if (currentOwner === null) {
+    throw new Error(message)
+  } else {
+    return getComponentInfo(currentOwner)
+  }
+}
+
+export const getCurrentComponentInfo = (): Info => {
+  const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentInfo: no current owner')
+  return componentInfo
+}
+
+export const getCurrentComponentLabel = (): string => {
+  const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentLabel: no current owner')
+  return componentInfo.label
+}
+
+export const registerCurrentComponent = (): Info => {
+  const componentInfo = getCurrentComponentInfoOrThrow('registerComponent: no current owner')
+
+  componentInfo.nextHookIndex = 0
+
+  return componentInfo
 }
 
 // Registered hooks will be stable due to Rules of Hooks.
 
-export const initHookRegister = () => {
-  const componentInfo = getComponentInfo()
-
-  componentInfo.nextHookIndex = 0
-}
-
 export type HookType = 'state' | 'effect'
 
 // TODO: Can we bind the actual state to state effects? and maybe dependencies to effect? (unnamed though)
+// use array of objects, and return object on registration
 export const registerHook = (hookType: HookType) => {
-  const label = getComponentLabel()
-  const componentInfo = getComponentInfo()
+  const componentInfo = getCurrentComponentInfoOrThrow('registerHook: no current owner')
+  const label = componentInfo.label
   const { nextHookIndex, registeredHooks } = componentInfo
 
   console.log(label, `${hookType} nextHookIndex`, nextHookIndex)

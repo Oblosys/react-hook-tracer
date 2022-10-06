@@ -10,9 +10,8 @@ interface UseTracer {
   HookPanel: () => JSX.Element
 }
 export const useTracer = (): UseTracer => {
-  internal.getComponentInfo().isTraced = true
-  internal.initHookRegister()
-  const label = internal.getComponentLabel()
+  const componentInfo = internal.registerCurrentComponent()
+  const label = componentInfo.label
 
   const customTrace = useCallback((message: string) => trace(label, 'trace', message), [label])
 
@@ -39,7 +38,6 @@ export const useTracer = (): UseTracer => {
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
 
-  const componentInfo = internal.getComponentInfo()
   const getHookStages = () => ['mount', 'render', ...componentInfo.registeredHooks, 'unmount']
   const WrappedHookPanel = () => HookPanel({ label, getHookStages })
 
@@ -51,13 +49,13 @@ export const useTracer = (): UseTracer => {
 }
 
 export const useState = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
-  const f = internal.getComponentInfo().isTraced ? useStateTraced : React.useState
-  return f(initialState)
+  const hook = internal.isCurrentComponentTraced() ? useStateTraced : React.useState
+  return hook(initialState)
 }
 
 export const useEffect = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
-  const f = internal.getComponentInfo().isTraced ? useEffectTraced : React.useEffect
-  return f(effectRaw, deps)
+  const hook = internal.isCurrentComponentTraced() ? useEffectTraced : React.useEffect
+  return hook(effectRaw, deps)
 }
 
 const isUpdateFn = <S>(setStateAction: SetStateAction<S>): setStateAction is (prevState: S) => S =>
@@ -65,7 +63,7 @@ const isUpdateFn = <S>(setStateAction: SetStateAction<S>): setStateAction is (pr
 
 const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
   internal.registerHook('state')
-  const label = internal.getComponentLabel()
+  const label = internal.getCurrentComponentLabel()
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
@@ -91,7 +89,7 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
 
 const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
   internal.registerHook('effect')
-  const label = internal.getComponentLabel()
+  const label = internal.getCurrentComponentLabel()
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
