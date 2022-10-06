@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { LogEntry, tracer } from '../tracer'
+import { LogEntry, tracer } from '../Tracer'
 import { LogEntries } from './LogEntries'
 import { SimpleButton } from './SimpleButton'
 

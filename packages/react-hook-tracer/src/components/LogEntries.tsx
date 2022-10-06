@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef } from 'react'
 
-import * as tracer from '../tracer'
+import * as tracer from '../Tracer'
 
 interface LogEntriesProps {
   entries: tracer.LogEntry[]
