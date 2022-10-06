@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { HookInfo, HookType } from './types'
+
 declare module 'react' {
   const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
     ReactCurrentOwner: { current: FiberNode | null }
@@ -85,15 +87,15 @@ const getFreshIdForName = (name: string) => {
   return id
 }
 
-interface Info {
+interface ComponentInfo {
   name: string
   id: number
   label: string
   nextHookIndex: number // Mutable
-  registeredHooks: string[] // Array is mutable
+  registeredHooks: HookInfo[] // Array is mutable
 }
 
-const componentInfoMap = new WeakMap<FiberNode, Info>()
+const componentInfoMap = new WeakMap<FiberNode, ComponentInfo>()
 
 export const isCurrentComponentTraced = (): boolean => {
   const currentOwner = getCurrentOwner()
@@ -121,7 +123,7 @@ const createComponentInfo = (currentOwner: FiberNode) => {
   }
 }
 
-const getComponentInfo = (currentOwner: FiberNode): Info => {
+const getComponentInfo = (currentOwner: FiberNode): ComponentInfo => {
   const componentInfo = componentInfoMap.get(currentOwner)
   if (componentInfo !== undefined) {
     return componentInfo
@@ -141,7 +143,7 @@ const getComponentInfo = (currentOwner: FiberNode): Info => {
   }
 }
 
-const getCurrentComponentInfoOrThrow = (message: string): Info => {
+const getCurrentComponentInfoOrThrow = (message: string): ComponentInfo => {
   const currentOwner = getCurrentOwner()
   if (currentOwner === null) {
     throw new Error(message)
@@ -150,7 +152,7 @@ const getCurrentComponentInfoOrThrow = (message: string): Info => {
   }
 }
 
-export const getCurrentComponentInfo = (): Info => {
+export const getCurrentComponentInfo = (): ComponentInfo => {
   const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentInfo: no current owner')
   return componentInfo
 }
@@ -160,7 +162,7 @@ export const getCurrentComponentLabel = (): string => {
   return componentInfo.label
 }
 
-export const registerCurrentComponent = (): Info => {
+export const registerCurrentComponent = (): ComponentInfo => {
   const componentInfo = getCurrentComponentInfoOrThrow('registerComponent: no current owner')
 
   componentInfo.nextHookIndex = 0
@@ -170,29 +172,29 @@ export const registerCurrentComponent = (): Info => {
 
 // Registered hooks will be stable due to Rules of Hooks.
 
-export type HookType = 'state' | 'effect'
-
 // TODO: Can we bind the actual state to state effects? and maybe dependencies to effect? (unnamed though)
-// use array of objects, and return object on registration
-export const registerHook = (hookType: HookType) => {
+export const registerHook = (hookType: HookType): HookInfo => {
   const componentInfo = getCurrentComponentInfoOrThrow('registerHook: no current owner')
-  const label = componentInfo.label
   const { nextHookIndex, registeredHooks } = componentInfo
 
-  console.log(label, `${hookType} nextHookIndex`, nextHookIndex)
+  // console.log(componentInfo.label, `${hookType} nextHookIndex`, nextHookIndex)
 
   const previouslyRegisteredHook = registeredHooks[nextHookIndex]
   if (previouslyRegisteredHook === undefined) {
-    registeredHooks[nextHookIndex] = hookType
+    registeredHooks[nextHookIndex] = { hookType, info: '' }
   } else {
-    if (previouslyRegisteredHook !== hookType) {
-      console.error(
-        `The ${hookType} hook at index ${nextHookIndex} was previously registered as ${previouslyRegisteredHook} hook`,
-      )
-      // Either Rules of Hooks were broken or internal error
+    const previousHookType = previouslyRegisteredHook.hookType
+    if (previousHookType !== hookType) {
+      // Either Rules of Hooks were broken or we enccountered an internal error.
       // (can this also happen when adding/removing hooks with hot reload?)
+      console.error(
+        `The ${hookType} hook at index ${nextHookIndex} was previously registered as ${previousHookType} hook`,
+      )
+      // TODO: throw
     }
   }
 
+  const hookInfo = registeredHooks[nextHookIndex]
   componentInfo.nextHookIndex += 1
+  return hookInfo
 }

@@ -1,8 +1,9 @@
 import './HookPanel.css'
+import { HookInfo } from '../types'
 
 interface HookPanelProps {
   label: string
-  getHookStages: () => string[] // TODO: HookStages is not a great name.
+  getHookStages: () => HookInfo[] // TODO: HookStages is not a great name.
 }
 export const HookPanel = ({ label, getHookStages }: HookPanelProps) => (
   <div className="hook-panel" data-testid="hook-panel">
@@ -23,7 +24,7 @@ export const HookPanel = ({ label, getHookStages }: HookPanelProps) => (
 
 interface HookStageProps {
   // componentLabel: string
-  stage: string
+  stage: HookInfo
 }
 const HookStage = ({ stage }: HookStageProps) => {
   // const methodIsHighlighted = isHighlighted(highlightedMethod, {
@@ -34,7 +35,7 @@ const HookStage = ({ stage }: HookStageProps) => {
   const stageIsHighlighted = false
   return (
     <div className="hook-stage" data-is-highlighted={stageIsHighlighted}>
-      {stage}
+      {stage.hookType + (stage.info ? ' ' + stage.info : '')}
     </div>
   )
 }

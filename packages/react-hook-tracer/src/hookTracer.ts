@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 import * as internal from './componentRegistry'
 import { HookPanel } from './components/HookPanel'
 import { trace } from './tracer'
+import { HookInfo, HookType } from './types'
 
 interface UseTracer {
   label: string
@@ -38,7 +39,13 @@ export const useTracer = (): UseTracer => {
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
 
-  const getHookStages = () => ['mount', 'render', ...componentInfo.registeredHooks, 'unmount']
+  const mkHookInfo = (hookType: HookType): HookInfo => ({ hookType, info: '' })
+  const getHookStages = () => [
+    mkHookInfo('mount'),
+    mkHookInfo('render'),
+    ...componentInfo.registeredHooks,
+    mkHookInfo('unmount'),
+  ]
   const WrappedHookPanel = () => HookPanel({ label, getHookStages })
 
   return {
@@ -58,32 +65,39 @@ export const useEffect = (effectRaw: React.EffectCallback, deps?: React.Dependen
   return hook(effectRaw, deps)
 }
 
-const isUpdateFn = <S>(setStateAction: SetStateAction<S>): setStateAction is (prevState: S) => S =>
-  typeof setStateAction === 'function'
+const isUpdateFunction = <S>(
+  setStateAction: SetStateAction<S>,
+): setStateAction is (prevState: S) => S => typeof setStateAction === 'function'
 
 const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
-  internal.registerHook('state')
+  const hookInfo = internal.registerHook('state')
   const label = internal.getCurrentComponentLabel()
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
     trace(label, 'useState', JSON.stringify(initialState))
+    hookInfo.info = JSON.stringify(initialState)
     isInitialized.current = true
   }
 
   const [value, setValue] = React.useState(initialState)
-  const setValueLogged: React.Dispatch<React.SetStateAction<S>> = (setStateAction) => {
-    if (isUpdateFn(setStateAction)) {
+
+  const setValueLogged: React.Dispatch<React.SetStateAction<S>> = (valueOrUpdateFunction) => {
+    if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
-        const newValue = setStateAction(prevState)
+        const newValue = valueOrUpdateFunction(prevState)
         trace(label, 'setState fn', JSON.stringify(newValue))
+        hookInfo.info = JSON.stringify(newValue) // TODO: string may get big
         return newValue
       })
     } else {
-      trace(label, 'setState', JSON.stringify(setStateAction))
-      setValue(setStateAction)
+      const newValue = valueOrUpdateFunction
+      trace(label, 'setState', JSON.stringify(newValue))
+      setValue(newValue)
+      hookInfo.info = JSON.stringify(newValue)
     }
   }
+
   return [value, setValueLogged]
 }
 
