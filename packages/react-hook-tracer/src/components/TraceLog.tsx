@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { LogEntry, tracer } from '../Tracer'
 import { LogEntries } from './LogEntries'
@@ -9,15 +9,19 @@ import './TraceLog.css'
 export const TraceLog = (): JSX.Element => {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([])
 
-  // const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
-  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(0)
+  const [selectedLogEntryIndex, setSelectedLogEntryIndex] = useState<number | null>(null)
+
+  const setHighlightedIndex = useCallback((index: number) => tracer.selectLogEntry(index), [])
 
   const clearLog = () => tracer.clearLog()
 
   // const addLogEntry = (entry: LogEntry) => setLogEntries((prevEntries) => [...prevEntries, entry])
 
   useEffect(() => {
-    const listenerId = tracer.subscribe({ setLogEntries })
+    const listenerId = tracer.subscribe({
+      setLogEntries,
+      setSelectedLogEntryIndex,
+    })
     return () => tracer.unsubscribe(listenerId)
   }, [])
 
@@ -56,7 +60,7 @@ export const TraceLog = (): JSX.Element => {
       </div>
       <LogEntries
         entries={logEntries}
-        highlightedIndex={highlightedIndex}
+        highlightedIndex={selectedLogEntryIndex}
         setHighlightedIndex={setHighlightedIndex}
       />
     </div>

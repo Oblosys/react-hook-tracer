@@ -1,41 +1,43 @@
-import './HookPanel.css'
+import { useEffect, useState } from 'react'
+
+import { LogEntry, tracer } from '../Tracer'
 import { HookInfo } from '../types'
+
+import './HookPanel.css'
+// TODO: Fix linter rule for css and empty line below imports, and for `const [x, _] = ...`
 
 interface HookPanelProps {
   label: string
   getHookStages: () => HookInfo[] // TODO: HookStages is not a great name.
 }
-export const HookPanel = ({ label, getHookStages }: HookPanelProps) => (
-  <div className="hook-panel" data-testid="hook-panel">
-    <div className="hook-panel-inner">
-      <div className="component-label">{label}</div>
-      {getHookStages().map((stage, index) => (
-        <HookStage key={index} stage={stage} />
-      ))}
-    </div>
-  </div>
-)
+export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
+  const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
-// const isHighlighted = (hlMethod, method) =>
-//   hlMethod !== null &&
-//   hlMethod.componentName === method.componentName &&
-//   hlMethod.instanceId === method.instanceId &&
-//   hlMethod.methodName.startsWith(method.methodName) // for handling 'setState:update fn' & 'setState:callback'
+  useEffect(() => {
+    const listenerId = tracer.subscribe({
+      setSelectedLogEntry,
+    })
+    return () => tracer.unsubscribe(listenerId)
+  }, [])
 
-interface HookStageProps {
-  // componentLabel: string
-  stage: HookInfo
-}
-const HookStage = ({ stage }: HookStageProps) => {
-  // const methodIsHighlighted = isHighlighted(highlightedMethod, {
-  //   componentName,
-  //   instanceId,
-  //   methodName,
-  // })
-  const stageIsHighlighted = false
   return (
-    <div className="hook-stage" data-is-highlighted={stageIsHighlighted}>
-      {stage.hookType + (stage.info ? ' ' + stage.info : '')}
+    <div className="hook-panel" data-testid="hook-panel">
+      <div className="hook-panel-inner">
+        <div className="component-label">{label}</div>
+        {getHookStages().map((stage, index) => (
+          <HookStage key={index} stage={stage} isHighlighted={stage === selectedLogEntry?.origin} />
+        ))}
+      </div>
     </div>
   )
 }
+
+interface HookStageProps {
+  stage: HookInfo
+  isHighlighted: boolean
+}
+const HookStage = ({ stage, isHighlighted }: HookStageProps) => (
+  <div className="hook-stage" data-is-highlighted={isHighlighted}>
+    {stage.hookType + (stage.info ? ' ' + stage.info : '')}
+  </div>
+)
