@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 
-import { trace } from './Tracer'
+import { tracer } from './Tracer'
 import * as internal from './componentRegistry'
 import { HookPanel } from './components/HookPanel'
 import { HookInfo, HookType } from './types'
@@ -14,13 +14,13 @@ export const useTracer = (): UseTracer => {
   const componentInfo = internal.registerCurrentComponent()
   const label = componentInfo.label
 
-  const customTrace = useCallback((message: string) => trace(label, 'trace', message), [label])
+  const trace = useCallback((message: string) => tracer.trace(label, 'trace', message), [label])
 
   const isInitialized = useRef(false)
 
   if (!isInitialized.current) {
     isInitialized.current = true
-    trace(label, 'mount')
+    tracer.trace(label, 'mount')
   }
 
   // const pendingProps = internal.getCurrentOwner()?.pendingProps ?? {}
@@ -29,12 +29,13 @@ export const useTracer = (): UseTracer => {
   //   .getObjectKeys(pendingProps)
   //   .filter((prop) => pendingProps[prop] !== memoizedProps[prop])
   // const memoizedState = internal.getCurrentOwner()?.memoizedState ?? {}
-  // trace(label, 'render', JSON.stringify(updatedProps))
+  // tracer.trace(label, 'render', JSON.stringify(updatedProps))
+  tracer.trace(label, 'render')
 
   // Effect with empty dependencies to track component unmount
   React.useEffect(
     () => () => {
-      trace(label, 'unmounted')
+      tracer.trace(label, 'unmounted')
     },
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
@@ -48,11 +49,7 @@ export const useTracer = (): UseTracer => {
   ]
   const WrappedHookPanel = () => HookPanel({ label, getHookStages })
 
-  return {
-    label,
-    trace: customTrace,
-    HookPanel: WrappedHookPanel,
-  }
+  return { label, trace, HookPanel: WrappedHookPanel }
 }
 
 export const useState = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
@@ -75,7 +72,7 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    trace(label, 'useState', JSON.stringify(initialState))
+    tracer.trace(label, 'useState', JSON.stringify(initialState))
     hookInfo.info = JSON.stringify(initialState)
     isInitialized.current = true
   }
@@ -86,13 +83,13 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        trace(label, 'setState fn', JSON.stringify(newValue))
+        tracer.trace(label, 'setState fn', JSON.stringify(newValue))
         hookInfo.info = JSON.stringify(newValue) // TODO: string may get big
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      trace(label, 'setState', JSON.stringify(newValue))
+      tracer.trace(label, 'setState', JSON.stringify(newValue))
       setValue(newValue)
       hookInfo.info = JSON.stringify(newValue)
     }
@@ -107,7 +104,7 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    trace(label, 'useEffect', 'init')
+    tracer.trace(label, 'useEffect', 'init')
     isInitialized.current = true
   } else {
     // maybe log which dep. changed
@@ -115,13 +112,13 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
   }
 
   const effect = () => {
-    trace(label, 'useEffect', 'running effect')
+    tracer.trace(label, 'useEffect', 'running effect')
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
       return
     } else {
       const cleanup = () => {
-        trace(label, 'useEffect', 'cleanup')
+        tracer.trace(label, 'useEffect', 'cleanup')
         cleanupRaw()
       }
       return cleanup

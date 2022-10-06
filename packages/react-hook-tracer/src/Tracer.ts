@@ -1,51 +1,49 @@
-// TODO: Use class + maybe use different name
+// TODO: Use different name
 export interface LogEntry {
   label: string
   stage: string
-  message: string
+  message: string // TODO: Make optional
 }
 
-type TraceObserver = (entry: LogEntry[]) => void
+type TraceObserver = { setLogEntries: (entries: LogEntry[]) => void }
 
-const logEntries: { entries: LogEntry[] } = { entries: [] }
+export class Tracer {
+  protected logEntries: LogEntry[] // TODO: Maybe make incremental
+  protected listener: TraceObserver | null // TODO: allow multiple listeners
 
-const listeners: { listener: TraceObserver | null } = { listener: null }
-
-const notifyListeners = () => {
-  setTimeout(() => {
-    if (listeners.listener !== null) {
-      listeners.listener(logEntries.entries)
-    }
-  }, 0)
-}
-
-export const tracer = {
-  subscribe: (handler: TraceObserver): void => {
-    listeners.listener = handler
-  },
-  unsubscribe: (): void => {
-    listeners.listener = null
-  },
-  clearLog: (): void => {
-    logEntries.entries = []
-    notifyListeners()
-  },
-  trace: (entry: LogEntry): void => {
-    logEntries.entries = [...logEntries.entries, entry]
-    notifyListeners()
-  },
-}
-
-export const trace = (label: string, stage: string, message = ''): void => {
-  const logEntry = {
-    label,
-    stage,
-    message,
+  constructor() {
+    this.logEntries = []
+    this.listener = null
   }
-  tracer.trace(logEntry)
-  if (message === '') {
-    // console.log('Trace:', logEntry.label, logEntry.stage, logEntry.message)
-  } else {
-    // console.log('Trace:', logEntry.label, logEntry.stage)
+
+  notifyListeners() {
+    // Notify asynchronously, so we can trace during render.
+    setTimeout(() => {
+      if (this.listener !== null) {
+        this.listener.setLogEntries(this.logEntries)
+      }
+    }, 0)
+  }
+
+  subscribe(handler: TraceObserver): void {
+    this.listener = handler
+  }
+
+  unsubscribe(): void {
+    this.listener = null
+  }
+
+  clearLog(): void {
+    this.logEntries = []
+    this.notifyListeners()
+  }
+
+  trace(label: string, stage: string, message = ''): void {
+    const logEntry = { label, stage, message }
+
+    this.logEntries = [...this.logEntries, logEntry]
+    this.notifyListeners()
   }
 }
+
+export const tracer = new Tracer()

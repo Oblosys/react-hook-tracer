@@ -18,7 +18,7 @@ export const TraceLog = (): JSX.Element => {
 
   useEffect(() => {
     console.log('subscribing')
-    tracer.subscribe(setLogEntries)
+    tracer.subscribe({ setLogEntries })
     return () => tracer.unsubscribe()
   }, [])
 
