@@ -48,7 +48,7 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { label, stage, message },
+    entry: { label, origin, message },
     isHighlighted,
     setHighlightedIndex,
   }: LogEntryProps) => (
@@ -59,8 +59,8 @@ const LogEntry = memo(
     >
       <td className="index">{index}</td>
       <td className="label">{label}</td>
-      <td className="stage">{stage}</td>
-      <td className="message">{message}</td>
+      <td className="origin">{origin.hookType}</td>
+      <td className="message">{message ?? ''}</td>
     </tr>
   ),
 )

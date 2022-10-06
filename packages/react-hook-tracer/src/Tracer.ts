@@ -1,8 +1,9 @@
-// TODO: Use different name
+import { HookInfo } from './types'
+
 export interface LogEntry {
   label: string
-  stage: string
-  message: string // TODO: Make optional
+  origin: HookInfo
+  message?: string
 }
 
 type TraceObserver = { setLogEntries: (entries: LogEntry[]) => void }
@@ -38,8 +39,16 @@ export class Tracer {
     this.notifyListeners()
   }
 
-  trace(label: string, stage: string, message = ''): void {
-    const logEntry = { label, stage, message }
+  trace(label: string, origin: HookInfo, message?: string): void {
+    const logEntry = { label, origin, message }
+
+    const consoleLogArgs = [
+      'Trace:',
+      logEntry.label,
+      logEntry.origin.hookType,
+      ...(logEntry.message !== undefined ? [logEntry.message] : []),
+    ]
+    console.log(...consoleLogArgs)
 
     this.logEntries = [...this.logEntries, logEntry]
     this.notifyListeners()
