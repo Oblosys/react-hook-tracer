@@ -6,32 +6,37 @@ export interface LogEntry {
   message?: string
 }
 
-type TraceObserver = { setLogEntries: (entries: LogEntry[]) => void }
+type TraceObserver = {
+  setLogEntries: (entries: LogEntry[]) => void
+}
 
 export class Tracer {
   protected logEntries: LogEntry[] // TODO: Maybe make incremental
-  protected listener: TraceObserver | null // TODO: allow multiple listeners
+  protected listeners: TraceObserver[]
 
   constructor() {
     this.logEntries = []
-    this.listener = null
+    this.listeners = []
   }
 
   notifyListeners() {
     // Notify asynchronously, so we can trace during render.
     setTimeout(() => {
-      if (this.listener !== null) {
-        this.listener.setLogEntries(this.logEntries)
+      for (const listener of this.listeners) {
+        listener.setLogEntries(this.logEntries)
       }
     }, 0)
   }
 
-  subscribe(handler: TraceObserver): void {
-    this.listener = handler
+  subscribe(handler: TraceObserver): number {
+    this.listeners = [...this.listeners, handler]
+    return this.listeners.length - 1
   }
 
-  unsubscribe(): void {
-    this.listener = null
+  unsubscribe(listenerId: number): void {
+    this.listeners = this.listeners.flatMap((listener, index) =>
+      index === listenerId ? [] : [listener],
+    )
   }
 
   clearLog(): void {
@@ -41,7 +46,6 @@ export class Tracer {
 
   trace(label: string, origin: HookInfo, message?: string): void {
     const logEntry = { label, origin, message }
-
     const consoleLogArgs = [
       'Trace:',
       logEntry.label,
