@@ -2,7 +2,7 @@ import React from 'react'
 
 declare module 'react' {
   const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
-    ReactCurrentOwner: { current: Fiber | null }
+    ReactCurrentOwner: { current: FiberNode | null }
   }
 }
 
@@ -43,9 +43,9 @@ FiberNode {
 }
 */
 
-// TODO: Rename to FiberNode, like the actual object
 // See `Fiber` at https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js
-export interface Fiber {
+// React uses interface Fiber for class FiberNode, but we'll just use FiberNode to avoid confusion when logging.
+export interface FiberNode {
   // // Tag identifying the type of fiber.
   // tag: WorkTag // Should be 0 or 2
   // See `WorkTag` at https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js
@@ -59,7 +59,7 @@ export interface Fiber {
   // This is a pooled version of a Fiber. Every fiber that gets updated will
   // eventually have a pair. There are cases when we can clean up pairs to save
   // memory if we need to.
-  alternate: Fiber | null
+  alternate: FiberNode | null
 
   // // Input is the data coming into process this fiber. Arguments. Props.
   pendingProps: Record<string, unknown> // This type will be more specific once we overload the tag.
@@ -72,7 +72,7 @@ export interface Fiber {
   // dependencies: Dependencies | null
 }
 
-export const getCurrentOwner = (): Fiber | null =>
+export const getCurrentOwner = (): FiberNode | null =>
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner.current
 
 const nextComponentIdByLabel: Record<string, number> = {}
@@ -93,7 +93,7 @@ interface Info {
   registeredHooks: string[] // Array is mutable
 }
 
-const componentInfoMap = new WeakMap<Fiber, Info>()
+const componentInfoMap = new WeakMap<FiberNode, Info>()
 
 export const isCurrentComponentTraced = (): boolean => {
   const currentOwner = getCurrentOwner()
@@ -108,7 +108,7 @@ export const isCurrentComponentTraced = (): boolean => {
   }
 }
 
-const createComponentInfo = (currentOwner: Fiber) => {
+const createComponentInfo = (currentOwner: FiberNode) => {
   const name = currentOwner.type.name
   const id = getFreshIdForName(name)
   return {
@@ -121,7 +121,7 @@ const createComponentInfo = (currentOwner: Fiber) => {
   }
 }
 
-const getComponentInfo = (currentOwner: Fiber): Info => {
+const getComponentInfo = (currentOwner: FiberNode): Info => {
   const componentInfo = componentInfoMap.get(currentOwner)
   if (componentInfo !== undefined) {
     return componentInfo
