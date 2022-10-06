@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 
+import * as internal from './componentRegistry'
 import { HookPanel } from './components/HookPanel'
-import * as internal from './internal'
 import { trace } from './tracer'
 
 interface UseTracer {
