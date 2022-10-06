@@ -12,8 +12,8 @@ export const Demo = () => (
 )
 
 const Parent = () => {
-  const { label, trace, hooks } = useTracer()
-  // const { label, trace, hooks } = { label: 'l', trace: (_: string) => {}, hooks: ['none'] }
+  const { trace, HookPanel } = useTracer()
+  // const { trace, HookPanel } = { trace: (_: string) => {}, HookPanel: () => <div></div> }
   const [showLastChild, setShowLastChild] = useState(true)
   const [x, setX] = useState(42)
 
@@ -35,7 +35,7 @@ const Parent = () => {
 
   return (
     <Tagged name="Parent">
-      Label: {label} Hooks: {JSON.stringify(hooks)}
+      <HookPanel />
       <div>state = {JSON.stringify({ x })}</div>
       <div className="controls">
         <SimpleButton value="inc x" onClick={incX} />
@@ -56,12 +56,12 @@ interface ChildProps {
   incX: () => void
 }
 const Child = (props: ChildProps) => {
-  const { label, hooks } = useTracer()
+  const { HookPanel } = useTracer()
   const [y, setY] = useState(1)
   const incY = () => setY((prevY) => prevY + 1)
   return (
     <Tagged name="Child" showProps={{ x: props.x, y }}>
-      Label: {label} Hooks: {JSON.stringify(hooks)}
+      <HookPanel />
       <div>state = {JSON.stringify({ y })}</div>
       <div className="controls">
         <SimpleButton value="inc x" onClick={props.incX} />

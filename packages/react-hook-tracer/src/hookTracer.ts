@@ -1,12 +1,13 @@
 import React, { Dispatch, SetStateAction, useCallback, useRef } from 'react'
 
+import { HookPanel } from './components/HookPanel'
 import * as internal from './internal'
 import { trace } from './tracer'
 
 interface UseTracer {
   label: string
   trace: (message: string) => void
-  hooks: string[]
+  HookPanel: () => JSX.Element
 }
 export const useTracer = (): UseTracer => {
   internal.getComponentInfo().isTraced = true
@@ -38,7 +39,15 @@ export const useTracer = (): UseTracer => {
     [label], // TODO: Maybe just ignore? Doesn't change anyway.
   )
 
-  return { label, trace: customTrace, hooks: internal.getComponentInfo().registeredHooks }
+  const componentInfo = internal.getComponentInfo()
+  const getHookStages = () => ['mount', 'render', ...componentInfo.registeredHooks, 'unmount']
+  const WrappedHookPanel = () => HookPanel({ label, getHookStages })
+
+  return {
+    label,
+    trace: customTrace,
+    HookPanel: WrappedHookPanel,
+  }
 }
 
 export const useState = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
