@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { LogEntry, tracer } from '../Tracer'
-import { HookInfo } from '../types'
+import { tracer } from '../Tracer'
+import { HookInfo, LogEntry } from '../types'
 
 import './HookPanel.css'
 // TODO: Fix linter rule for css and empty line below imports, and for `const [x, _] = ...`
@@ -14,10 +14,10 @@ export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   useEffect(() => {
-    const listenerId = tracer.subscribe({
-      setSelectedLogEntry,
+    const listenerId = tracer.subscribeSelectedEntry({
+      onChangeSelectedLogEntry: (_index, entry) => setSelectedLogEntry(entry),
     })
-    return () => tracer.unsubscribe(listenerId)
+    return () => tracer.unsubscribeSelectedEntry(listenerId)
   }, [])
 
   return (

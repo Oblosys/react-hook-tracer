@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { LogEntry, tracer } from '../Tracer'
+import { tracer } from '../Tracer'
+import { LogEntry } from '../types'
 import { LogEntries } from './LogEntries'
 import { SimpleButton } from './SimpleButton'
 
@@ -18,11 +19,17 @@ export const TraceLog = (): JSX.Element => {
   // const addLogEntry = (entry: LogEntry) => setLogEntries((prevEntries) => [...prevEntries, entry])
 
   useEffect(() => {
-    const listenerId = tracer.subscribe({
-      setLogEntries,
-      setSelectedLogEntryIndex,
+    const observerId = tracer.subscribeLogEntries({
+      onChangeLogEntries: setLogEntries,
     })
-    return () => tracer.unsubscribe(listenerId)
+    return () => tracer.unsubscribeLogEntries(observerId)
+  }, [])
+
+  useEffect(() => {
+    const observerId = tracer.subscribeSelectedEntry({
+      onChangeSelectedLogEntry: (index, _entry) => setSelectedLogEntryIndex(index),
+    })
+    return () => tracer.unsubscribeSelectedEntry(observerId)
   }, [])
 
   return (

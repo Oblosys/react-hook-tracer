@@ -1,9 +1,9 @@
 import { memo, useEffect, useRef } from 'react'
 
-import * as tracer from '../Tracer'
+import * as types from '../types'
 
 interface LogEntriesProps {
-  entries: tracer.LogEntry[]
+  entries: types.LogEntry[]
   highlightedIndex: number | null
   setHighlightedIndex: (i: number) => void
 }
@@ -40,7 +40,7 @@ export const LogEntries = ({ entries, highlightedIndex, setHighlightedIndex }: L
 
 interface LogEntryProps {
   index: number
-  entry: tracer.LogEntry
+  entry: types.LogEntry
   isHighlighted: boolean
   setHighlightedIndex: (i: number) => void
 }

@@ -6,3 +6,9 @@ export interface HookInfo {
   info: string
 }
 export const mkHookInfo = (hookType: HookType): HookInfo => ({ hookType, info: '' })
+
+export interface LogEntry {
+  label: string
+  origin: HookInfo
+  message?: string
+}
