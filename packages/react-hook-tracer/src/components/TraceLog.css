@@ -73,7 +73,7 @@
 }
 .trace-log .entry[data-is-highlighted='true'] td {
   animation: none;
-  background-color: yellow !important;
+  background-color: yellow;
 }
 
 .trace-log .entry td {
@@ -81,6 +81,10 @@
 }
 .trace-log .entry td:first-child {
   text-align: right;
+}
+
+.trace-log .label[data-is-traced='false'] {
+  color: #888;
 }
 
 .trace-log .simple-button {

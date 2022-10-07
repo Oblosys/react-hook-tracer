@@ -4,11 +4,17 @@ import * as types from '../types'
 
 interface LogEntriesProps {
   entries: types.LogEntry[]
+  tracedComponentLabels: string[]
   highlightedIndex: number | null
   setHighlightedIndex: (i: number) => void
 }
 
-export const LogEntries = ({ entries, highlightedIndex, setHighlightedIndex }: LogEntriesProps) => {
+export const LogEntries = ({
+  entries,
+  tracedComponentLabels,
+  highlightedIndex,
+  setHighlightedIndex,
+}: LogEntriesProps) => {
   const entriesWrapperRef = useRef<HTMLDivElement>(null)
   const entriesWrapperElt = entriesWrapperRef.current
 
@@ -28,6 +34,7 @@ export const LogEntries = ({ entries, highlightedIndex, setHighlightedIndex }: L
               key={index}
               index={index}
               entry={entry}
+              isTraced={tracedComponentLabels.includes(entry.label)}
               isHighlighted={index === highlightedIndex}
               setHighlightedIndex={setHighlightedIndex}
             />
@@ -41,6 +48,7 @@ export const LogEntries = ({ entries, highlightedIndex, setHighlightedIndex }: L
 interface LogEntryProps {
   index: number
   entry: types.LogEntry
+  isTraced: boolean
   isHighlighted: boolean
   setHighlightedIndex: (i: number) => void
 }
@@ -49,6 +57,7 @@ const LogEntry = memo(
   ({
     index,
     entry: { label, origin, message },
+    isTraced,
     isHighlighted,
     setHighlightedIndex,
   }: LogEntryProps) => (
@@ -58,7 +67,9 @@ const LogEntry = memo(
       onMouseEnter={() => setHighlightedIndex(index)}
     >
       <td className="index">{index}</td>
-      <td className="label">{label}</td>
+      <td className="label" data-is-traced={isTraced}>
+        {label}
+      </td>
       <td className="origin">{origin.hookType}</td>
       <td className="message">{message ?? ''}</td>
     </tr>

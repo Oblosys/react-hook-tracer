@@ -17,8 +17,12 @@ export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
     const listenerId = tracer.subscribeSelectedEntry({
       onChangeSelectedLogEntry: (_index, entry) => setSelectedLogEntry(entry),
     })
-    return () => tracer.unsubscribeSelectedEntry(listenerId)
-  }, [])
+    tracer.addTracedComponentLabel(label)
+    return () => {
+      tracer.removeTracedComponentLabel(label)
+      tracer.unsubscribeSelectedEntry(listenerId)
+    }
+  }, [label])
 
   return (
     <div className="hook-panel" data-testid="hook-panel">

@@ -6,6 +6,9 @@ type LogEntriesObserver = {
 type SelectedEntryObserver = {
   onChangeSelectedLogEntry: (index: number | null, entry: LogEntry | null) => void
 }
+type TracedComponentLabelsObserver = {
+  onChangeTracedComponentLabels: (labels: string[]) => void
+}
 
 export class Tracer {
   protected logEntries: LogEntry[] // TODO: Maybe make incremental
@@ -37,11 +40,26 @@ export class Tracer {
     }, 0)
   }
 
+  protected tracedComponentLabels: string[]
+  protected tracedComponentLabelsObservers: TracedComponentLabelsObserver[]
+
+  protected setTracedComponentLabels(labels: string[]) {
+    this.tracedComponentLabels = labels
+
+    setTimeout(() => {
+      this.tracedComponentLabelsObservers.forEach(({ onChangeTracedComponentLabels }) =>
+        onChangeTracedComponentLabels(this.tracedComponentLabels),
+      )
+    }, 0)
+  }
+
   constructor() {
     this.logEntries = []
     this.logEntriesObservers = []
     this.selectedEntryIndex = null
     this.selectedEntryObservers = []
+    this.tracedComponentLabels = []
+    this.tracedComponentLabelsObservers = []
   }
 
   subscribeLogEntries(handler: LogEntriesObserver): number {
@@ -64,6 +82,27 @@ export class Tracer {
     this.selectedEntryObservers = this.selectedEntryObservers.flatMap((observer, index) =>
       index === observerId ? [] : [observer],
     )
+  }
+
+  subscribeTracedComponentLabels(handler: TracedComponentLabelsObserver): number {
+    this.tracedComponentLabelsObservers = [...this.tracedComponentLabelsObservers, handler]
+    return this.tracedComponentLabelsObservers.length - 1
+  }
+
+  unsubscribeTracedComponentLabels(observerId: number): void {
+    this.tracedComponentLabelsObservers = this.tracedComponentLabelsObservers.flatMap(
+      (observer, index) => (index === observerId ? [] : [observer]),
+    )
+  }
+
+  addTracedComponentLabel(label: string): void {
+    this.setTracedComponentLabels([...this.tracedComponentLabels, label])
+    console.log('added label', label, this.tracedComponentLabels)
+  }
+
+  removeTracedComponentLabel(label: string): void {
+    this.setTracedComponentLabels(this.tracedComponentLabels.filter((l) => l !== label))
+    console.log('removed label', label, this.tracedComponentLabels)
   }
 
   clearLog(): void {

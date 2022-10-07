@@ -16,7 +16,7 @@ export const TraceLog = (): JSX.Element => {
 
   const clearLog = () => tracer.clearLog()
 
-  // const addLogEntry = (entry: LogEntry) => setLogEntries((prevEntries) => [...prevEntries, entry])
+  const [tracedComponentLabels, setTracedComponentLabels] = useState<string[]>([])
 
   useEffect(() => {
     const observerId = tracer.subscribeLogEntries({
@@ -30,6 +30,13 @@ export const TraceLog = (): JSX.Element => {
       onChangeSelectedLogEntry: (index, _entry) => setSelectedLogEntryIndex(index),
     })
     return () => tracer.unsubscribeSelectedEntry(observerId)
+  }, [])
+
+  useEffect(() => {
+    const observerId = tracer.subscribeTracedComponentLabels({
+      onChangeTracedComponentLabels: setTracedComponentLabels,
+    })
+    return () => tracer.unsubscribeTracedComponentLabels(observerId)
   }, [])
 
   return (
@@ -67,6 +74,7 @@ export const TraceLog = (): JSX.Element => {
       </div>
       <LogEntries
         entries={logEntries}
+        tracedComponentLabels={tracedComponentLabels}
         highlightedIndex={selectedLogEntryIndex}
         setHighlightedIndex={setHighlightedIndex}
       />
