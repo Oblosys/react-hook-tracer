@@ -49,8 +49,10 @@ export const useTracer = (): UseTracer => {
     [label, traceOriginTrace],
   )
 
-  const getHookStages = () => componentInfo.registeredHooks
-  const WrappedHookPanel = () => HookPanel({ label, getHookStages })
+  const WrappedHookPanel = useCallback(
+    () => HookPanel({ label, getHookStages: () => componentInfo.registeredHooks }),
+    [label, componentInfo.registeredHooks],
+  )
 
   return { label, trace, HookPanel: WrappedHookPanel }
 }
