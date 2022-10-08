@@ -19,23 +19,19 @@ export const TraceLog = (): JSX.Element => {
   const [tracedComponentLabels, setTracedComponentLabels] = useState<string[]>([])
 
   useEffect(() => {
-    const observerId = tracer.subscribeLogEntries({
-      onChangeLogEntries: setLogEntries,
-    })
+    const observerId = tracer.subscribeLogEntries(setLogEntries)
     return () => tracer.unsubscribeLogEntries(observerId)
   }, [])
 
   useEffect(() => {
-    const observerId = tracer.subscribeSelectedEntry({
-      onChangeSelectedLogEntry: (index, _entry) => setSelectedLogEntryIndex(index),
-    })
+    const observerId = tracer.subscribeSelectedEntry((value) =>
+      setSelectedLogEntryIndex(value?.index ?? null),
+    )
     return () => tracer.unsubscribeSelectedEntry(observerId)
   }, [])
 
   useEffect(() => {
-    const observerId = tracer.subscribeTracedComponentLabels({
-      onChangeTracedComponentLabels: setTracedComponentLabels,
-    })
+    const observerId = tracer.subscribeTracedComponentLabels(setTracedComponentLabels)
     return () => tracer.unsubscribeTracedComponentLabels(observerId)
   }, [])
 

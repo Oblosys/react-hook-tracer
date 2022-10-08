@@ -14,12 +14,12 @@ export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   useEffect(() => {
-    const listenerId = tracer.subscribeSelectedEntry({
-      onChangeSelectedLogEntry: (_index, entry) => setSelectedLogEntry(entry),
-    })
-    tracer.addTracedComponentLabel(label)
+    const listenerId = tracer.subscribeSelectedEntry((value) =>
+      setSelectedLogEntry(value?.entry ?? null),
+    )
+    tracer.registerTracedComponentLabel(label)
     return () => {
-      tracer.removeTracedComponentLabel(label)
+      tracer.unregisterTracedComponentLabel(label)
       tracer.unsubscribeSelectedEntry(listenerId)
     }
   }, [label])

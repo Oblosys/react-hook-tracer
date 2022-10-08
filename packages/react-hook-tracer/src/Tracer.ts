@@ -1,108 +1,65 @@
+import { Observable } from './Observable'
 import { HookInfo, LogEntry } from './types'
 
-type LogEntriesObserver = {
-  onChangeLogEntries: (entries: LogEntry[]) => void
-}
-type SelectedEntryObserver = {
-  onChangeSelectedLogEntry: (index: number | null, entry: LogEntry | null) => void
-}
-type TracedComponentLabelsObserver = {
-  onChangeTracedComponentLabels: (labels: string[]) => void
-}
-
 export class Tracer {
-  protected logEntries: LogEntry[] // TODO: Maybe make incremental
-  protected logEntriesObservers: LogEntriesObserver[]
+  protected logEntries: Observable<LogEntry[]>
 
-  protected setLogEntries(logEntries: LogEntry[]) {
-    this.logEntries = logEntries
+  protected selectedEntry: Observable<{ index: number; entry: LogEntry } | null>
 
-    setTimeout(() => {
-      this.logEntriesObservers.forEach(({ onChangeLogEntries }) =>
-        onChangeLogEntries(this.logEntries),
-      )
-    }, 0)
-  }
-
-  protected selectedEntryIndex: number | null
-  protected selectedEntryObservers: SelectedEntryObserver[]
-
-  protected setSelectedEntryIndex(index: number | null) {
-    this.selectedEntryIndex = index
-
-    setTimeout(() => {
-      const selectedLogEntry =
-        this.selectedEntryIndex === null ? null : this.logEntries[this.selectedEntryIndex]
-
-      this.selectedEntryObservers.forEach(({ onChangeSelectedLogEntry }) =>
-        onChangeSelectedLogEntry(this.selectedEntryIndex, selectedLogEntry),
-      )
-    }, 0)
-  }
-
-  protected tracedComponentLabels: string[]
-  protected tracedComponentLabelsObservers: TracedComponentLabelsObserver[]
-
-  protected setTracedComponentLabels(labels: string[]) {
-    this.tracedComponentLabels = labels
-
-    setTimeout(() => {
-      this.tracedComponentLabelsObservers.forEach(({ onChangeTracedComponentLabels }) =>
-        onChangeTracedComponentLabels(this.tracedComponentLabels),
-      )
-    }, 0)
-  }
+  protected tracedComponentLabels: Observable<string[]>
 
   constructor() {
-    this.logEntries = []
-    this.logEntriesObservers = []
-    this.selectedEntryIndex = null
-    this.selectedEntryObservers = []
-    this.tracedComponentLabels = []
-    this.tracedComponentLabelsObservers = []
+    this.logEntries = new Observable<LogEntry[]>([])
+    this.selectedEntry = new Observable<{ index: number; entry: LogEntry } | null>(null)
+    this.tracedComponentLabels = new Observable<string[]>([])
   }
 
-  subscribeLogEntries(handler: LogEntriesObserver): number {
-    this.logEntriesObservers = [...this.logEntriesObservers, handler]
-    return this.logEntriesObservers.length - 1
+  subscribeLogEntries(changeHandler: (value: LogEntry[]) => void): number {
+    return this.logEntries.subscribe(changeHandler)
   }
 
   unsubscribeLogEntries(observerId: number): void {
-    this.logEntriesObservers = this.logEntriesObservers.flatMap((observer, index) =>
-      index === observerId ? [] : [observer],
-    )
+    this.logEntries.unsubscribe(observerId)
   }
 
-  subscribeSelectedEntry(handler: SelectedEntryObserver): number {
-    this.selectedEntryObservers = [...this.selectedEntryObservers, handler]
-    return this.selectedEntryObservers.length - 1
+  protected setLogEntries(logEntries: LogEntry[]) {
+    this.logEntries.setValue(logEntries)
+  }
+
+  subscribeSelectedEntry(
+    changeHandler: (value: { index: number; entry: LogEntry } | null) => void,
+  ): number {
+    return this.selectedEntry.subscribe(changeHandler)
   }
 
   unsubscribeSelectedEntry(observerId: number): void {
-    this.selectedEntryObservers = this.selectedEntryObservers.flatMap((observer, index) =>
-      index === observerId ? [] : [observer],
+    this.selectedEntry.unsubscribe(observerId)
+  }
+
+  protected setSelectedEntryIndex(index: number | null) {
+    this.selectedEntry.setValue(
+      index === null ? null : { index, entry: this.logEntries.value[index] },
     )
   }
 
-  subscribeTracedComponentLabels(handler: TracedComponentLabelsObserver): number {
-    this.tracedComponentLabelsObservers = [...this.tracedComponentLabelsObservers, handler]
-    return this.tracedComponentLabelsObservers.length - 1
+  subscribeTracedComponentLabels(changeHandler: (value: string[]) => void): number {
+    return this.tracedComponentLabels.subscribe(changeHandler)
   }
 
   unsubscribeTracedComponentLabels(observerId: number): void {
-    this.tracedComponentLabelsObservers = this.tracedComponentLabelsObservers.flatMap(
-      (observer, index) => (index === observerId ? [] : [observer]),
-    )
+    this.tracedComponentLabels.unsubscribe(observerId)
   }
 
-  addTracedComponentLabel(label: string): void {
-    this.setTracedComponentLabels([...this.tracedComponentLabels, label])
-    console.log('added label', label, this.tracedComponentLabels)
+  protected setTracedComponentLabels(labels: string[]) {
+    this.tracedComponentLabels.setValue(labels)
   }
 
-  removeTracedComponentLabel(label: string): void {
-    this.setTracedComponentLabels(this.tracedComponentLabels.filter((l) => l !== label))
-    console.log('removed label', label, this.tracedComponentLabels)
+  registerTracedComponentLabel(label: string): void {
+    this.setTracedComponentLabels([...this.tracedComponentLabels.value, label])
+  }
+
+  unregisterTracedComponentLabel(label: string): void {
+    this.setTracedComponentLabels(this.tracedComponentLabels.value.filter((l) => l !== label))
   }
 
   clearLog(): void {
@@ -111,7 +68,6 @@ export class Tracer {
   }
 
   selectLogEntry(index: number): void {
-    console.log('selectLogEntry', index)
     this.setSelectedEntryIndex(index) // TODO: Handle non-existent index (might happen with hot reloads).
   }
 
@@ -126,7 +82,7 @@ export class Tracer {
     // Log entry to console:
     console.log(...consoleLogArgs)
 
-    this.setLogEntries([...this.logEntries, logEntry])
+    this.setLogEntries([...this.logEntries.value, logEntry])
   }
 }
 
