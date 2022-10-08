@@ -32,8 +32,12 @@ module.exports = {
     'no-unused-vars': 'off', // Needs to be disabled: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars.md#how-to-use
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-empty-interface': 'warn',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
     'arrow-body-style': ['warn', 'as-needed'],
+    curly: ['warn', 'all'],
     'import/order': [
       'warn',
       {
@@ -42,15 +46,23 @@ module.exports = {
           ['internal'],
           ['parent', 'sibling', 'index'],
           ['object', 'type'],
+          ['unknown'],
         ],
         'newlines-between': 'always',
+        warnOnUnassignedImports: true, // necessary for css imports like `import './Component.css'`
         alphabetize: { order: 'asc' },
-        // Put 'react' & 'react-dom' in a separate group above the rest:
         pathGroups: [
           {
+            // Put 'react' & 'react-dom' in a separate group in front of the rest:
             pattern: '?(react|react-dom|react-dom/client)',
             group: 'builtin',
             position: 'before',
+          },
+          {
+            // NOTE: ESLint won't change the import order for these on auto-fix (since they are unassigned imports).
+            pattern: './*.css',
+            group: 'unknown',
+            position: 'after',
           },
         ],
         pathGroupsExcludedImportTypes: ['react', 'react-dom'],

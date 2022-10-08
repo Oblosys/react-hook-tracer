@@ -4,7 +4,6 @@ import { tracer } from '../Tracer'
 import { LogEntry, TraceOrigin, TraceOrigins } from '../types'
 
 import './HookPanel.css'
-// TODO: Fix linter rule for css and empty line below imports, and for `const [x, _] = ...`
 
 interface HookPanelProps {
   label: string
