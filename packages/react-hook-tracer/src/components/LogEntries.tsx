@@ -63,13 +63,12 @@ const LogEntry = memo(
   }: LogEntryProps) => (
     <tr
       className="entry"
+      data-is-traced={isTraced}
       data-is-highlighted={isHighlighted}
       onMouseEnter={() => setHighlightedIndex(index)}
     >
       <td className="index">{index}</td>
-      <td className="label" data-is-traced={isTraced}>
-        {label}
-      </td>
+      <td className="label">{label}</td>
       <td className="origin">{origin.hookType}</td>
       <td className="message">{message ?? ''}</td>
     </tr>

@@ -71,20 +71,21 @@
   white-space: pre;
   cursor: default;
 }
+.trace-log .entry[data-is-traced='false'] td {
+  color: #888;
+}
 .trace-log .entry[data-is-highlighted='true'] td {
   animation: none;
   background-color: yellow;
 }
-
+.trace-log .entry[data-is-traced='false'][data-is-highlighted='true'] td {
+  background-color: #ddd;
+}
 .trace-log .entry td {
   padding-left: 4px;
 }
 .trace-log .entry td:first-child {
   text-align: right;
-}
-
-.trace-log .label[data-is-traced='false'] {
-  color: #888;
 }
 
 .trace-log .simple-button {
