@@ -39,13 +39,38 @@ export const TraceLog = (): JSX.Element => {
   }, [])
 
   return (
-    <div className="trace-log">
-      <div className="header">
-        <div className="controls">
-          <div className="title">Log</div>
-          <div className="buttons">
-            <SimpleButton value="clear log" onClick={clearLog} />{' '}
-            {/* <span className="emoji-button" onClick={() => this.props.stepLog(-1)}>
+    <TraceLogUnconnected
+      logEntries={logEntries}
+      clearLog={clearLog}
+      tracedComponentLabels={tracedComponentLabels}
+      selectedLogEntryIndex={selectedLogEntryIndex}
+      setHighlightedIndex={setHighlightedIndex}
+    />
+  )
+}
+
+interface TraceLogUnconnectedProps {
+  logEntries: LogEntry[]
+  clearLog: () => void
+  tracedComponentLabels: string[]
+  selectedLogEntryIndex: number | null
+  setHighlightedIndex: (index: number | null) => void
+}
+
+export const TraceLogUnconnected = ({
+  logEntries,
+  clearLog,
+  tracedComponentLabels,
+  selectedLogEntryIndex,
+  setHighlightedIndex,
+}: TraceLogUnconnectedProps): JSX.Element => (
+  <div className="trace-log">
+    <div className="header">
+      <div className="controls">
+        <div className="title">Log</div>
+        <div className="buttons">
+          <SimpleButton value="clear log" onClick={clearLog} />{' '}
+          {/* <span className="emoji-button" onClick={() => this.props.stepLog(-1)}>
               {'\u23EA'}
             </span>
             {this.props.replayTimerId === null ? (
@@ -60,23 +85,22 @@ export const TraceLog = (): JSX.Element => {
             <span className="emoji-button" onClick={() => this.props.stepLog(1)}>
               {'\u23E9'}
             </span> */}
-          </div>
-          <div>
-            Delay:{' '}
-            {/* <DelaySelector
+        </div>
+        <div>
+          Delay:{' '}
+          {/* <DelaySelector
               value={this.props.replayTimerDelay}
               onChange={(evt) => this.props.setDelay(+evt.currentTarget.value)}
             /> */}
-          </div>
         </div>
-        <div className="hint">(hover to highlight, shift-up/down to navigate)</div>
       </div>
-      <LogEntries
-        entries={logEntries}
-        tracedComponentLabels={tracedComponentLabels}
-        highlightedIndex={selectedLogEntryIndex}
-        setHighlightedIndex={setHighlightedIndex}
-      />
+      <div className="hint">(hover to highlight, shift-up/down to navigate)</div>
     </div>
-  )
-}
+    <LogEntries
+      entries={logEntries}
+      tracedComponentLabels={tracedComponentLabels}
+      highlightedIndex={selectedLogEntryIndex}
+      setHighlightedIndex={setHighlightedIndex}
+    />
+  </div>
+)
