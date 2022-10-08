@@ -21,6 +21,7 @@ body {
 
 .demo {
   flex-grow: 1;
+  overflow-y: scroll;
   margin: 5px;
 }
 

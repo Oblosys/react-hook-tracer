@@ -1,4 +1,5 @@
 .trace-log {
+  box-sizing: border-box;
   padding: 3px 8px 5px 8px;
   flex-shrink: 0;
   display: flex;
@@ -71,6 +72,7 @@
   white-space: pre;
   cursor: default;
 }
+
 .trace-log .entry[data-is-traced='false'] td {
   color: #888;
 }
