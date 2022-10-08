@@ -71,6 +71,10 @@ export class Tracer {
     this.setSelectedEntryIndex(index) // TODO: Handle non-existent index (might happen with hot reloads).
   }
 
+  updateLogEntryIndex(update: (prevIndex: number | null) => number | null): void {
+    this.setSelectedEntryIndex(update(this.selectedEntry.value?.index ?? null))
+  }
+
   trace(label: string, origin: TraceOrigin, message?: string): void
   trace(label: string, origin: TraceOrigin, message: string, customOriginLabel: string): void
   trace(entry: LogEntry): void
