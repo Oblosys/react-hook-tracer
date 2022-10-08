@@ -19,9 +19,9 @@ export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
   info: null,
 })
 
-// Enable overriding origin in log useState, setState, setState fn, useEffect, run effect.
 export interface LogEntry {
   label: string
   origin: TraceOrigin
   message?: string
+  customOriginLabel?: string // e.g to show 'state' log entries as 'useState', 'setState', etc.
 }

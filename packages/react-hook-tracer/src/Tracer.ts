@@ -71,12 +71,20 @@ export class Tracer {
     this.setSelectedEntryIndex(index) // TODO: Handle non-existent index (might happen with hot reloads).
   }
 
-  trace(label: string, origin: TraceOrigin, message?: string): void {
-    const logEntry = { label, origin, message }
+  trace(label: string, origin: TraceOrigin, message?: string): void
+  trace(label: string, origin: TraceOrigin, message: string, customOriginLabel: string): void
+  trace(entry: LogEntry): void
+  trace(...args: TraceArgs): void {
+    const { label, origin, message, customOriginLabel } =
+      args.length === 1
+        ? args[0]
+        : { label: args[0], origin: args[1], message: args[2], customOriginLabel: args[3] }
+
+    const logEntry: LogEntry = { label, origin, message, customOriginLabel }
     const consoleLogArgs = [
       'Trace:',
       logEntry.label,
-      logEntry.origin.originType,
+      customOriginLabel === undefined ? logEntry.origin.originType : customOriginLabel,
       ...(logEntry.message !== undefined ? [logEntry.message] : []),
     ]
     // Log entry to console:
@@ -87,5 +95,10 @@ export class Tracer {
     setTimeout(() => this.setLogEntries([...this.logEntries.value, logEntry]), 0)
   }
 }
+
+type TraceArgs =
+  | readonly [label: string, origin: TraceOrigin, message?: string]
+  | readonly [label: string, origin: TraceOrigin, message: string, customOriginLabel?: string]
+  | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()

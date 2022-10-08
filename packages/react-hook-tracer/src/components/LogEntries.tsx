@@ -56,7 +56,7 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { label, origin, message },
+    entry: { label, origin, message, customOriginLabel },
     isTraced,
     isHighlighted,
     setHighlightedIndex,
@@ -69,7 +69,9 @@ const LogEntry = memo(
     >
       <td className="index">{index}</td>
       <td className="label">{label}</td>
-      <td className="origin">{origin.originType}</td>
+      <td className="origin">
+        {customOriginLabel === undefined ? origin.originType : customOriginLabel}
+      </td>
       <td className="message">{message ?? ''}</td>
     </tr>
   ),

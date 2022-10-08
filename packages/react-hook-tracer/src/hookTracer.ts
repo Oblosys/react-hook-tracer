@@ -63,7 +63,7 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    tracer.trace(label, traceOrigin, JSON.stringify(initialState))
+    tracer.trace(label, traceOrigin, JSON.stringify(initialState), 'useState')
     traceOrigin.info = JSON.stringify(initialState)
     isInitialized.current = true
   }
@@ -74,13 +74,13 @@ const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] =>
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        tracer.trace(label, traceOrigin, `setState fn ${JSON.stringify(newValue)}`)
+        tracer.trace(label, traceOrigin, JSON.stringify(newValue), 'setState fn')
         traceOrigin.info = JSON.stringify(newValue) // TODO: string may get big
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      tracer.trace(label, traceOrigin, `setState ${JSON.stringify(newValue)}`)
+      tracer.trace(label, traceOrigin, JSON.stringify(newValue), 'setState')
       setValue(newValue)
       traceOrigin.info = JSON.stringify(newValue)
     }
@@ -95,7 +95,7 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    tracer.trace(label, traceOrigin, 'init')
+    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useEffect' })
     isInitialized.current = true
   } else {
     // maybe log which dep. changed
@@ -103,13 +103,13 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
   }
 
   const effect = () => {
-    tracer.trace(label, traceOrigin, 'running effect')
+    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'run effect' })
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
       return
     } else {
       const cleanup = () => {
-        tracer.trace(label, traceOrigin, 'cleanup')
+        tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'clear effect' })
         cleanupRaw()
       }
       return cleanup
