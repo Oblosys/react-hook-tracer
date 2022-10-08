@@ -1,5 +1,5 @@
 import { Observable } from './Observable'
-import { HookInfo, LogEntry } from './types'
+import { LogEntry, TraceOrigin } from './types'
 
 export class Tracer {
   protected logEntries: Observable<LogEntry[]>
@@ -71,12 +71,12 @@ export class Tracer {
     this.setSelectedEntryIndex(index) // TODO: Handle non-existent index (might happen with hot reloads).
   }
 
-  trace(label: string, origin: HookInfo, message?: string): void {
+  trace(label: string, origin: TraceOrigin, message?: string): void {
     const logEntry = { label, origin, message }
     const consoleLogArgs = [
       'Trace:',
       logEntry.label,
-      logEntry.origin.hookType,
+      logEntry.origin.originType,
       ...(logEntry.message !== undefined ? [logEntry.message] : []),
     ]
     // Log entry to console:

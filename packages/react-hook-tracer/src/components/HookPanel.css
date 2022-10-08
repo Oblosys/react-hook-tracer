@@ -18,13 +18,13 @@
   margin-bottom: 2px;
 }
 
-.hook-panel-inner .hook-stage::before {
+.hook-panel-inner .trace-origin::before {
   content: '-';
 }
-.hook-panel-inner .hook-stage[data-is-highlighted='false'] {
+.hook-panel-inner .trace-origin[data-is-highlighted='false'] {
   background-color: inherit;
   transition: background-color 0.3s;
 }
-.hook-panel-inner .hook-stage[data-is-highlighted='true'] {
+.hook-panel-inner .trace-origin[data-is-highlighted='true'] {
   background-color: yellow;
 }

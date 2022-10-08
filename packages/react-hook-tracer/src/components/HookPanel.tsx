@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 
 import { tracer } from '../Tracer'
-import { HookInfo, LogEntry } from '../types'
+import { LogEntry, TraceOrigin, TraceOrigins } from '../types'
 
 import './HookPanel.css'
 // TODO: Fix linter rule for css and empty line below imports, and for `const [x, _] = ...`
 
 interface HookPanelProps {
   label: string
-  getHookStages: () => HookInfo[] // TODO: HookStages is not a great name.
+  traceOrigins: TraceOrigins
 }
-export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
+export const HookPanel = ({ label, traceOrigins }: HookPanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   useEffect(() => {
@@ -24,24 +24,31 @@ export const HookPanel = ({ label, getHookStages }: HookPanelProps) => {
     }
   }, [label])
 
+  const { mount, render, trace, unmount, hooks } = traceOrigins
+  const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace, unmount]
+
   return (
     <div className="hook-panel" data-testid="hook-panel">
       <div className="hook-panel-inner">
         <div className="component-label">{label}</div>
-        {getHookStages().map((stage, index) => (
-          <HookStage key={index} stage={stage} isHighlighted={stage === selectedLogEntry?.origin} />
+        {traceOriginList.map((origin, index) => (
+          <TraceOriginEntry
+            key={index}
+            traceOrigin={origin}
+            isHighlighted={origin === selectedLogEntry?.origin}
+          />
         ))}
       </div>
     </div>
   )
 }
 
-interface HookStageProps {
-  stage: HookInfo
+interface TraceOriginEntryProps {
+  traceOrigin: TraceOrigin
   isHighlighted: boolean
 }
-const HookStage = ({ stage, isHighlighted }: HookStageProps) => (
-  <div className="hook-stage" data-is-highlighted={isHighlighted}>
-    {stage.hookType + (stage.info ? ' ' + stage.info : '')}
+const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => (
+  <div className="trace-origin" data-is-highlighted={isHighlighted}>
+    {traceOrigin.originType + (traceOrigin.info !== null ? ' ' + traceOrigin.info : '')}
   </div>
 )

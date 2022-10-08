@@ -1,14 +1,27 @@
-// TODO: These are not all hook types. Maybe use TraceOrigin?
-export type HookType = 'mount' | 'render' | 'state' | 'effect' | 'trace' | 'unmount'
-
-export interface HookInfo {
-  hookType: HookType
-  info: string
+export interface TraceOrigins {
+  mount: TraceOrigin
+  render: TraceOrigin
+  trace: TraceOrigin
+  unmount: TraceOrigin
+  hooks: TraceOrigin[]
 }
-export const mkHookInfo = (hookType: HookType): HookInfo => ({ hookType, info: '' })
 
+export type HookType = 'state' | 'effect'
+
+export type TraceOriginType = 'mount' | 'render' | 'trace' | 'unmount' | HookType
+
+export interface TraceOrigin {
+  originType: TraceOriginType
+  info: string | null // Mutable property. Is shown next to the originType in the HookPanel (e.g. for current state).
+}
+export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
+  originType,
+  info: null,
+})
+
+// Enable overriding origin in log useState, setState, setState fn, useEffect, run effect.
 export interface LogEntry {
   label: string
-  origin: HookInfo
+  origin: TraceOrigin
   message?: string
 }

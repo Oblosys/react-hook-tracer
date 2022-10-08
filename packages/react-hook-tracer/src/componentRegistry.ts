@@ -1,49 +1,12 @@
 import React from 'react'
 
-import { HookInfo, HookType } from './types'
+import { HookType, TraceOrigin, TraceOrigins, mkTraceOrigin } from './types'
 
 declare module 'react' {
   const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
     ReactCurrentOwner: { current: FiberNode | null }
   }
 }
-
-/*
-FiberNode {
-  _debugHookTypes: Array(4) [ "useRef", "useEffect", "useRef", … ]
-  <prototype>: Array []
-  _debugNeedsRemount: false
-  _debugOwner: Object { tag: 0, key: null, index: 0, … }
-  _debugSource: Object { fileName: "/Users/martijn/git/React/react-hook-tracer/src/App.tsx", lineNumber: 30, columnNumber: 21 }
-  actualDuration: 0
-  actualStartTime: 132
-  alternate: null
-  child: Object { tag: 5, elementType: "div", type: "div", … }
-  childLanes: 0
-  deletions: null
-  dependencies: null
-  elementType: function Counter(props)
-  flags: 42993665
-  index: 3
-  key: null
-  lanes: 0
-  memoizedProps: Object { p: "Inky" }
-  memoizedState: Object { memoizedState: {…}, baseState: null, baseQueue: null, … }
-  mode: 27
-  pendingProps: Object { p: "Inky" }
-  ref: null
-  return: Object { tag: 5, elementType: "div", type: "div", … }
-  selfBaseDuration: 0
-  sibling: Object { tag: 0, key: null, index: 4, … }
-  stateNode: null
-  subtreeFlags: 1048576
-  tag: 0
-  treeBaseDuration: 0
-  type: function Counter(props)
-  updateQueue: Object { lastEffect: {…}, stores: null }
-  <prototype>: Object { … }
-}
-*/
 
 // See `Fiber` at https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js
 // React uses interface Fiber for class FiberNode, but we'll just use FiberNode to avoid confusion when logging.
@@ -87,12 +50,12 @@ const getFreshIdForName = (name: string) => {
   return id
 }
 
-interface ComponentInfo {
+export interface ComponentInfo {
   name: string
   id: number
   label: string
-  nextHookIndex: number // Mutable
-  registeredHooks: HookInfo[] // Array is mutable
+  nextHookIndex: number // Mutable property
+  traceOrigins: TraceOrigins // Mutable object
 }
 
 const componentInfoMap = new WeakMap<FiberNode, ComponentInfo>()
@@ -110,7 +73,15 @@ export const isCurrentComponentTraced = (): boolean => {
   }
 }
 
-const createComponentInfo = (currentOwner: FiberNode) => {
+const mkTraceOrigins = (): TraceOrigins => ({
+  mount: mkTraceOrigin('mount'),
+  render: mkTraceOrigin('render'),
+  trace: mkTraceOrigin('trace'),
+  unmount: mkTraceOrigin('unmount'),
+  hooks: [],
+})
+
+const mkComponentInfo = (currentOwner: FiberNode) => {
   const name = currentOwner.type.name
   const id = getFreshIdForName(name)
   return {
@@ -119,7 +90,7 @@ const createComponentInfo = (currentOwner: FiberNode) => {
     label: `${name}-${id}`,
     isTraced: false,
     nextHookIndex: 0,
-    registeredHooks: [],
+    traceOrigins: mkTraceOrigins(),
   }
 }
 
@@ -137,7 +108,7 @@ const getComponentInfo = (currentOwner: FiberNode): ComponentInfo => {
     }
 
     // Component was not registered, and either had no alternate or alternate wasn't registered.
-    const newComponentInfo = createComponentInfo(currentOwner)
+    const newComponentInfo = mkComponentInfo(currentOwner)
     componentInfoMap.set(currentOwner, newComponentInfo)
     return newComponentInfo
   }
@@ -170,20 +141,18 @@ export const registerCurrentComponent = (): ComponentInfo => {
   return componentInfo
 }
 
-// Registered hooks will be stable due to Rules of Hooks.
-
-// TODO: Can we bind the actual state to state effects? and maybe dependencies to effect? (unnamed though)
-export const registerHook = (hookType: HookType): HookInfo => {
+// For each component, registerHook will always be called in the same order due to Rules of Hooks.
+export const registerHook = (hookType: HookType): TraceOrigin => {
   const componentInfo = getCurrentComponentInfoOrThrow('registerHook: no current owner')
-  const { nextHookIndex, registeredHooks } = componentInfo
+  const { nextHookIndex, traceOrigins } = componentInfo
 
   // console.log(componentInfo.label, `${hookType} nextHookIndex`, nextHookIndex)
 
-  const previouslyRegisteredHook = registeredHooks[nextHookIndex]
+  const previouslyRegisteredHook = traceOrigins.hooks[nextHookIndex]
   if (previouslyRegisteredHook === undefined) {
-    registeredHooks[nextHookIndex] = { hookType, info: '' }
+    traceOrigins.hooks[nextHookIndex] = mkTraceOrigin(hookType)
   } else {
-    const previousHookType = previouslyRegisteredHook.hookType
+    const previousHookType = previouslyRegisteredHook.originType
     if (previousHookType !== hookType) {
       // Either Rules of Hooks were broken or we enccountered an internal error.
       // (can this also happen when adding/removing hooks with hot reload?)
@@ -194,7 +163,7 @@ export const registerHook = (hookType: HookType): HookInfo => {
     }
   }
 
-  const hookInfo = registeredHooks[nextHookIndex]
+  const traceOrigin = traceOrigins.hooks[nextHookIndex]
   componentInfo.nextHookIndex += 1
-  return hookInfo
+  return traceOrigin
 }

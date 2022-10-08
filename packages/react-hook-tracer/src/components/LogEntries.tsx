@@ -69,7 +69,7 @@ const LogEntry = memo(
     >
       <td className="index">{index}</td>
       <td className="label">{label}</td>
-      <td className="origin">{origin.hookType}</td>
+      <td className="origin">{origin.originType}</td>
       <td className="message">{message ?? ''}</td>
     </tr>
   ),
