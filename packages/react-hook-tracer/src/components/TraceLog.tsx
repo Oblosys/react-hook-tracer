@@ -12,7 +12,10 @@ export const TraceLog = (): JSX.Element => {
 
   const [selectedLogEntryIndex, setSelectedLogEntryIndex] = useState<number | null>(null)
 
-  const setHighlightedIndex = useCallback((index: number) => tracer.selectLogEntry(index), [])
+  const setHighlightedIndex = useCallback(
+    (index: number | null) => tracer.selectLogEntry(index),
+    [],
+  )
 
   const clearLog = () => tracer.clearLog()
 

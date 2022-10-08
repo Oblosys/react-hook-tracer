@@ -67,7 +67,7 @@ export class Tracer {
     this.setSelectedEntryIndex(null)
   }
 
-  selectLogEntry(index: number): void {
+  selectLogEntry(index: number | null): void {
     this.setSelectedEntryIndex(index) // TODO: Handle non-existent index (might happen with hot reloads).
   }
 
