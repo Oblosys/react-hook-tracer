@@ -82,7 +82,9 @@ export class Tracer {
     // Log entry to console:
     console.log(...consoleLogArgs)
 
-    this.setLogEntries([...this.logEntries.value, logEntry])
+    // Since setLogEntries calls observer handlers that will in turn call setState functions, we call it asynchronously
+    // in a timeout, to avoid calling setState during render.
+    setTimeout(() => this.setLogEntries([...this.logEntries.value, logEntry]), 0)
   }
 }
 

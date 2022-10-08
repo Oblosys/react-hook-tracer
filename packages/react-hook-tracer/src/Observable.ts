@@ -20,7 +20,7 @@ export class Observable<T> {
 
     this.observers = [...this.observers, { id: observerId, changeHandler }]
     const value = this.value // Indexing in the timeout callback would be fine, but this is more accurate.
-    setTimeout(() => changeHandler(value), 0)
+    changeHandler(value)
     return observerId
   }
 
@@ -37,8 +37,7 @@ export class Observable<T> {
   notifyObservers() {
     const handlers = this.observers.map((o) => o.changeHandler)
 
-    // Notify asynchronously, so we can trace during render.
     const value = this.value
-    setTimeout(() => handlers.forEach((handler) => handler(value)), 0)
+    handlers.forEach((handler) => handler(value))
   }
 }
