@@ -3,24 +3,33 @@ import { useCallback, useEffect, useReducer } from 'react'
 import { tracer } from '../Tracer'
 import { AssertNever, LogEntry } from '../types'
 import * as util from '../util'
+import {
+  Delay,
+  DelaySelector,
+  getSessionReplayTimerDelay,
+  setSessionReplayTimerDelay,
+} from './DelaySelector'
 import { LogEntries } from './LogEntries'
 import { SimpleButton } from './SimpleButton'
 
 import './TraceLog.css'
 
 interface State {
+  replayTimerDelay: Delay
   tracedComponentLabels: string[]
   logEntries: LogEntry[]
   isReplaying: boolean
   highlightedIndex: number | null
 }
-const initialState = {
+const initialState: State = {
+  replayTimerDelay: getSessionReplayTimerDelay(),
   tracedComponentLabels: [],
   logEntries: [],
   isReplaying: false,
   highlightedIndex: null,
 }
 type Action =
+  | { type: 'setReplayTimerDelay'; delay: Delay }
   | { type: 'setTracedComponentLabels'; labels: string[] }
   | { type: 'setLogEntries'; entries: LogEntry[] }
   | { type: 'setHighlightedIndex'; index: number | null }
@@ -29,6 +38,9 @@ type Action =
 
 const reducer = (prevState: State, action: Action): State => {
   switch (action.type) {
+    case 'setReplayTimerDelay': {
+      return { ...prevState, replayTimerDelay: action.delay }
+    }
     case 'setTracedComponentLabels': {
       return { ...prevState, tracedComponentLabels: action.labels }
     }
@@ -84,8 +96,6 @@ const reducer = (prevState: State, action: Action): State => {
 }
 
 export const TraceLog = (): JSX.Element => {
-  const stepDelay = 500
-
   const [state, dispatch] = useReducer(reducer, initialState)
 
   // Update local state.tracedComponentLabels when global tracer value changes.
@@ -109,16 +119,21 @@ export const TraceLog = (): JSX.Element => {
     tracer.selectLogEntry(state.highlightedIndex)
   }, [state.highlightedIndex])
 
-  // Start / stop timer when state.isReplaying changes.
+  // Start/stop timer on state.isReplaying changes, and restart on state.replayTimerDelay changes.
   useEffect(() => {
     if (state.isReplaying) {
       const replayTimerId = window.setInterval(() => {
         dispatch({ type: 'step', direction: 1 })
-      }, stepDelay)
+      }, state.replayTimerDelay * 1000)
+
       return () => window.clearInterval(replayTimerId)
     }
-  }, [state.isReplaying])
+  }, [state.replayTimerDelay, state.isReplaying])
 
+  const setReplayTimerDelay = (delay: Delay) => {
+    setSessionReplayTimerDelay(delay)
+    dispatch({ type: 'setReplayTimerDelay', delay })
+  }
   const startReplay = useCallback(() => {
     dispatch({ type: 'step', direction: 1 })
     dispatch({ type: 'setIsReplaying', isReplaying: true })
@@ -160,11 +175,7 @@ export const TraceLog = (): JSX.Element => {
             <SimpleButton value="next" onClick={() => stepReplay(1)} />{' '}
           </div>
           <div>
-            Delay:{' '}
-            {/* <DelaySelector
-                value={this.props.replayTimerDelay}
-                onChange={(evt) => this.props.setDelay(+evt.currentTarget.value)}
-              /> */}
+            Delay: <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
           </div>
         </div>
         <div className="hint">(hover to highlight, shift-up/down to navigate)</div>
