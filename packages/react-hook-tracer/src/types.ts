@@ -1,3 +1,5 @@
+export type AssertNever<_T extends never> = never
+
 export interface TraceOrigins {
   mount: TraceOrigin
   render: TraceOrigin

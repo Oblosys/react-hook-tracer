@@ -3,14 +3,14 @@ import { memo, useEffect, useRef } from 'react'
 import * as types from '../types'
 
 interface LogEntriesProps {
-  entries: types.LogEntry[]
+  logEntries: types.LogEntry[]
   tracedComponentLabels: string[]
   highlightedIndex: number | null
-  setHighlightedIndex: (i: number) => void
+  setHighlightedIndex: (index: number) => void
 }
 
 export const LogEntries = ({
-  entries,
+  logEntries,
   tracedComponentLabels,
   highlightedIndex,
   setHighlightedIndex,
@@ -20,16 +20,16 @@ export const LogEntries = ({
 
   useEffect(() => {
     if (entriesWrapperElt) {
-      // Scroll to bottom whenever `entries` changes.
+      // Scroll to bottom whenever `logEntries` changes.
       entriesWrapperElt.scrollTop = entriesWrapperElt.scrollHeight - entriesWrapperElt.clientHeight
     }
-  }, [entriesWrapperElt, entries])
+  }, [entriesWrapperElt, logEntries])
 
   return (
     <div className="entries-wrapper" ref={entriesWrapperRef}>
       <table className="entries">
         <tbody>
-          {entries.map((entry, index) => (
+          {logEntries.map((entry, index) => (
             <LogEntry
               key={index}
               index={index}
