@@ -1,0 +1,22 @@
+.replay-control-button {
+  width: 32px;
+  height: 22px;
+  border-radius: 8px;
+  flex-grow: 0;
+}
+.replay-control-button > svg {
+  padding: 0px 4px;
+  width: 24px;
+  height: 22px;
+}
+.replay-control-button[data-is-disabled='true'] {
+  color: #999;
+}
+.replay-control-button:hover {
+  color: white;
+  background-color: #666;
+}
+.replay-control-button:hover[data-is-disabled='true'] {
+  /* color: #999; */
+  color: #888;
+}

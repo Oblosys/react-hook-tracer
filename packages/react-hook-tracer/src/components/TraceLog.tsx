@@ -10,7 +10,7 @@ import {
   setSessionReplayTimerDelay,
 } from './DelaySelector'
 import { LogEntries } from './LogEntries'
-import { SimpleButton } from './SimpleButton'
+import { Button } from './SvgButton'
 
 import './TraceLog.css'
 
@@ -186,16 +186,44 @@ export const TraceLog = (): JSX.Element => {
       <div className="header">
         <div className="controls">
           <div className="title">Log</div>
+          <div className="spacer"></div>
           <div className="buttons">
-            <SimpleButton value="clear log" onClick={clearLog} />{' '}
-            <SimpleButton value="prev" onClick={() => stepReplay(-1)} />{' '}
+            <Button
+              type="previous"
+              tooltip="previous entry"
+              isDisabled={state.highlightedIndex === null || state.highlightedIndex === 0}
+              onClick={() => stepReplay(-1)}
+            />{' '}
             {state.isReplaying ? (
-              <SimpleButton value="pause" onClick={stopReplay} />
+              <Button type="pause" tooltip="pause replay" onClick={stopReplay} />
             ) : (
-              <SimpleButton value="play" onClick={startReplay} />
+              <Button
+                type="play"
+                tooltip="start replay"
+                onClick={startReplay}
+                isDisabled={
+                  state.logEntries.length === 0 ||
+                  state.highlightedIndex === state.logEntries.length - 1
+                }
+              />
             )}{' '}
-            <SimpleButton value="next" onClick={() => stepReplay(1)} />{' '}
+            <Button
+              type="next"
+              tooltip="next entry"
+              isDisabled={
+                state.highlightedIndex === null ||
+                state.highlightedIndex === state.logEntries.length - 1
+              }
+              onClick={() => stepReplay(1)}
+            />
           </div>
+          <div className="spacer"></div>
+          <Button
+            type="trash"
+            tooltip="clear log"
+            onClick={clearLog}
+            isDisabled={state.logEntries.length === 0}
+          />
           <div>
             Delay: <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
           </div>
