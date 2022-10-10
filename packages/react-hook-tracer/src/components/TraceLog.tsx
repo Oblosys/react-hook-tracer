@@ -159,6 +159,28 @@ export const TraceLog = (): JSX.Element => {
     tracer.clearLog()
   }
 
+  const keyboardHandler = useCallback(
+    (evt: KeyboardEvent) => {
+      if (evt.shiftKey) {
+        // Require shift to prevent interference with scrolling
+        switch (evt.code) {
+          case 'ArrowUp':
+            stepReplay(-1)
+            break
+          case 'ArrowDown':
+            stepReplay(1)
+            break
+        }
+      }
+    },
+    [stepReplay],
+  )
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyboardHandler)
+    return () => document.removeEventListener('keydown', keyboardHandler)
+  }, [keyboardHandler])
+
   return (
     <div className="trace-log">
       <div className="header">
