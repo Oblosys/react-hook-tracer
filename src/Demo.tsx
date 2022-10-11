@@ -60,7 +60,7 @@ const Child = (props: ChildProps) => {
   const [y, setY] = useState(1)
   const incY = () => setY((prevY) => prevY + 1)
   return (
-    <Tagged name="Child" showProps={{ x: props.x, y }}>
+    <Tagged name="Child" showProps={{ x: props.x }}>
       <HookPanel />
       <div>state = {JSON.stringify({ y })}</div>
       <div className="controls">

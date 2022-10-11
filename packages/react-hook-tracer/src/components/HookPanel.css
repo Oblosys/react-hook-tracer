@@ -6,16 +6,40 @@
   display: inline-flex;
   flex-shrink: 0;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   background-color: #dde;
-  padding: 4px;
+  /* padding: 4px; */
   border: solid #888 1px;
   border-radius: 4px;
   position: relative;
 }
+.hook-panel-inner > * {
+  padding-left: 4px;
+  padding-right: 4px;
+  /* align-self: stretch; */
+}
 .hook-panel-inner .component-label {
   color: #555;
-  margin-bottom: 2px;
+  align-self: center;
+}
+
+.hook-panel-inner .props {
+  border-top: solid 1px #888;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.hook-panel-inner .prop-key {
+  font-weight: bolder;
+  margin-right: 2px;
+}
+.hook-panel-inner .prop-value {
+  margin-left: 2px;
+}
+
+.hook-panel-inner .trace-origins {
+  border-top: solid 1px #888;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .hook-panel-inner .trace-origin::before {
