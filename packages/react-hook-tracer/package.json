@@ -1,7 +1,7 @@
 {
   "name": "react-hook-tracer",
   "author": "Martijn Schrage (https://www.oblomov.com)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Light-weight tracer for React hooks",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
