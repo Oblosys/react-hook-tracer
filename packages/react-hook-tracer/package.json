@@ -1,0 +1,39 @@
+{
+  "name": "react-hook-tracer",
+  "author": "Martijn Schrage (https://www.oblomov.com)",
+  "version": "0.0.0",
+  "description": "Light-weight tracer for React hooks",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oblosys/react-hook-tracer.git"
+  },
+  "files": [
+    "dist/*",
+    "!dist/*.test.*",
+    "src/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build-watch": "yarn --silent build -- --watch",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "test-watch": "jest --watch"
+  },
+  "keywords": [
+    "react"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Oblosys/react-hook-tracer/issues"
+  },
+  "homepage": "https://github.com/Oblosys/react-hook-tracer#readme",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  }
+}

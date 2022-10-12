@@ -1,17 +1,20 @@
 {
-  "name": "react-hook-tracer",
-  "version": "0.1.0",
+  "name": "react-hook-tracer-demo",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "build": "cd packages/react-hook-tracer && yarn build && cp src/components/*.css dist/components",
+    "build-watch": "cd packages/react-hook-tracer && yarn build-watch",
     "eject": "react-app-rewired eject",
     "lint-check": "eslint --cache .",
-    "lint-fix": "npm run lint-check -- --fix",
+    "lint-fix": "yarn lint-check -- --fix",
+    "pack-lib": "cd packages/react-hook-tracer && npm pack",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
-    "prettier-fix": "npm run prettier-check -- --write"
+    "prettier-fix": "yarn prettier-check -- --write",
+    "publish-lib": "cd packages/react-hook-tracer && npm publish",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": [

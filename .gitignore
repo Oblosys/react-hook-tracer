@@ -9,7 +9,8 @@
 /coverage
 
 # production
-/build
+/packages/react-hook-tracer/dist
+/packages/react-hook-tracer/react-hook-tracer-*.tgz
 
 # misc
 .DS_Store
