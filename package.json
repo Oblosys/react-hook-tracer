@@ -13,7 +13,7 @@
     "pack-lib": "cd packages/react-hook-tracer && npm pack",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check -- --write",
-    "publish-lib": "cd packages/react-hook-tracer && npm publish",
+    "publish-lib": "yarn build && cd packages/react-hook-tracer && npm publish",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
