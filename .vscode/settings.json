@@ -9,4 +9,8 @@
     "onSave": "test-src-file",
     "onStartup": ["all-tests"]
   },
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
 }
