@@ -14,6 +14,21 @@ export const useEffect = (effectRaw: React.EffectCallback, deps?: React.Dependen
   return hook(effectRaw, deps)
 }
 
+// Typing useCallback is a bit of a nuisance as it uses Function.
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function useCallback<F extends Function>(callbackRaw: F, deps: React.DependencyList): F {
+  if (componentRegistry.isCurrentComponentTraced()) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useCallbackTraced(
+      callbackRaw as unknown as (...args: never[]) => unknown, // Convert untyped Function to explicit function type.
+      deps,
+    ) as unknown as F // Correct, since result of useCallbackTraced has the same type as its callback argument.
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return React.useCallback(callbackRaw, deps)
+  }
+}
+
 const isUpdateFunction = <S>(
   setStateAction: SetStateAction<S>,
 ): setStateAction is (prevState: S) => S => typeof setStateAction === 'function'
@@ -79,4 +94,27 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(effect, deps)
+}
+
+const useCallbackTraced = <A extends never[], R>(
+  callbackRaw: (...args: A) => R,
+  deps: React.DependencyList,
+): ((...args: A) => R) => {
+  const traceOrigin = componentRegistry.registerHook('callback')
+  const label = componentRegistry.getCurrentComponentLabel()
+
+  const isInitialized = useRef(false)
+  if (!isInitialized.current) {
+    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useCallback' })
+    isInitialized.current = true
+  }
+
+  // TODO: Maybe log when callback refreshes due to dependency changes.
+  const callback = (...args: A) => {
+    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'run callback' })
+    return callbackRaw(...args)
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return React.useCallback(callback, deps)
 }

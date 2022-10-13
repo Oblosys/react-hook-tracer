@@ -1,6 +1,4 @@
-import { useCallback } from 'react'
-
-import { useEffect, useState, useTracer } from '../packages/react-hook-tracer/src'
+import { useCallback, useEffect, useState, useTracer } from '../packages/react-hook-tracer/src'
 import { LabeledCheckbox } from './helper/LabeledCheckbox'
 import { SimpleButton } from './helper/SimpleButton'
 import { Tagged } from './helper/Tagged'
