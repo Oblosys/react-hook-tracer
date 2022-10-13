@@ -1,4 +1,6 @@
 .trace-log {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 13px;
   box-sizing: border-box;
   padding: 3px 8px 5px 8px;
   flex-shrink: 0;
@@ -19,7 +21,7 @@
   user-select: none;
 }
 .trace-log .title {
-  font-size: 130%;
+  font-size: 140%;
   font-weight: bold;
 }
 .trace-log .spacer {
