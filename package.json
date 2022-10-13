@@ -7,6 +7,7 @@
     "start": "react-app-rewired start",
     "build": "cd packages/react-hook-tracer && yarn build && cp src/components/*.css dist/components",
     "build-watch": "cd packages/react-hook-tracer && yarn build-watch",
+    "clean-lib": "cd packages/react-hook-tracer && yarn clean",
     "eject": "react-app-rewired eject",
     "lint-check": "eslint --cache .",
     "lint-fix": "yarn lint-check -- --fix",
