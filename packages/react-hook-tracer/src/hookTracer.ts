@@ -4,7 +4,11 @@ import { tracer } from './Tracer'
 import * as componentRegistry from './componentRegistry'
 export { useTracer } from './useTracer'
 
-export const useState = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
+export function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>]
+export function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
+export function useState<S = undefined>(
+  initialState?: S | (() => S),
+): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
   const hook = componentRegistry.isCurrentComponentTraced() ? useStateTraced : React.useState
   return hook(initialState)
 }
@@ -29,13 +33,23 @@ export function useCallback<F extends Function>(callbackRaw: F, deps: React.Depe
   }
 }
 
+const isInitialStateThunk = <S>(initialState: S | (() => S)): initialState is () => S =>
+  typeof initialState === 'function'
+
 const isUpdateFunction = <S>(
   setStateAction: SetStateAction<S>,
 ): setStateAction is (prevState: S) => S => typeof setStateAction === 'function'
 
-const useStateTraced = <S>(initialState: S): [S, Dispatch<SetStateAction<S>>] => {
+const useStateTraced = <S>(
+  initialStateOrThunk: S | (() => S),
+): [S, Dispatch<SetStateAction<S>>] => {
   const traceOrigin = componentRegistry.registerHook('state')
   const label = componentRegistry.getCurrentComponentLabel()
+
+  // If the initial-state argument is a thunk, we evaluate it here and call React.useState with the value.
+  const initialState = isInitialStateThunk(initialStateOrThunk)
+    ? initialStateOrThunk()
+    : initialStateOrThunk
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
@@ -73,12 +87,11 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
   if (!isInitialized.current) {
     tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useEffect' })
     isInitialized.current = true
-  } else {
-    // maybe log which dep. changed
-    // console.log(deps)
   }
 
   const effect = () => {
+    // maybe log which dep. changed
+
     tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'run effect' })
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
