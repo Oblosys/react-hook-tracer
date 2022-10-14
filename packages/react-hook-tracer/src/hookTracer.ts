@@ -13,7 +13,7 @@ export function useState<S = undefined>(
   return hook(initialState)
 }
 
-export const useEffect = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
+export function useEffect(effectRaw: React.EffectCallback, deps?: React.DependencyList): void {
   const hook = componentRegistry.isCurrentComponentTraced() ? useEffectTraced : React.useEffect
   return hook(effectRaw, deps)
 }
