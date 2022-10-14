@@ -21,6 +21,9 @@
     "test": "jest",
     "test-watch": "jest --watch"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "react"
   ],
