@@ -116,18 +116,21 @@ const useCallbackTraced = <A extends never[], R>(
   const traceOrigin = componentRegistry.registerHook('callback')
   const label = componentRegistry.getCurrentComponentLabel()
 
-  const isInitialized = useRef(false)
-  if (!isInitialized.current) {
-    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useCallback' })
-    isInitialized.current = true
-  }
-
-  // TODO: Maybe log when callback refreshes due to dependency changes.
   const callback = (...args: A) => {
     tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'run callback' })
     return callbackRaw(...args)
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return React.useCallback(callback, deps)
+  const memoizedCallback = React.useCallback(callback, deps)
+
+  const previousCallbackRef = useRef<(...args: A) => R>()
+  if (memoizedCallback !== previousCallbackRef.current) {
+    const message = previousCallbackRef.current === undefined ? 'init' : 'refresh'
+    // TODO: Maybe log which dependency changed (will just be an index, as we don't have names).
+    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useCallback', message })
+  }
+  previousCallbackRef.current = memoizedCallback
+
+  return memoizedCallback
 }
