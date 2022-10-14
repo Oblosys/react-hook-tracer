@@ -16,9 +16,11 @@ export const showPropValue = (_propKey: string, value: unknown): string => {
     case 'boolean':
     case 'number':
     case 'string':
-    case 'symbol':
-    case 'undefined': {
+    case 'symbol': {
       return JSON.stringify(value)
+    }
+    case 'undefined': {
+      return 'undefined'
     }
     case 'function':
       return '<function>'
