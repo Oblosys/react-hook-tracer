@@ -1,0 +1,19 @@
+.simple-button {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  font-size: 12px;
+  border: solid #aaa 1px;
+  border-radius: 4px;
+  user-select: none;
+  background-color: white;
+}
+.simple-button:not(:last-child) {
+  margin-right: 5px;
+}
+.simple-button:hover[data-is-disabled='false'] {
+  background-color: #ddd;
+}
+.simple-button[data-is-disabled='true'] {
+  color: #666;
+  background-color: #f8f8f8;
+}

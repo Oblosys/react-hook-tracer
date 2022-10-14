@@ -17,44 +17,6 @@ body {
   display: flex;
 }
 
-/* Demo */
-
-.demo {
-  flex-grow: 1;
-  overflow-y: scroll;
-  margin: 5px;
-}
-
-.controls {
-  display: flex;
-}
-
-.labeled-checkbox {
-  display: inline-flex;
-  align-items: center;
-  height: 17px;
-}
-
-.simple-button {
-  display: inline-block;
-  padding: 1px 3px 0 3px;
-  font-size: 12px;
-  border: solid #aaa 1px;
-  border-radius: 4px;
-  user-select: none;
-  background-color: white;
-}
-.simple-button:not(:last-child) {
-  margin-right: 5px;
-}
-.simple-button:hover {
-  background-color: #ddd;
-}
-
-.tagged {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.indented {
-  padding-left: 1.5em;
+.app .trace-log {
+  width: 460px; /* Override trace-log width */
 }
