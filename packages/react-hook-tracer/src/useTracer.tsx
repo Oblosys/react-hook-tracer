@@ -3,10 +3,11 @@ import React, { useCallback, useRef } from 'react'
 import { tracer } from './Tracer'
 import * as componentRegistry from './componentRegistry'
 import { HookPanel } from './components/HookPanel'
+import { ShowProps } from './types'
 import * as util from './util'
 
 export interface UseTracerOptions {
-  showPropValue?: (propKey: string, propValue: unknown) => string
+  showProps?: ShowProps
 }
 export interface UseTracer {
   label: string
@@ -14,8 +15,19 @@ export interface UseTracer {
   HookPanel: () => JSX.Element
 }
 
+const mkShowPropValue: (showProps?: ShowProps) => (propKey: string, propValue: unknown) => string =
+  (showProps) => (propKey, propValue) => {
+    if (showProps !== undefined && propKey in showProps) {
+      const showProp = showProps[propKey]
+      if (showProp !== undefined) {
+        return showProp(propValue)
+      }
+    }
+    return util.showPropValue(propKey, propValue)
+  }
+
 export const useTracer = (options?: UseTracerOptions): UseTracer => {
-  const showPropValue = options?.showPropValue ?? util.showPropValue
+  const showPropValue = mkShowPropValue(options?.showProps)
   const componentInfo = componentRegistry.registerCurrentComponent()
   const label = componentInfo.label
 
@@ -36,7 +48,7 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
 
   const pendingProps = componentRegistry.getCurrentOwner()?.pendingProps ?? {}
 
-  const propsStr = util.showProps(pendingProps, util.showPropValue)
+  const propsStr = util.showProps(pendingProps, showPropValue)
   tracer.trace(label, componentInfo.traceOrigins.render, propsStr) // Emit trace that component is rendering.
 
   const trace = useCallback(

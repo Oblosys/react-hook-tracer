@@ -27,3 +27,8 @@ export interface LogEntry {
   message?: string
   customOriginLabel?: string // e.g to show 'state' log entries as 'useState', 'setState', etc.
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ShowProps<Props = Record<string, any>> = {
+  [K in keyof Props]?: (propValue: Props[K]) => string
+}
