@@ -3,4 +3,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "task.allowAutomaticTasks": "on",
+  "jest.jestCommandLine": "yarn run test-lib",
+  "jest.autoRun": {
+    "watch": true,
+    "onSave": "test-src-file",
+    "onStartup": ["all-tests"]
+  },
 }

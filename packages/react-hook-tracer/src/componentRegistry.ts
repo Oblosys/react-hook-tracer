@@ -50,6 +50,14 @@ const getFreshIdForName = (name: string) => {
   return id
 }
 
+// Clear the id counters for new components. Only to be used for testing.
+// TODO: Maybe create an initialize function, and also group mutable constants.
+export const resetNextComponentIds = () => {
+  for (const key in nextComponentIdByLabel) {
+    delete nextComponentIdByLabel[key]
+  }
+}
+
 export interface ComponentInfo {
   name: string
   id: number

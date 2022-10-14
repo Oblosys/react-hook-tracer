@@ -14,7 +14,9 @@
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check -- --write",
     "publish-lib": "yarn build && cd packages/react-hook-tracer && npm publish",
-    "test": "react-app-rewired test"
+    "test": "react-app-rewired test",
+    "test-lib": "cd packages/react-hook-tracer && yarn test",
+    "test-lib-watch": "cd packages/react-hook-tracer && yarn test-watch"
   },
   "eslintConfig": {
     "extends": [
@@ -57,7 +59,9 @@
     "eslint-plugin-jest": "27.0.4",
     "eslint-plugin-react": "7.31.8",
     "eslint-plugin-react-hooks": "4.6.0",
+    "jest": "27.5.1",
     "prettier": "^2.7.1",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "ts-jest": "27.1.5"
   }
 }
