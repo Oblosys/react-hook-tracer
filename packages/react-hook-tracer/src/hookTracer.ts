@@ -4,13 +4,26 @@ import { tracer } from './Tracer'
 import * as componentRegistry from './componentRegistry'
 export { useTracer } from './useTracer'
 
-export function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>]
+export function useState<S>(
+  initialState: S | (() => S),
+  showState?: (s: S) => string,
+): [S, Dispatch<SetStateAction<S>>]
 export function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
 export function useState<S = undefined>(
+  initialState: undefined,
+  showState: (s: S) => string,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>>] // Extra overload for passing showState without initialState
+export function useState<S = undefined>(
   initialState?: S | (() => S),
+  showState?: (s: S) => string,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
-  const hook = componentRegistry.isCurrentComponentTraced() ? useStateTraced : React.useState
-  return hook(initialState)
+  if (componentRegistry.isCurrentComponentTraced()) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useStateTraced(initialState, showState)
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return React.useState(initialState)
+  }
 }
 
 export function useEffect(effectRaw: React.EffectCallback, deps?: React.DependencyList): void {
@@ -41,10 +54,20 @@ const isUpdateFunction = <S>(
 ): setStateAction is (prevState: S) => S => typeof setStateAction === 'function'
 
 const useStateTraced = <S>(
-  initialStateOrThunk: S | (() => S),
-): [S, Dispatch<SetStateAction<S>>] => {
+  initialStateOrThunk: S | (() => S) | undefined,
+  showStateFn: ((s: S) => string) | undefined,
+): [S | undefined, Dispatch<SetStateAction<S | undefined>>] => {
   const traceOrigin = componentRegistry.registerHook('state')
   const label = componentRegistry.getCurrentComponentLabel()
+
+  const showUndefined =
+    <T>(show: (x: T) => string) =>
+    (x: T | undefined) =>
+      x === undefined ? 'undefined' : show(x)
+
+  const showProperState = showStateFn ?? ((s: S) => JSON.stringify(s))
+
+  const showState = showUndefined(showProperState)
 
   // If the initial-state argument is a thunk, we evaluate it here and call React.useState with the value.
   const initialState = isInitialStateThunk(initialStateOrThunk)
@@ -53,30 +76,32 @@ const useStateTraced = <S>(
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    tracer.trace(label, traceOrigin, JSON.stringify(initialState), 'useState')
-    traceOrigin.info = JSON.stringify(initialState)
+    tracer.trace(label, traceOrigin, showState(initialState), 'useState')
+    traceOrigin.info = showState(initialState)
     isInitialized.current = true
   }
 
   const [value, setValue] = React.useState(initialState)
 
-  const setValueLogged: React.Dispatch<React.SetStateAction<S>> = (valueOrUpdateFunction) => {
+  const setValueTraced: React.Dispatch<React.SetStateAction<S | undefined>> = (
+    valueOrUpdateFunction,
+  ) => {
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        tracer.trace(label, traceOrigin, JSON.stringify(newValue), 'setState fn')
-        traceOrigin.info = JSON.stringify(newValue) // TODO: string may get big
+        tracer.trace(label, traceOrigin, showState(newValue), 'setState fn')
+        traceOrigin.info = showState(newValue)
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      tracer.trace(label, traceOrigin, JSON.stringify(newValue), 'setState')
+      tracer.trace(label, traceOrigin, showState(newValue), 'setState')
       setValue(newValue)
-      traceOrigin.info = JSON.stringify(newValue)
+      traceOrigin.info = showState(newValue)
     }
   }
 
-  return [value, setValueLogged]
+  return [value, setValueTraced]
 }
 
 const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
