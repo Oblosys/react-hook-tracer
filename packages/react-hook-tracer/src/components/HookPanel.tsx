@@ -70,7 +70,7 @@ interface PropProps {
   showPropValue: (propKey: string, propValue: unknown) => string
 }
 const Prop = ({ propKey, propValue, showPropValue }: PropProps) => (
-  <div>
+  <div data-testid="prop">
     <span className="prop-key">{propKey}</span>=
     <span className="prop-value">{showPropValue(propKey, propValue)}</span>
   </div>
@@ -81,7 +81,7 @@ interface TraceOriginEntryProps {
   isHighlighted: boolean
 }
 const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => (
-  <div className="trace-origin" data-is-highlighted={isHighlighted}>
+  <div className="trace-origin" data-is-highlighted={isHighlighted} data-testid="trace-origin">
     <span className="origin-type">
       {traceOrigin.originType + (traceOrigin.info !== null ? ': ' : '')}
     </span>

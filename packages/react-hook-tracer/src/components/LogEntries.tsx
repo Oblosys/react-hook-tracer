@@ -66,6 +66,7 @@ const LogEntry = memo(
       data-is-traced={isTraced}
       data-is-highlighted={isHighlighted}
       onMouseEnter={() => setHighlightedIndex(index)}
+      data-testid="log-entry"
     >
       <td className="label">{label}</td>
       <td className="origin">{origin.originType}</td>
