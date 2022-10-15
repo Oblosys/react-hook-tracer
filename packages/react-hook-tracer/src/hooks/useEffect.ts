@@ -14,20 +14,20 @@ const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.Dependenc
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'useEffect' })
+    tracer.trace(label, traceOrigin, 'init')
     isInitialized.current = true
   }
 
   const effect = () => {
     // maybe log which dep. changed
+    tracer.trace(label, traceOrigin, 'run')
 
-    tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'run effect' })
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
       return
     } else {
       const cleanup = () => {
-        tracer.trace({ label, origin: traceOrigin, customOriginLabel: 'clear effect' })
+        tracer.trace(label, traceOrigin, 'cleanup')
         cleanupRaw()
       }
       return cleanup

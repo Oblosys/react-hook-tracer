@@ -55,7 +55,7 @@ const useStateTraced = <S>(
 
   const isInitialized = useRef(false)
   if (!isInitialized.current) {
-    tracer.trace(label, traceOrigin, showState(initialState), 'useState')
+    tracer.trace(label, traceOrigin, 'init: ' + showState(initialState))
     traceOrigin.info = showState(initialState)
     isInitialized.current = true
   }
@@ -68,13 +68,13 @@ const useStateTraced = <S>(
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        tracer.trace(label, traceOrigin, showState(newValue), 'setState fn')
+        tracer.trace(label, traceOrigin, 'update: ' + showState(newValue))
         traceOrigin.info = showState(newValue)
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      tracer.trace(label, traceOrigin, showState(newValue), 'setState')
+      tracer.trace(label, traceOrigin, 'set: ' + showState(newValue))
       setValue(newValue)
       traceOrigin.info = showState(newValue)
     }
