@@ -85,14 +85,6 @@ export class Tracer {
         : { label: args[0], origin: args[1], message: args[2], customOriginLabel: args[3] }
 
     const logEntry: LogEntry = { label, origin, message, customOriginLabel }
-    const consoleLogArgs = [
-      'Trace:',
-      logEntry.label,
-      customOriginLabel === undefined ? logEntry.origin.originType : customOriginLabel,
-      ...(logEntry.message !== undefined ? [logEntry.message] : []),
-    ]
-    // Log entry to console:
-    console.log(...consoleLogArgs)
 
     // Since setLogEntries calls observer handlers that will in turn call setState functions, we call it asynchronously
     // in a timeout, to avoid calling setState during render.
