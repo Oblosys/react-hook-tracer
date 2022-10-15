@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from 'react'
 
-import { tracer } from './Tracer'
-import * as componentRegistry from './componentRegistry'
-import { HookPanel } from './components/HookPanel'
-import { ShowProps } from './types'
-import * as util from './util'
+import { tracer } from '../Tracer'
+import * as componentRegistry from '../componentRegistry'
+import { HookPanel } from '../components/HookPanel'
+import { ShowProps } from '../types'
+import * as util from '../util'
 
 export interface UseTracerOptions {
   showProps?: ShowProps
