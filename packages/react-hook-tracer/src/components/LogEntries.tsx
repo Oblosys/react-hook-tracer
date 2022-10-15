@@ -67,7 +67,7 @@ const LogEntry = memo(
       data-is-highlighted={isHighlighted}
       onMouseEnter={() => setHighlightedIndex(index)}
     >
-      <td className="index">{index}</td>
+      <td className="index">{('' + index).padStart(2)}</td>
       <td className="label">{label}</td>
       <td className="origin">
         {customOriginLabel === undefined ? origin.originType : customOriginLabel}

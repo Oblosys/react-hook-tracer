@@ -1,53 +1,58 @@
 .hook-panel {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   font-size: 13px;
-  padding: 2px 0 2px 0;
-}
-.hook-panel-inner {
-  display: inline-flex;
-  flex-shrink: 0;
+  align-self: flex-start; /* to prevent stretching when parent is flex */
+  display: inline-flex; /* inline to prevent stretching when parent is not flex */
+  min-width: 250px;
   flex-direction: column;
   align-items: stretch;
   background-color: #dde;
   border: solid #888 1px;
   border-radius: 4px;
-  position: relative;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
-.hook-panel-inner > * {
+.hook-panel > * {
   padding-left: 4px;
   padding-right: 4px;
 }
-.hook-panel-inner .component-label {
+.hook-panel .component-label {
   color: #555;
   align-self: center;
 }
 
-.hook-panel-inner .props {
+.hook-panel .props {
   border-top: solid 1px #888;
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.hook-panel-inner .prop-key {
+.hook-panel .prop-key {
   font-weight: bolder;
   margin-right: 2px;
 }
-.hook-panel-inner .prop-value {
+.hook-panel .prop-value {
   margin-left: 2px;
 }
 
-.hook-panel-inner .trace-origins {
+.hook-panel .trace-origins {
   border-top: solid 1px #888;
   padding-top: 2px;
   padding-bottom: 2px;
 }
 
-.hook-panel-inner .trace-origin::before {
-  content: '-';
-}
-.hook-panel-inner .trace-origin[data-is-highlighted='false'] {
+.hook-panel .trace-origin[data-is-highlighted='false'] {
   background-color: inherit;
-  transition: background-color 0.3s;
+  transition: background-color 0.05s;
 }
-.hook-panel-inner .trace-origin[data-is-highlighted='true'] {
+.hook-panel .trace-origin[data-is-highlighted='true'] {
   background-color: yellow;
+}
+
+.hook-panel .origin-type::before {
+  content: '-';
+  padding-right: 1px;
+  font-style: italic;
+}
+.hook-panel .origin-type {
+  font-style: italic;
 }

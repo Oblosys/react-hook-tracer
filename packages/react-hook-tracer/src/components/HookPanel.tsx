@@ -36,29 +36,27 @@ export const HookPanel = ({ label, props, showPropValue, traceOrigins }: HookPan
 
   return (
     <div className="hook-panel" data-testid="hook-panel">
-      <div className="hook-panel-inner">
-        <div className="component-label">{label}</div>
-        {propKeyValues.length > 0 && (
-          <div className="props">
-            {propKeyValues.map(({ propKey, propValue }) => (
-              <Prop
-                propKey={propKey}
-                propValue={propValue}
-                showPropValue={showPropValue}
-                key={propKey}
-              />
-            ))}
-          </div>
-        )}
-        <div className="trace-origins">
-          {traceOriginList.map((origin, index) => (
-            <TraceOriginEntry
-              key={index}
-              traceOrigin={origin}
-              isHighlighted={origin === selectedLogEntry?.origin}
+      <div className="component-label">{label}</div>
+      {propKeyValues.length > 0 && (
+        <div className="props">
+          {propKeyValues.map(({ propKey, propValue }) => (
+            <Prop
+              propKey={propKey}
+              propValue={propValue}
+              showPropValue={showPropValue}
+              key={propKey}
             />
           ))}
         </div>
+      )}
+      <div className="trace-origins">
+        {traceOriginList.map((origin, index) => (
+          <TraceOriginEntry
+            key={index}
+            traceOrigin={origin}
+            isHighlighted={origin === selectedLogEntry?.origin}
+          />
+        ))}
       </div>
     </div>
   )
@@ -82,6 +80,9 @@ interface TraceOriginEntryProps {
 }
 const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => (
   <div className="trace-origin" data-is-highlighted={isHighlighted}>
-    {traceOrigin.originType + (traceOrigin.info !== null ? ': ' + traceOrigin.info : '')}
+    <span className="origin-type">
+      {traceOrigin.originType + (traceOrigin.info !== null ? ': ' : '')}
+    </span>
+    <span className="origin-info">{traceOrigin.info ?? ''}</span>
   </div>
 )

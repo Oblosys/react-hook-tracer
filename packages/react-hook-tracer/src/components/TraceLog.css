@@ -6,6 +6,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  min-width: 500px;
 }
 .trace-log.header {
   flex-basis: 3ex;
@@ -39,6 +40,8 @@
 
 .trace-log .entries-wrapper {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   overflow-y: scroll;
   background-color: #f0f0f0;
@@ -83,4 +86,12 @@
 }
 .trace-log .entry td:first-child {
   text-align: right;
+}
+.trace-log .entry td.origin {
+  text-align: right;
+  font-style: italic;
+  padding-right: 4px;
+}
+.trace-log .entry td.message {
+  width: 100%;
 }
