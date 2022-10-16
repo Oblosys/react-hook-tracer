@@ -81,12 +81,12 @@ type ButtonType = keyof typeof buttonSvgByType
 interface ButtonProps {
   type: ButtonType
   tooltip: string
-  isDisabled?: boolean
   onClick: () => void
+  isDisabled?: boolean
 }
 export const Button = ({ type, tooltip, onClick, isDisabled }: ButtonProps) => (
   <div
-    className={'replay-control-button' + (isDisabled ? ' data-is-disabled' : '')}
+    className={'replay-control-button'}
     title={tooltip}
     data-is-disabled={isDisabled ?? false}
     onClick={onClick}

@@ -76,15 +76,15 @@ export class Tracer {
   }
 
   trace(label: string, origin: TraceOrigin, message?: string): void
-  trace(label: string, origin: TraceOrigin, message: string, customOriginLabel: string): void
+  trace(label: string, origin: TraceOrigin, message: string, phase: string): void
   trace(entry: LogEntry): void
   trace(...args: TraceArgs): void {
-    const { label, origin, message, customOriginLabel } =
+    const { label, origin, message, phase } =
       args.length === 1
         ? args[0]
-        : { label: args[0], origin: args[1], message: args[2], customOriginLabel: args[3] }
+        : { label: args[0], origin: args[1], phase: args[3], message: args[2] }
 
-    const logEntry: LogEntry = { label, origin, message, customOriginLabel }
+    const logEntry: LogEntry = { label, origin, phase, message }
 
     // Since setLogEntries calls observer handlers that will in turn call setState functions, we call it asynchronously
     // in a timeout, to avoid calling setState during render.
@@ -94,7 +94,7 @@ export class Tracer {
 
 type TraceArgs =
   | readonly [label: string, origin: TraceOrigin, message?: string]
-  | readonly [label: string, origin: TraceOrigin, message: string, customOriginLabel?: string]
+  | readonly [label: string, origin: TraceOrigin, message: string, phase?: string]
   | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()

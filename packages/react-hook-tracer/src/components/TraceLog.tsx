@@ -185,7 +185,7 @@ export const TraceLog = (): JSX.Element => {
     <div className="trace-log">
       <div className="header">
         <div className="controls">
-          <div className="title">Log</div>
+          <div className="title">Trace log</div>
           <div className="spacer"></div>
           <div className="buttons">
             <Button

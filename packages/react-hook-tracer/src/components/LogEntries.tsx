@@ -56,7 +56,7 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { label, origin, message, customOriginLabel },
+    entry: { label, origin, message, phase },
     isTraced,
     isHighlighted,
     setHighlightedIndex,
@@ -67,12 +67,12 @@ const LogEntry = memo(
       data-is-highlighted={isHighlighted}
       onMouseEnter={() => setHighlightedIndex(index)}
     >
-      <td className="index">{('' + index).padStart(2)}</td>
       <td className="label">{label}</td>
-      <td className="origin">
-        {customOriginLabel === undefined ? origin.originType : customOriginLabel}
+      <td className="origin">{origin.originType}</td>
+      <td className="phase-and-message">
+        {phase && <span className="phase">{phase}</span>}
+        <span className="message">{message ?? ''}</span>
       </td>
-      <td className="message">{message ?? ''}</td>
     </tr>
   ),
 )

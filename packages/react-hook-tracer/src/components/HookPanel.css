@@ -5,26 +5,28 @@
   display: inline-flex; /* inline to prevent stretching when parent is not flex */
   min-width: 250px;
   flex-direction: column;
-  align-items: stretch;
   background-color: #dde;
-  border: solid #888 1px;
+  border: solid #666 1px;
   border-radius: 4px;
+  overflow: hidden;
   margin-top: 2px;
   margin-bottom: 2px;
 }
-.hook-panel > * {
-  padding-left: 4px;
-  padding-right: 4px;
-}
+
 .hook-panel .component-label {
-  color: #555;
-  align-self: center;
+  color: #fff;
+  background-color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hook-panel .props {
-  border-top: solid 1px #888;
+  border-top: solid 1px #666;
   padding-top: 2px;
   padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .hook-panel .prop-key {
   font-weight: bolder;
@@ -35,9 +37,13 @@
 }
 
 .hook-panel .trace-origins {
-  border-top: solid 1px #888;
+  border-top: solid 1px #666;
   padding-top: 2px;
   padding-bottom: 2px;
+}
+.hook-panel .trace-origins > * {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .hook-panel .trace-origin[data-is-highlighted='false'] {

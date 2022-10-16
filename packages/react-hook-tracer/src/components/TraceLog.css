@@ -2,7 +2,7 @@
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   font-size: 13px;
   box-sizing: border-box;
-  padding: 3px 8px 5px 8px;
+  padding: 4px 8px 5px 8px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -16,8 +16,6 @@
 
 .trace-log .controls {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   line-height: 22px;
   user-select: none;
 }
@@ -31,11 +29,13 @@
 .trace-log .buttons {
   display: flex;
   align-items: center;
+  padding-bottom: 1px;
 }
 
 .trace-log .hint {
-  line-height: 20px;
+  padding-top: 2px;
   text-align: left;
+  user-select: none;
 }
 
 .trace-log .entries-wrapper {
@@ -44,6 +44,8 @@
   flex-direction: column;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   overflow-y: scroll;
+  margin-top: 2px;
+  padding-left: 2px;
   background-color: #f0f0f0;
   border: solid #ccc 1px;
 }
@@ -65,10 +67,7 @@
 }
 
 .trace-log .entry {
-  padding-left: 2px;
-  padding-right: 2px;
   white-space: pre;
-  cursor: default;
 }
 
 .trace-log .entry[data-is-traced='false'] td {
@@ -78,20 +77,18 @@
   animation: none;
   background-color: yellow;
 }
-.trace-log .entry[data-is-traced='false'][data-is-highlighted='true'] td {
-  background-color: #ddd;
-}
-.trace-log .entry td {
-  padding-left: 4px;
-}
-.trace-log .entry td:first-child {
-  text-align: right;
+.trace-log .entry td.label {
+  padding-left: 6px;
 }
 .trace-log .entry td.origin {
-  text-align: right;
   font-style: italic;
-  padding-right: 4px;
+  padding-left: 6px;
 }
-.trace-log .entry td.message {
+.trace-log .entry td.phase-and-message {
+  padding-left: 4px;
   width: 100%;
+}
+.trace-log .entry .phase {
+  font-style: italic;
+  padding-right: 6px;
 }

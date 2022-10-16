@@ -24,8 +24,8 @@ export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
 export interface LogEntry {
   label: string
   origin: TraceOrigin
+  phase?: string // e.g to show 'state' log entries as 'init', 'set', etc.
   message?: string
-  customOriginLabel?: string // e.g to show 'state' log entries as 'useState', 'setState', etc.
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

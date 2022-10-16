@@ -36,7 +36,9 @@ export const HookPanel = ({ label, props, showPropValue, traceOrigins }: HookPan
 
   return (
     <div className="hook-panel" data-testid="hook-panel">
-      <div className="component-label">{label}</div>
+      <div className="component-label">
+        <div>{label}</div>
+      </div>
       {propKeyValues.length > 0 && (
         <div className="props">
           {propKeyValues.map(({ propKey, propValue }) => (
