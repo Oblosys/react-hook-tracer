@@ -33,10 +33,7 @@ export const showPropValue = (_propKey: string, value: unknown): string => {
 export const showProps = (
   props: Record<string, unknown>,
   showPropValue: (propKey: string, propValue: unknown) => string,
-): string => {
-  const keys = getObjectKeys(props)
-
-  return keys.length === 0
-    ? '<no props>'
-    : keys.map((key) => `${key}=${showPropValue(key, props[key])}`).join(' ')
-}
+): string =>
+  getObjectKeys(props)
+    .map((key) => `${key}=${showPropValue(key, props[key])}`)
+    .join(' ')
