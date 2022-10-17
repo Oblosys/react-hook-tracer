@@ -224,8 +224,9 @@ export const TraceLog = (): JSX.Element => {
             onClick={clearLog}
             isDisabled={state.logEntries.length === 0}
           />
-          <div>
-            Delay: <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
+          <div className="delay-selector">
+            Delay:
+            <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
           </div>
         </div>
         <div className="hint">(hover to highlight, shift-up/down to navigate)</div>

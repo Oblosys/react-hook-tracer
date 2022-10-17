@@ -32,6 +32,13 @@
   padding-bottom: 1px;
 }
 
+.trace-log .delay-selector {
+  padding-left: 2px;
+}
+.trace-log .delay-selector select {
+  margin-left: 2px;
+}
+
 .trace-log .hint {
   padding-top: 2px;
   text-align: left;
