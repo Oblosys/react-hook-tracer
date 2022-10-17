@@ -6,6 +6,7 @@
 module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
+  roots: ['<rootDir>/src'],
   transform: { '^.+\\.tsx?$': ['ts-jest', { isolatedModules: true }] },
   testRegex: './src/.+\\.test\\.tsx?$',
   collectCoverage: false,
