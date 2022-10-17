@@ -72,6 +72,7 @@ export const isCurrentComponentTraced = (): boolean => {
   const currentOwner = getCurrentOwner()
 
   if (currentOwner === null) {
+    // TODO: Throwing here causes errors in React Developer Tools.
     throw new Error('isComponentTraced: no current owner')
   } else {
     return (
@@ -142,6 +143,7 @@ export const getCurrentComponentLabel = (): string => {
 }
 
 export const registerCurrentComponent = (): ComponentInfo => {
+  // TODO: Throwing here causes errors in React Developer Tools.
   const componentInfo = getCurrentComponentInfoOrThrow('registerComponent: no current owner')
 
   componentInfo.nextHookIndex = 0
