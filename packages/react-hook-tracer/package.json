@@ -3,17 +3,32 @@
   "author": "Martijn Schrage (https://www.oblomov.com)",
   "version": "0.1.1",
   "description": "Light-weight tracer for React hooks",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "hooks",
+    "tracing",
+    "debugging",
+    "spy"
+  ],
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oblosys/react-hook-tracer.git"
   },
+  "homepage": "https://github.com/Oblosys/react-hook-tracer#readme",
+  "bugs": {
+    "url": "https://github.com/Oblosys/react-hook-tracer/issues"
+  },
   "files": [
     "dist/*",
     "!dist/*.test.*",
     "src/*"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "build": "tsc",
     "build-watch": "yarn --silent build -- --watch",
@@ -23,17 +38,6 @@
     "test": "jest",
     "test-watch": "jest --watch"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "keywords": [
-    "react"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Oblosys/react-hook-tracer/issues"
-  },
-  "homepage": "https://github.com/Oblosys/react-hook-tracer#readme",
   "devDependencies": {
     "typescript": "^4.8.4"
   },
