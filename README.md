@@ -1,1 +1,1 @@
-# React-hook-tracer [![npm version](https://badge.fury.io/js/react-hook-tracer.svg)](https://badge.fury.io/js/react-hook-tracer) [![Build Status](https://github.com/Oblosys/react-hook-tracer/actions/workflows/build-test.yml/badge.svg?branch=master)](https://github.com/Oblosys/react-hook-tracer/actions/workflows/build-test.yml?query=branch%3Amaster)
+packages/react-hook-tracer/README.md
