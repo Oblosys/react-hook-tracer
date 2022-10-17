@@ -1,4 +1,5 @@
-import { TraceLog } from '../packages/react-hook-tracer/src'
+import { TraceLog } from 'react-hook-tracer'
+
 import { Demo } from './Demo'
 
 import './App.css'

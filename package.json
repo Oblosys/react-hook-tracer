@@ -1,21 +1,23 @@
 {
   "name": "react-hook-tracer-demo",
+  "author": "Martijn Schrage (https://www.oblomov.com)",
   "version": "1.0.0",
   "private": true,
+  "description": "Demo for the react-hook-tracer package",
   "license": "MIT",
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-scripts start",
     "build": "cd packages/react-hook-tracer && yarn build && cp src/components/*.css dist/components",
     "build-watch": "cd packages/react-hook-tracer && yarn build-watch",
     "clean-lib": "cd packages/react-hook-tracer && yarn clean",
-    "eject": "react-app-rewired eject",
+    "eject": "react-scripts eject",
     "lint-check": "eslint --cache .",
     "lint-fix": "yarn lint-check -- --fix",
     "pack-lib": "cd packages/react-hook-tracer && npm pack",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check -- --write",
     "publish-lib": "yarn build && cd packages/react-hook-tracer && npm publish",
-    "test": "react-app-rewired test",
+    "test": "react-scripts test",
     "test-lib": "cd packages/react-hook-tracer && yarn test",
     "test-lib-watch": "cd packages/react-hook-tracer && yarn test-watch"
   },
@@ -47,6 +49,7 @@
     "@types/react-dom": "^18.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-tracer": "0.2.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4"
   },
@@ -62,7 +65,6 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "27.5.1",
     "prettier": "^2.7.1",
-    "react-app-rewired": "^2.2.1",
     "ts-jest": "27.1.5"
   }
 }

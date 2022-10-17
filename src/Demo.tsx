@@ -1,12 +1,6 @@
 import { useRef } from 'react'
+import { ShowProps, useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
 
-import {
-  ShowProps,
-  useCallback,
-  useEffect,
-  useState,
-  useTracer,
-} from '../packages/react-hook-tracer/src'
 import { SimpleButton } from './SimpleButton'
 
 import './Demo.css'
