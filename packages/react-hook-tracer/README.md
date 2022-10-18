@@ -1,9 +1,9 @@
 # React-hook-tracer [![npm version](https://badge.fury.io/js/react-hook-tracer.svg)](https://badge.fury.io/js/react-hook-tracer)
 
-The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-tracer) allows tracing function components to reveal the order of hook-function calls in an interactive trace-log component, and provides a live view of the component's props and state. The functionality is similar to what [`react-lifecycle-visualizer`](https://github.com/Oblosys/react-lifecycle-visualizer) does for class components.
+The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-tracer) allows tracing function components to reveal the order of hook-function calls in an interactive trace-log component, and provides a live view of the component's props and state. The functionality is similar to what [`react-lifecycle-visualizer`](https://github.com/Oblosys/react-lifecycle-visualizer#readme) does for class components.
 
 <p align="center">
-  <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer?file=/src/Demo.tsx">
+  <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/main/apps/react-hook-tracer-demo?file=/src/Demo.tsx">
     <img
       alt="User-list demo screen capture"
       src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/master/images/user-list-demo.gif"
@@ -12,17 +12,17 @@ The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-trace
   </a>
 </p>
 
-Function components can be traced by importing the hooks from `react-hook-tracer` instead of `react`, and calling `useTracer()` at the the start of the function. A `HookPanel` component returned by `useTracer` can be included in the rendering to show the component's hooks, as well as its state and props. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `HookPanel`.
+Function components can be traced by importing the hooks from `react-hook-tracer` instead of `react`, and calling `useTracer()` at the the start of the function. The `useTracer` hook returns a `HookPanel` component that can be included in the rendering to show the component's hooks, as well as its state and props. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `HookPanel`.
 
 ### Demo
 
-The demo above is live on this [CodeSandbox playground](https://codesandbox.io/s/github/Oblosys/react-hook-tracer?file=/src/Demo.tsx), and can be run locally with:
+The demo above is live on this [CodeSandbox playground](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/main/apps/react-hook-tracer-demo?file=/src/Demo.tsx), and can be run locally with:
 
 ```sh
 > git clone git@github.com:Oblosys/react-hook-tracer
 > cd react-hook-tracer
-> npm install
-> npm start
+> yarn install
+> yarn start
 ```
 
 ### Setup
@@ -39,7 +39,7 @@ Install the package with npm (or yarn):
 
 #### Optionally disable React strict mode
 
-You may want to temporarily disable [React strict mode](https://reactjs.org/docs/strict-mode.html) by removing the `<React.StrictMode>` tags (typically in the root `index.tsx` or `index.jsx` file). In strict mode each component render is executed twice, and components are also mounted twice, which makes the log harder to read.
+You may want to temporarily disable [React strict mode](https://reactjs.org/docs/strict-mode.html) by removing the `<React.StrictMode>` tags (typically in the root `index.tsx` or `index.jsx` file). In development builds, strict mode executes each component render twice, and also mounts components twice, which makes the log harder to read.
 
 #### Include `TraceLog` component
 
@@ -73,7 +73,7 @@ const SomeComponent = (props: SomeComponentProps) => {
   ..
   return (
     <div>
-      // SomeComponent rendering
+      /* SomeComponent rendering */
       <HookPanel />
     </div>
   )
@@ -93,7 +93,7 @@ const SomeComponent = (props: SomeComponentProps) => {
   ..
   return (
     <div>
-      // SomeComponent rendering
+      /* SomeComponent rendering */
       <HookPanel />
     </div>
   )
