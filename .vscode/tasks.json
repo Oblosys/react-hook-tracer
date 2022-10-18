@@ -5,7 +5,7 @@
   "tasks": [
     {
       "type": "typescript",
-      "tsconfig": "tsconfig.json",
+      "tsconfig": "packages/react-hook-tracer/tsconfig.json",
       "option": "watch",
       "problemMatcher": ["$tsc-watch"],
       "group": {
