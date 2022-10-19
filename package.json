@@ -11,8 +11,12 @@
   ],
   "scripts": {
     "start": "yarn --silent start-app",
+    "build": "yarn --silent build-lib && yarn --silent build-app",
+    "lint-check": "yarn --silent lint-check-lib && yarn --silent lint-check-app",
+    "test": "yarn --silent test-lib && yarn --silent test-app",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check --write",
+    "build-app": "cd apps/react-hook-tracer-demo && yarn --silent build",
     "lint-check-app": "cd apps/react-hook-tracer-demo && yarn --silent lint-check",
     "lint-fix-app": "cd apps/react-hook-tracer-demo && yarn --silent lint-fix",
     "start-app": "cd apps/react-hook-tracer-demo && yarn --silent start",
@@ -23,6 +27,7 @@
     "lint-check-lib": "cd packages/react-hook-tracer && yarn --silent lint-check",
     "lint-fix-lib": "cd packages/react-hook-tracer && yarn --silent lint-fix",
     "pack-lib": "cd packages/react-hook-tracer && npm pack",
+    "prepublish-lib": "yarn --silent lint-check-app && yarn --silent test-app && yarn --silent build-app",
     "publish-lib": "cd packages/react-hook-tracer && npm publish",
     "test-lib": "cd packages/react-hook-tracer && yarn --silent test",
     "test-watch-lib": "cd packages/react-hook-tracer && yarn --silent test-watch"

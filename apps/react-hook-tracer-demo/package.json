@@ -12,11 +12,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "tsc",
     "eject": "react-scripts eject",
     "lint-check": "eslint --cache .",
     "lint-fix": "yarn --silent lint-check --fix",
-    "test": "react-scripts test"
+    "test": "react-scripts test --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
