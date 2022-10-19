@@ -1,0 +1,71 @@
+{
+  "name": "react-hook-tracer-demo",
+  "author": "Martijn Schrage (https://www.oblomov.com)",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo for the react-hook-tracer package",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "tsc",
+    "eject": "react-scripts eject",
+    "lint-check": "eslint --cache .",
+    "lint-fix": "yarn lint-check --fix",
+    "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
+    "prettier-fix": "yarn prettier-check --write",
+    "test": "react-scripts test",
+    "build-lib": "cd packages/react-hook-tracer && yarn --silent build",
+    "build-watch-lib": "cd packages/react-hook-tracer && yarn --silent build-watch",
+    "clean-lib": "cd packages/react-hook-tracer && yarn --silent clean",
+    "pack-lib": "cd packages/react-hook-tracer && npm pack",
+    "publish-lib": "cd packages/react-hook-tracer && npm publish",
+    "test-lib": "cd packages/react-hook-tracer && yarn --silent test",
+    "test-watch-lib": "cd packages/react-hook-tracer && yarn --silent test-watch"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-tracer": "0.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.8.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.1.1",
+    "@types/node": "^18.7.23",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "customize-cra": "^1.0.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "27.0.4",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "27.5.1",
+    "prettier": "^2.7.1",
+    "ts-jest": "27.1.5"
+  }
+}
