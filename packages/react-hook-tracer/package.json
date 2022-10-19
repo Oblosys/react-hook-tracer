@@ -1,7 +1,7 @@
 {
   "name": "react-hook-tracer",
   "author": "Martijn Schrage (https://www.oblomov.com)",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Light-weight tracer for React hooks",
   "license": "MIT",
   "keywords": [
