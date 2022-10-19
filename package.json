@@ -11,13 +11,17 @@
   ],
   "scripts": {
     "start": "yarn --silent start-app",
-    "start-app": "cd apps/react-hook-tracer-demo && yarn --silent start",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check --write",
+    "lint-check-app": "cd apps/react-hook-tracer-demo && yarn --silent lint-check",
+    "lint-fix-app": "cd apps/react-hook-tracer-demo && yarn --silent lint-fix",
+    "start-app": "cd apps/react-hook-tracer-demo && yarn --silent start",
     "test-app": "cd apps/react-hook-tracer-demo && yarn --silent test",
     "build-lib": "cd packages/react-hook-tracer && yarn --silent build",
     "build-watch-lib": "cd packages/react-hook-tracer && yarn --silent build-watch",
     "clean-lib": "cd packages/react-hook-tracer && yarn --silent clean",
+    "lint-check-lib": "cd packages/react-hook-tracer && yarn --silent lint-check",
+    "lint-fix-lib": "cd packages/react-hook-tracer && yarn --silent lint-fix",
     "pack-lib": "cd packages/react-hook-tracer && npm pack",
     "publish-lib": "cd packages/react-hook-tracer && npm publish",
     "test-lib": "cd packages/react-hook-tracer && yarn --silent test",
@@ -37,6 +41,14 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "27.1.3",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   }

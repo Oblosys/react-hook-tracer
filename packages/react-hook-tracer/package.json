@@ -35,7 +35,9 @@
     "postbuild": "cp src/components/*.css dist/components",
     "build-watch": "yarn --silent build --watch",
     "clean": "rm -rf dist && rm react-hook-tracer-*.tgz",
-    "prepack": "yarn --silent test && yarn --silent build",
+    "lint-check": "eslint . --cache .",
+    "lint-fix": "yarn --silent lint-check --fix",
+    "prepack": "yarn --silent lint-check && yarn --silent test && yarn --silent build",
     "test": "jest",
     "test-watch": "jest --watch"
   },
