@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useRef } from 'react'
 import { ShowProps, useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
 
@@ -11,17 +12,17 @@ export const Demo = () => (
   </div>
 )
 
-interface User {
+interface UserData {
   name: string
 }
 
-const showUsers = (users: User[]) => `Users [${users.map(({ name }) => name).join(', ')}]`
+const showUsers = (users: UserData[]) => `Users [${users.map(({ name }) => name).join(', ')}]`
 
 const demoUsers = [{ name: 'Ren' }, { name: 'Stimpy' }]
 
 const UserList = () => {
   const { trace, HookPanel } = useTracer()
-  const [users, setUsers] = useState<User[]>([], showUsers) // custom showState
+  const [users, setUsers] = useState<UserData[]>([], showUsers) // custom showState
   const [isFetching, setIsFetching] = useState(false)
 
   useEffect(() => {
