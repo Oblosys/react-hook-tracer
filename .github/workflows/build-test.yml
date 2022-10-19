@@ -1,0 +1,24 @@
+name: Build and run tests
+
+on: [push]
+
+jobs:
+  build-test:
+    name: Build and test package
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn
+      - run: yarn lint-check
+      - run: yarn build-lib
+      - run: yarn build-app
+      - run: yarn test-lib
+      - run: yarn test-app
