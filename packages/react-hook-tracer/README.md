@@ -1,4 +1,4 @@
-# React-hook-tracer [![npm version](https://badge.fury.io/js/react-hook-tracer.svg)](https://badge.fury.io/js/react-hook-tracer)
+# React-hook-tracer [![Npm version](https://img.shields.io/npm/v/react-hook-tracer.svg?style=flat)](https://www.npmjs.com/package/react-hook-tracer) [![Build status](https://img.shields.io/github/workflow/status/Oblosys/react-hook-tracer/Build%20and%20run%20tests/main)](https://github.com/Oblosys/react-hook-tracer/actions/workflows/build-test.yml?query=branch/main)
 
 The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-tracer) allows tracing function components to reveal the order of hook-function calls in an interactive trace-log component, and provides a live view of the component's props and state. The functionality is similar to what [`react-lifecycle-visualizer`](https://github.com/Oblosys/react-lifecycle-visualizer#readme) does for class components.
 
@@ -6,7 +6,7 @@ The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-trace
   <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/main/apps/react-hook-tracer-demo?file=/src/Demo.tsx">
     <img
       alt="User-list demo screen capture"
-      src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/master/images/user-list-demo.gif"
+      src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/user-list-demo.gif"
       width="600"
     />
   </a>
