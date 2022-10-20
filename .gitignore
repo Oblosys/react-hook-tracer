@@ -21,7 +21,7 @@
 
 # production
 /packages/react-hook-tracer/dist
-/packages/react-hook-tracer/react-hook-tracer-*.tgz
+/packages/react-hook-tracer/package.tgz
 
 # misc
 .DS_Store

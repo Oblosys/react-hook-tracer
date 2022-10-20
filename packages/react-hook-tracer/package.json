@@ -23,23 +23,23 @@
     "url": "https://github.com/Oblosys/react-hook-tracer/issues"
   },
   "files": [
-    "dist/*",
-    "!dist/*.test.*",
-    "src/*"
+    "dist/**/*",
+    "src/**/*",
+    "!**/*.test.*",
+    "!**/__mocks__/*"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "build": "tsc",
-    "postbuild": "cp src/components/*.css dist/components",
-    "build-watch": "yarn --silent build --watch",
-    "clean": "rm -rf dist && rm react-hook-tracer-*.tgz",
+    "build": "yarn copy-css && tsc",
+    "build-watch": "yarn build --watch",
+    "copy-css": "mkdir -p dist/components && cp src/components/*.css dist/components",
+    "clean": "rm -r dist 2>/dev/null || true && rm -f package.tgz 2>/dev/null || true",
     "lint-check": "eslint . --cache .",
-    "lint-fix": "yarn --silent lint-check --fix",
-    "prepack": "yarn --silent lint-check && yarn --silent test && yarn --silent build",
+    "lint-fix": "yarn lint-check --fix",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "yarn test --watch"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.19.0",
