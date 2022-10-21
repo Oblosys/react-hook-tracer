@@ -122,11 +122,11 @@ export const TraceLog = (): JSX.Element => {
   // Start/stop timer on state.isReplaying changes, and restart on state.replayTimerDelay changes.
   useEffect(() => {
     if (state.isReplaying) {
-      const replayTimerId = window.setInterval(() => {
+      const replayTimerId = setInterval(() => {
         dispatch({ type: 'step', direction: 1 })
       }, state.replayTimerDelay * 1000)
 
-      return () => window.clearInterval(replayTimerId)
+      return () => clearInterval(replayTimerId)
     }
   }, [state.replayTimerDelay, state.isReplaying])
 
