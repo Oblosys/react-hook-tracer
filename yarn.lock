@@ -11162,6 +11162,7 @@ __metadata:
     eslint-plugin-react: ^7.31.10
     eslint-plugin-react-hooks: ^4.6.0
     prettier: ^2.7.1
+    typescript: ^4.8.4
   languageName: unknown
   linkType: soft
 
