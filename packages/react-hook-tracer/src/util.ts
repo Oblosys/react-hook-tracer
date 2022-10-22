@@ -8,7 +8,7 @@ export const getObjectKeys = <Key extends string>(o: Record<Key, unknown>): Key[
 
 export const clip = (min: number, max: number, n: number) => Math.max(min, Math.min(n, max))
 
-// Type guard to narrow `value` to `T` if `values` is in `values`.
+// Type guard to narrow `value` to `T` if `value` is an element of `values`.
 export const isIncluded = <T extends Wide, Wide>(values: readonly T[], value: Wide): value is T =>
   includes(values, value)
 
