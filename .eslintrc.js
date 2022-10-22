@@ -14,6 +14,8 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'prettier',
   ],
+  ignorePatterns: ['/packages/*/dist/'],
+  root: true, // Prevents eslint from looking for config files in parent directories of project root.
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
