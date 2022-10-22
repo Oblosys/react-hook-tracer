@@ -1,3 +1,5 @@
+import * as util from './util'
+
 interface Observer<T> {
   id: number
   changeHandler: (value: T) => void
@@ -25,7 +27,9 @@ export class Observable<T> {
   }
 
   unsubscribe(id: number): void {
-    this.observers = this.observers.flatMap((observer) => (observer.id === id ? [] : [observer]))
+    this.observers = util.flatMap(this.observers, (observer) =>
+      observer.id === id ? [] : ([observer] as const),
+    )
   }
 
   setValue(value: T) {

@@ -5,12 +5,6 @@
     /* Basic Options */
     // "incremental": true,                         /* Enable incremental compilation */
     "target": "es2015", //                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', or 'ESNEXT'. */
-    // Unfortunately, target 'es2015' does not guarantee features from next versions will trigger errors, because (transitive) dependencies
-    // can import libs globally. Currently, @testing-library/react transitively imports @types/node@16.10.3:
-    //   @testing-library/react@12.1.2 -> @testing-library/dom@8.7.2 -> pretty-format@27.2.5 -> @jest/types@27.2.5 -> @types/node@16.10.3
-    // And since @types/node@16.10.3 imports 'es2020', 'esnext.asynciterable', 'esnext.intl', and 'esnext.bigint', features that require
-    // polyfilling may accidentally end up in the code :-(
-
     "module": "es2015", //                          /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     // "lib": [], //                                /* Specify library files to be included in the compilation. */
     // "allowJs": true, //                          /* Allow javascript files to be compiled. */

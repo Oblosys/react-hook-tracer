@@ -1,15 +1,17 @@
 import { prettyDOM, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import * as util from '../util'
+
 export const setupUser = () => userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
 
 export const getPanelProps = (): string[] =>
-  [...screen.queryAllByTestId('prop')].flatMap(({ textContent }) =>
+  util.flatMap(screen.queryAllByTestId('prop'), ({ textContent }) =>
     textContent ? [textContent] : [],
   )
 
 export const getPanelTraceOrigins = (): string[] =>
-  [...screen.queryAllByTestId('trace-origin')].flatMap(({ textContent }) =>
+  util.flatMap(screen.queryAllByTestId('trace-origin'), ({ textContent }) =>
     textContent ? [textContent] : [],
   )
 

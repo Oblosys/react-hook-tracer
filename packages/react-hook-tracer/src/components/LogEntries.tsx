@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef } from 'react'
 
 import * as types from '../types'
+import * as util from '../util'
 
 interface LogEntriesProps {
   logEntries: types.LogEntry[]
@@ -34,7 +35,7 @@ export const LogEntries = ({
               key={index}
               index={index}
               entry={entry}
-              isTraced={tracedComponentLabels.includes(entry.label)}
+              isTraced={util.includes(tracedComponentLabels, entry.label)}
               isHighlighted={index === highlightedIndex}
               setHighlightedIndex={setHighlightedIndex}
             />
