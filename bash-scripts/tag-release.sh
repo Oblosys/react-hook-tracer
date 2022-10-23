@@ -38,7 +38,10 @@ then
   # Bump version in package.json:
   sed -i '' -e "s/\(\"version\": *\"\).*\(\".*\)$/\1${newVersion}\2/" "${packageJsonPath}"
 
-  git add "${packageJsonPath}"
+  # Run yarn to update yarn.lock
+  yarn
+
+  git add --all
   git commit -m "Release ${newVersion}"
   git tag -a "v${newVersion}" -m "Release ${newVersion}"
 else
