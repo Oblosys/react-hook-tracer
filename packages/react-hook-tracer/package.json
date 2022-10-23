@@ -11,8 +11,9 @@
     "debugging",
     "spy"
   ],
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oblosys/react-hook-tracer.git",
@@ -23,8 +24,11 @@
     "url": "https://github.com/Oblosys/react-hook-tracer/issues"
   },
   "files": [
-    "dist/**/*",
-    "src/**/*",
+    "dist/cjs/index.js",
+    "dist/cjs/index.js.map",
+    "dist/esm/index.js",
+    "dist/esm/index.js.map",
+    "dist/esm/**/*",
     "!**/*.test.*",
     "!**/__mocks__/*"
   ],
