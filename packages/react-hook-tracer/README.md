@@ -22,6 +22,7 @@ The demo above is live on this [CodeSandbox playground](https://codesandbox.io/s
 > git clone git@github.com:Oblosys/react-hook-tracer
 > cd react-hook-tracer
 > yarn install
+> yarn build-lib
 > yarn start
 ```
 
@@ -106,21 +107,21 @@ Note that `useTracer` also returns a function `trace: (message: string) => void`
 
 ### Trace-log message overview (WIP)
 
-| Hook          | Phase     | Appearance in trace log
-|---------------|-----------|------------------------
-| `state`       | `init`    | On the first render, at the `useState` call.
-|               | `set`     | When setting the state to a value.
-|               | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`).
-| `useEffect`   | `init`    | On the first render, at the `useEffect` call.
-|               | `run`     | Before the effect runs.
-|               | `cleanup` | Before the effect's cleanup function gets called.
-| `useCallback` | `init`    | On the first render, at the `useCallback` call.
-|               | `run`     | When the callback gets called
-|               | `refresh` | When a new callback is created due to changes in the dependencies.
+| Hook          | Phase     | Appearance in trace log                                                           |
+| ------------- | --------- | --------------------------------------------------------------------------------- |
+| `state`       | `init`    | On the first render, at the `useState` call.                                      |
+|               | `set`     | When setting the state to a value.                                                |
+|               | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`). |
+| `useEffect`   | `init`    | On the first render, at the `useEffect` call.                                     |
+|               | `run`     | Before the effect runs.                                                           |
+|               | `cleanup` | Before the effect's cleanup function gets called.                                 |
+| `useCallback` | `init`    | On the first render, at the `useCallback` call.                                   |
+|               | `run`     | When the callback gets called                                                     |
+|               | `refresh` | When a new callback is created due to changes in the dependencies.                |
 
-| Event     | Appearance in trace log
-|-----------|------------------------
-| `mount`   | When the component mounts.
-| `render`  | At the start of each render.
-| `trace`   | When the custom `trace` function gets called.
-| `unmount` | Just before the component unmounts (may be followed by `effect` cleanup messages).
+| Event     | Appearance in trace log                                                            |
+| --------- | ---------------------------------------------------------------------------------- |
+| `mount`   | When the component mounts.                                                         |
+| `render`  | At the start of each render.                                                       |
+| `trace`   | When the custom `trace` function gets called.                                      |
+| `unmount` | Just before the component unmounts (may be followed by `effect` cleanup messages). |
