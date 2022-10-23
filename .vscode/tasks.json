@@ -6,8 +6,9 @@
     {
       // The default `"type": "typescript"` task does not respect `"typescript.tsdk": ".yarn/sdks/typescript/lib"` in
       // settings.json (created by `yarn dlx @yarnpkg/sdks vscode`), so we just run the yarn build-watch script instead.
+      // NOTE: This task only type checks.
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
-      "script": "build-watch",
+      "script": "type-check-watch",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/packages/react-hook-tracer"
@@ -28,7 +29,26 @@
       "presentation": {
         "revealProblems": "always" // Prevents VSCode opening the Terminal tab on startup.
       },
-      "label": "packages/react-hook-tracer - yarn run build-watch"
+      "label": "yarn run type-check-watch - packages/react-hook-tracer"
+    },
+    {
+      // Build the package in the background.
+      "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
+      "script": "build-watch",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/react-hook-tracer"
+      },
+      "group": {
+        "kind": "build",
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "revealProblems": "always" // Prevents VSCode opening the Terminal tab on startup.
+      },
+      "label": "yarn run build-watch - packages/react-hook-tracer"
     }
   ]
 }
