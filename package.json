@@ -30,7 +30,9 @@
     "pre-pack-publish": "yarn lint-check && yarn test && yarn build",
     "publish-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer pack",
     "test-lib": "yarn workspace react-hook-tracer test",
-    "test-watch-lib": "yarn workspace react-hook-tracer test-watch"
+    "test-watch-lib": "yarn workspace react-hook-tracer test-watch",
+    "type-check-lib": "yarn workspace react-hook-tracer type-check",
+    "type-check-watch-lib": "yarn workspace react-hook-tracer type-check-watch"
   },
   "browserslist": {
     "production": [

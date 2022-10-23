@@ -32,14 +32,16 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "build": "yarn copy-css && tsc",
-    "build-watch": "yarn build --watch",
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build-watch": "yarn build --watch --configIncludeDeclarationMap",
     "copy-css": "mkdir -p dist/components && cp src/components/*.css dist/components",
     "clean": "rm -r dist 2>/dev/null || true && rm -f package.tgz 2>/dev/null || true",
     "lint-check": "eslint . --cache .",
     "lint-fix": "yarn lint-check --fix",
     "test": "jest",
-    "test-watch": "yarn test --watch"
+    "test-watch": "yarn test --watch",
+    "type-check": "tsc",
+    "type-check-watch": "yarn type-check --watch"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.2",
