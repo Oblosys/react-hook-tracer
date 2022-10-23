@@ -27,6 +27,7 @@
     "clean-lib": "yarn workspace react-hook-tracer clean",
     "lint-check-lib": "yarn workspace react-hook-tracer lint-check",
     "lint-fix-lib": "yarn workspace react-hook-tracer lint-fix",
+    "login": "yarn workspace react-hook-tracer npm login --publish",
     "pack-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer pack -o 'dist/%s@%v.tgz'",
     "pre-pack-publish": "yarn prettier-check && yarn lint-check && yarn clean && yarn build && yarn test",
     "publish-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer npm publish",
