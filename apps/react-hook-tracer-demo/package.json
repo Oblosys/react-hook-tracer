@@ -39,7 +39,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-tracer": "0.3.0"
+    "react-hook-tracer": "0.4.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.19.0",

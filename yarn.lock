@@ -11382,7 +11382,7 @@ __metadata:
     eslint-config-react-app: ^7.0.1
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-hook-tracer: 0.3.0
+    react-hook-tracer: 0.4.0
     react-scripts: 5.0.1
     typescript: ^4.8.4
   languageName: unknown
@@ -11407,17 +11407,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-hook-tracer@npm:0.3.0":
-  version: 0.3.0
-  resolution: "react-hook-tracer@npm:0.3.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 375aeb8f4d86578fff4a54da1b40938e972059fce5cd300185d087090f7a823839805564e111a8f505f308b155f3ed1b10f31703ad58adab3ace13551f9a1210
-  languageName: node
-  linkType: hard
-
-"react-hook-tracer@workspace:packages/react-hook-tracer":
+"react-hook-tracer@0.4.0, react-hook-tracer@workspace:packages/react-hook-tracer":
   version: 0.0.0-use.local
   resolution: "react-hook-tracer@workspace:packages/react-hook-tracer"
   dependencies:
