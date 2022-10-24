@@ -79,10 +79,11 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
         props={pendingPropsRef.current} // Changes on prop changes, but only happens on component render.
         showPropValue={showPropValue}
         traceOrigins={traceOriginsRef.current} // Mutable, will contain correct values before TracePanel is rendered.
+        refreshTracePanelRef={componentInfo.refreshTracePanelRef} // Mutable, will be set by TracePanel on render.
       />
     ),
     //
-    [componentLabel, showPropValue],
+    [componentInfo, componentLabel, showPropValue],
   )
 
   // NOTE: TracePanel must be used directly inside the rendering of the traced component.

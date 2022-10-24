@@ -94,6 +94,7 @@ const mkComponentInfoForComponentName = (name: string): ComponentInfo => {
     id,
     componentLabel: `${name}-${id}`,
     nextHookIndex: 0,
+    refreshTracePanelRef: { current: null },
     traceOrigins: mkTraceOrigins(),
   }
 }

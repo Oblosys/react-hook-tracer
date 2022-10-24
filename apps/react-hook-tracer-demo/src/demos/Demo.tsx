@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useRef } from 'react'
-import { useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
+import { useCallback, useEffect, useRef, useState, useTracer } from 'react-hook-tracer'
 
 import { SimpleButton } from '../SimpleButton'
 
@@ -28,7 +27,7 @@ const UserList = () => {
     }, 2000)
   }, [trace])
 
-  const newUserIdRef = useRef(1)
+  const newUserIdRef = useRef(1, { label: 'newUserId' })
 
   const addUser = () => {
     setUsers((users) => [...users, 'New-' + newUserIdRef.current])
@@ -56,7 +55,6 @@ const UserList = () => {
               onClick={() => {
                 newUserIdRef.current += 1
               }}
-              isDisabled={users.length === 0}
               value="inc newUserId"
             />
           </div>

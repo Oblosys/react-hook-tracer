@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { MutableRefObject, useCallback, useEffect, useState } from 'react'
 
 import { tracer } from '../Tracer'
 import { LogEntry, TraceOrigin, TraceOrigins } from '../types'
@@ -12,14 +12,21 @@ interface TracePanelProps {
   showPropValue: (propKey: string, propValue: unknown) => string
   // NOTE: traceOrigins is stable object that is mutated while rendering (i.e while evaluating function-component body).
   traceOrigins: TraceOrigins
+  refreshTracePanelRef: MutableRefObject<(() => void) | null>
 }
 export const TracePanel = ({
   componentLabel,
   props,
   showPropValue,
   traceOrigins,
+  refreshTracePanelRef,
 }: TracePanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
+
+  const [, setRefreshDummy] = useState([])
+  const refreshTracePanel = useCallback(() => setRefreshDummy(() => []), [])
+
+  refreshTracePanelRef.current = refreshTracePanel
 
   useEffect(() => {
     const listenerId = tracer.subscribeSelectedEntry((value) =>

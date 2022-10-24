@@ -1,3 +1,5 @@
+import { MutableRefObject } from 'react'
+
 export type AssertNever<_T extends never> = never
 
 export interface ComponentInfo {
@@ -5,6 +7,7 @@ export interface ComponentInfo {
   id: number
   componentLabel: string
   nextHookIndex: number // Mutable property
+  refreshTracePanelRef: MutableRefObject<(() => void) | null>
   traceOrigins: TraceOrigins // Mutable object
 }
 
@@ -17,7 +20,7 @@ export interface TraceOrigins {
 }
 
 type LifecycleEvent = 'mount' | 'render' | 'trace' | 'unmount'
-export type HookType = 'callback' | 'effect' | 'insertion' | 'layout' | 'state'
+export type HookType = 'callback' | 'effect' | 'insertion' | 'layout' | 'ref' | 'state'
 
 export type TraceOriginType = LifecycleEvent | HookType
 
