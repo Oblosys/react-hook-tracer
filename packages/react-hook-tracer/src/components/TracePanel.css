@@ -1,4 +1,4 @@
-.hook-panel {
+.trace-panel {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   font-size: 13px;
   align-self: flex-start; /* to prevent stretching when parent is flex */
@@ -13,7 +13,7 @@
   margin-bottom: 2px;
 }
 
-.hook-panel .component-label {
+.trace-panel .component-label {
   color: #fff;
   background-color: #666;
   display: flex;
@@ -21,44 +21,44 @@
   align-items: center;
 }
 
-.hook-panel .props {
+.trace-panel .props {
   border-top: solid 1px #666;
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 4px;
   padding-right: 4px;
 }
-.hook-panel .prop-key {
+.trace-panel .prop-key {
   font-weight: bolder;
   margin-right: 2px;
 }
-.hook-panel .prop-value {
+.trace-panel .prop-value {
   margin-left: 2px;
 }
 
-.hook-panel .trace-origins {
+.trace-panel .trace-origins {
   border-top: solid 1px #666;
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.hook-panel .trace-origins > * {
+.trace-panel .trace-origins > * {
   padding-left: 4px;
   padding-right: 4px;
 }
 
-.hook-panel .trace-origin[data-is-highlighted='false'] {
+.trace-panel .trace-origin[data-is-highlighted='false'] {
   background-color: inherit;
   transition: background-color 0.05s;
 }
-.hook-panel .trace-origin[data-is-highlighted='true'] {
+.trace-panel .trace-origin[data-is-highlighted='true'] {
   background-color: yellow;
 }
 
-.hook-panel .origin-type::before {
+.trace-panel .origin-type::before {
   content: '-';
   padding-right: 1px;
   font-style: italic;
 }
-.hook-panel .origin-type {
+.trace-panel .origin-type {
   font-style: italic;
 }

@@ -21,7 +21,7 @@ const showUsers = (users: UserData[]) => `Users [${users.map(({ name }) => name)
 const demoUsers = [{ name: 'Ren' }, { name: 'Stimpy' }]
 
 const UserList = () => {
-  const { trace, HookPanel } = useTracer()
+  const { trace, TracePanel } = useTracer()
   const [users, setUsers] = useState<UserData[]>([], showUsers) // custom showState
   const [isFetching, setIsFetching] = useState(false)
 
@@ -49,7 +49,7 @@ const UserList = () => {
 
   return (
     <div className="user-list">
-      <HookPanel />
+      <TracePanel />
       <div className="user-list-details">
         <b>User list (#users: {users.length}):</b>
         <div className="spacer"></div>
@@ -76,11 +76,11 @@ interface UserProps {
   deleteUser: (name: string) => void
 }
 const User = ({ name, deleteUser }: UserProps) => {
-  const { HookPanel } = useTracer({ showProps }) // use showProps for another prop?
+  const { TracePanel } = useTracer({ showProps }) // use showProps for another prop?
   const [clickCount, setClickCount] = useState(0)
   return (
     <div className="user">
-      <HookPanel />
+      <TracePanel />
       <div className="user-details">
         {name} (clicks: {clickCount}) <div className="spacer"></div>
         <SimpleButton onClick={() => setClickCount((n) => n + 1)} value="click" />

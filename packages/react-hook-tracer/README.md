@@ -12,7 +12,7 @@ The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-trace
   </a>
 </p>
 
-Function components can be traced by importing the hooks from `react-hook-tracer` instead of `react`, and calling `useTracer()` at the the start of the function. The `useTracer` hook returns a `HookPanel` component that can be included in the rendering to show the component's hooks, as well as its state and props. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `HookPanel`.
+Function components can be traced by importing the hooks from `react-hook-tracer` instead of `react`, and calling `useTracer()` at the the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as its state and props. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`.
 
 ### Demo
 
@@ -69,13 +69,13 @@ import { .. /* useCallback, useEffect, useState, */ .. } from 'react'
 import { useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
 ..
 const SomeComponent = (props: SomeComponentProps) => {
-  const { trace, HookPanel } = useTracer()
+  const { trace, TracePanel } = useTracer()
   const [n, setN] = useState(0)
   ..
   return (
     <div>
       /* SomeComponent rendering */
-      <HookPanel />
+      <TracePanel />
     </div>
   )
 }
@@ -89,13 +89,13 @@ import { useTracer } from 'react-hook-tracer'
 import * as traced from 'react-hook-tracer'
 ..
 const SomeComponent = (props: SomeComponentProps) => {
-  const { trace, HookPanel } = useTracer()
+  const { trace, TracePanel } = useTracer()
   const [n, setN] = traced.useState(0)
   ..
   return (
     <div>
       /* SomeComponent rendering */
-      <HookPanel />
+      <TracePanel />
     </div>
   )
 }

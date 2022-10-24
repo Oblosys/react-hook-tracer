@@ -4,16 +4,16 @@ import { tracer } from '../Tracer'
 import { LogEntry, TraceOrigin, TraceOrigins } from '../types'
 import * as util from '../util'
 
-import './HookPanel.css'
+import './TracePanel.css'
 
-interface HookPanelProps {
+interface TracePanelProps {
   label: string
   props: Record<string, unknown>
   showPropValue: (propKey: string, propValue: unknown) => string
   // NOTE: traceOrigins is stable object that is mutated while rendering (i.e while evaluating function-component body).
   traceOrigins: TraceOrigins
 }
-export const HookPanel = ({ label, props, showPropValue, traceOrigins }: HookPanelProps) => {
+export const TracePanel = ({ label, props, showPropValue, traceOrigins }: TracePanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const HookPanel = ({ label, props, showPropValue, traceOrigins }: HookPan
   const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace, unmount]
 
   return (
-    <div className="hook-panel" data-testid="hook-panel">
+    <div className="trace-panel" data-testid="trace-panel">
       <div className="component-label">
         <div>{label}</div>
       </div>

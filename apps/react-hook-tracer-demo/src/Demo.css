@@ -10,8 +10,8 @@
   display: flex;
   flex-direction: column;
 }
-.user-list > .hook-panel {
-  width: 300px; /* Override hook-panel width */
+.user-list > .trace-panel {
+  width: 300px; /* Override trace-panel width */
 }
 
 .user-list-details {

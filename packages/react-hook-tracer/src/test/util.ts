@@ -27,17 +27,17 @@ export const getLogEntries = (): Record<'label' | 'origin' | 'message', string>[
 
 const showDebugLabel = (debugLabel?: string) => (debugLabel ? ` (${debugLabel})` : '')
 
-// Console-log hook-panel trace-origins for debugging.
+// Console-log trace-panel trace-origins for debugging.
 export const debugShowPanelTraceOrigins = (debugLabel?: string) => {
   // eslint-disable-next-line no-console
   console.log(`Panel trace origins${showDebugLabel(debugLabel)}:`, getPanelTraceOrigins())
 }
 
-// Console-log hook-panel trace-origins DOM for debugging.
+// Console-log trace-panel trace-origins DOM for debugging.
 export const debugShowPanelTraceOriginsDom = (debugLabel?: string) => {
   // eslint-disable-next-line no-console
   console.log(
     `Panel trace origins${showDebugLabel(debugLabel)}:`,
-    prettyDOM(screen.getByTestId('hook-panel')),
+    prettyDOM(screen.getByTestId('trace-panel')),
   )
 }

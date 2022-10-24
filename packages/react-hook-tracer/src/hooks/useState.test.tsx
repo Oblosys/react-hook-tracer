@@ -9,13 +9,13 @@ import { useTracer } from './useTracer'
 test('handles setState', async () => {
   const user = setupUser()
   const Test = () => {
-    const { HookPanel } = useTracer()
+    const { TracePanel } = useTracer()
     const [n, setN] = useState(42)
     return (
       <div>
         <span data-testid="state">{n}</span>
         <input type="button" value="inc" onClick={() => setN((n) => n + 1)} />
-        <HookPanel />
+        <TracePanel />
         <TraceLog />
       </div>
     )
@@ -42,9 +42,9 @@ test('handles setState', async () => {
 
 test('allows initial state thunk', () => {
   const Test = () => {
-    const { HookPanel } = useTracer()
+    const { TracePanel } = useTracer()
     useState(() => 42)
-    return <HookPanel />
+    return <TracePanel />
   }
 
   render(<Test />)
@@ -53,9 +53,9 @@ test('allows initial state thunk', () => {
 
 test('allows absent initial state', () => {
   const Test = () => {
-    const { HookPanel } = useTracer()
+    const { TracePanel } = useTracer()
     useState()
-    return <HookPanel />
+    return <TracePanel />
   }
 
   render(<Test />)
@@ -64,9 +64,9 @@ test('allows absent initial state', () => {
 
 test('supports custom showState', () => {
   const Test = () => {
-    const { HookPanel } = useTracer()
+    const { TracePanel } = useTracer()
     useState({ p: 42 }, (s) => `[${s.p}]`)
-    return <HookPanel />
+    return <TracePanel />
   }
 
   render(<Test />)

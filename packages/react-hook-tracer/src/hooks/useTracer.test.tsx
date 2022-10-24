@@ -7,17 +7,17 @@ import { useEffect } from './useEffect'
 import { useState } from './useState'
 import { useTracer } from './useTracer'
 
-test('renders HookPanel', () => {
+test('renders TracePanel', () => {
   const Test = () => {
-    const { HookPanel } = useTracer()
+    const { TracePanel } = useTracer()
     useState()
     useEffect(() => {}, [])
     useCallback(() => {}, [])
-    return <HookPanel />
+    return <TracePanel />
   }
 
   render(<Test />)
-  const label = screen.getByTestId('hook-panel').querySelector('.component-label')
+  const label = screen.getByTestId('trace-panel').querySelector('.component-label')
   expect(label).toHaveTextContent('Test-1')
 
   // TODO: Log
@@ -32,11 +32,11 @@ test('renders HookPanel', () => {
   ])
 })
 
-test('shows props in HookPanel', () => {
+test('shows props in TracePanel', () => {
   const Parent = () => <Test n={42} f={() => {}} />
   const Test = (_props: { n: number; f: () => void }) => {
-    const { HookPanel } = useTracer()
-    return <HookPanel />
+    const { TracePanel } = useTracer()
+    return <TracePanel />
   }
 
   render(<Parent />)

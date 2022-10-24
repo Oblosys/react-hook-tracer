@@ -14,7 +14,7 @@ export type TraceOriginType = 'mount' | 'render' | 'trace' | 'unmount' | HookTyp
 
 export interface TraceOrigin {
   originType: TraceOriginType
-  info: string | null // Mutable property. Is shown next to the originType in the HookPanel (e.g. for current state).
+  info: string | null // Mutable property. Is shown next to the originType in the TracePanel (e.g. for current state).
 }
 export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
   originType,

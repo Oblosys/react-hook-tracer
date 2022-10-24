@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
-import { HookPanel } from '../components/HookPanel'
+import { TracePanel } from '../components/TracePanel'
 import { ShowProps } from '../types'
 import * as util from '../util'
 
@@ -12,7 +12,7 @@ export interface UseTracerOptions {
 export interface UseTracer {
   label: string
   trace: (message: string) => void
-  HookPanel: () => JSX.Element
+  TracePanel: () => JSX.Element
 }
 
 const mkShowPropValue: (showProps?: ShowProps) => (propKey: string, propValue: unknown) => string =
@@ -56,26 +56,26 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
     [label, componentInfo.traceOrigins.trace],
   )
 
-  // Refs to pass props and traceOrigins to WrappedHookPanel.
+  // Refs to pass props and traceOrigins to WrappedTracePanel.
   const pendingPropsRef = useRef(pendingProps)
   pendingPropsRef.current = pendingProps
   const traceOriginsRef = useRef(componentInfo.traceOrigins)
   traceOriginsRef.current = componentInfo.traceOrigins
 
   // useCallback guarantees stable component that only remounts if user-specified showPropValue changes.
-  const WrappedHookPanel = useCallback(
+  const WrappedTracePanel = useCallback(
     () => (
-      <HookPanel
+      <TracePanel
         label={label} // Constant
         props={pendingPropsRef.current} // Changes on prop changes, but only happens on component render.
         showPropValue={showPropValue}
-        traceOrigins={traceOriginsRef.current} // Mutable, will contain correct values before HookPanel is rendered.
+        traceOrigins={traceOriginsRef.current} // Mutable, will contain correct values before TracePanel is rendered.
       />
     ),
     //
     [label, showPropValue],
   )
 
-  // NOTE: HookPanel must be used directly inside the rendering of the traced component.
-  return { label, trace, HookPanel: WrappedHookPanel }
+  // NOTE: TracePanel must be used directly inside the rendering of the traced component.
+  return { label, trace, TracePanel: WrappedTracePanel }
 }
