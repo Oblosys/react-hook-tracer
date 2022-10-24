@@ -5,7 +5,8 @@
 
 set -o errexit -o pipefail
 
-packageJsonPath="packages/react-hook-tracer/package.json"
+libPackageJsonPath="packages/react-hook-tracer/package.json"
+demoPackageJsonPath="apps/react-hook-tracer-demo/package.json"
 
 if [[ !($1 =~ ^major|minor|patch$) ]]; then
 echo "Usage: tag-release.sh [major|minor|patch]"
@@ -21,7 +22,7 @@ echo "${gitStatus}"
 exit 1
 fi
 
-if [[ `cat ${packageJsonPath}` =~ .*\"version\":\ *\"([0-9]+)\.([0-9]+)\.([0-9]+)\" ]]
+if [[ `cat ${libPackageJsonPath}` =~ .*\"version\":\ *\"([0-9]+)\.([0-9]+)\.([0-9]+)\" ]]
 then
   vMajor=${BASH_REMATCH[1]}
   vMinor=${BASH_REMATCH[2]}
@@ -35,8 +36,9 @@ then
   newVersion=$vMajorNew.$vMinorNew.$vPatchNew
   echo "Bumping version from ${vMajor}.${vMinor}.${vPatch} to ${newVersion}"
 
-  # Bump version in package.json:
-  sed -i '' -e "s/\(\"version\": *\"\).*\(\".*\)$/\1${newVersion}\2/" "${packageJsonPath}"
+  # Bump version in both lib & demo package.json files:
+  sed -i '' -e "s/\(\"version\": *\"\).*\(\".*\)$/\1${newVersion}\2/" "${libPackageJsonPath}"
+  sed -i '' -e "s/\(\"react-hook-tracer\": *\"[\^~]\{0,1\}\).*\(\".*\)$/\1${newVersion}\2/" "${demoPackageJsonPath}"
 
   # Run yarn to update yarn.lock
   yarn
@@ -45,6 +47,6 @@ then
   git commit -m "Release ${newVersion}"
   git tag -a "v${newVersion}" -m "Release ${newVersion}"
 else
-  echo "ERROR: No \"version\" found in ${packageJsonPath}"
+  echo "ERROR: No \"version\" found in ${libPackageJsonPath}"
   exit 1
 fi
