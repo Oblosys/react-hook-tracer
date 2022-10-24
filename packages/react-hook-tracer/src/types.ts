@@ -1,5 +1,13 @@
 export type AssertNever<_T extends never> = never
 
+export interface ComponentInfo {
+  name: string
+  id: number
+  label: string
+  nextHookIndex: number // Mutable property
+  traceOrigins: TraceOrigins // Mutable object
+}
+
 export interface TraceOrigins {
   mount: TraceOrigin
   render: TraceOrigin

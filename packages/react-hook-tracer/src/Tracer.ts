@@ -1,4 +1,5 @@
 import { Observable } from './Observable'
+import * as reactDevTools from './reactDevTools'
 import { LogEntry, TraceOrigin } from './types'
 
 export class Tracer {
@@ -79,6 +80,11 @@ export class Tracer {
   trace(label: string, origin: TraceOrigin, message: string, phase: string): void
   trace(entry: LogEntry): void
   trace(...args: TraceArgs): void {
+    if (reactDevTools.getIsRenderedByDevTools()) {
+      // Silence any traces emitted during a React DevTools shallow render.
+      return
+    }
+
     const { label, origin, message, phase } =
       args.length === 1
         ? args[0]

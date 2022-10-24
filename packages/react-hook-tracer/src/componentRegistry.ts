@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { HookType, TraceOrigin, TraceOrigins, mkTraceOrigin } from './types'
-
+import * as reactDevTools from './reactDevTools'
+import { ComponentInfo, HookType, TraceOrigin, TraceOrigins, mkTraceOrigin } from './types'
 declare module 'react' {
   const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
     ReactCurrentOwner: { current: FiberNode | null }
@@ -58,21 +58,16 @@ export const resetNextComponentIds = () => {
   }
 }
 
-export interface ComponentInfo {
-  name: string
-  id: number
-  label: string
-  nextHookIndex: number // Mutable property
-  traceOrigins: TraceOrigins // Mutable object
-}
-
 const componentInfoMap = new WeakMap<FiberNode, ComponentInfo>()
 
 export const isCurrentComponentTraced = (): boolean => {
+  if (reactDevTools.getIsRenderedByDevTools()) {
+    return reactDevTools.getIsRenderingTracedComponent()
+  }
+
   const currentOwner = getCurrentOwner()
 
   if (currentOwner === null) {
-    // TODO: Throwing here causes errors in React Developer Tools.
     throw new Error('isComponentTraced: no current owner')
   } else {
     return (
@@ -90,8 +85,7 @@ const mkTraceOrigins = (): TraceOrigins => ({
   hooks: [],
 })
 
-const mkComponentInfo = (currentOwner: FiberNode) => {
-  const name = currentOwner.type.name
+const mkComponentInfo = (name: string) => {
   const id = getFreshIdForName(name)
   return {
     name,
@@ -102,6 +96,10 @@ const mkComponentInfo = (currentOwner: FiberNode) => {
     traceOrigins: mkTraceOrigins(),
   }
 }
+
+const mkDummyComponentInfo = () => mkComponentInfo('DevTools-Shallow-Rendered')
+
+const mkComponentInfoForFiber = (currentOwner: FiberNode) => mkComponentInfo(currentOwner.type.name)
 
 const getComponentInfo = (currentOwner: FiberNode): ComponentInfo => {
   const componentInfo = componentInfoMap.get(currentOwner)
@@ -117,13 +115,18 @@ const getComponentInfo = (currentOwner: FiberNode): ComponentInfo => {
     }
 
     // Component was not registered, and either had no alternate or alternate wasn't registered.
-    const newComponentInfo = mkComponentInfo(currentOwner)
+    const newComponentInfo = mkComponentInfoForFiber(currentOwner)
     componentInfoMap.set(currentOwner, newComponentInfo)
     return newComponentInfo
   }
 }
 
 const getCurrentComponentInfoOrThrow = (message: string): ComponentInfo => {
+  if (reactDevTools.getIsRenderedByDevTools()) {
+    // Return the dummy componentInfo if the component is being rendered by React DevTools.
+    return reactDevTools.getCurrentComponentInfo()
+  }
+
   const currentOwner = getCurrentOwner()
   if (currentOwner === null) {
     throw new Error(message)
@@ -143,10 +146,18 @@ export const getCurrentComponentLabel = (): string => {
 }
 
 export const registerCurrentComponent = (): ComponentInfo => {
-  // TODO: Throwing here causes errors in React Developer Tools.
+  if (reactDevTools.getIsRenderedByDevTools()) {
+    // If the component is being rendered by React DevTools, create a dummy ComponentInfo to be used by subsequent
+    // traced hook calls, and mark that we're currently shallow-rendering a traced component (mark will get cleared
+    // after render).
+    const componentInfo = mkDummyComponentInfo()
+    reactDevTools.setCurrentComponentInfo(componentInfo)
+    reactDevTools.setIsDevToolsRenderingTracedComponent()
+    return componentInfo
+  }
   const componentInfo = getCurrentComponentInfoOrThrow('registerComponent: no current owner')
 
-  componentInfo.nextHookIndex = 0
+  componentInfo.nextHookIndex = 0 // Reset nextHookIndex
 
   return componentInfo
 }
