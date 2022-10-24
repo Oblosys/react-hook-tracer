@@ -16,9 +16,10 @@ export interface TraceOrigins {
   hooks: TraceOrigin[]
 }
 
+type LifecycleEvent = 'mount' | 'render' | 'trace' | 'unmount'
 export type HookType = 'callback' | 'effect' | 'insertion' | 'layout' | 'state'
 
-export type TraceOriginType = 'mount' | 'render' | 'trace' | 'unmount' | HookType
+export type TraceOriginType = LifecycleEvent | HookType
 
 export interface TraceOrigin {
   originType: TraceOriginType

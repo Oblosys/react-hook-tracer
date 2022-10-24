@@ -35,15 +35,24 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
 
   if (!isInitialized.current) {
     isInitialized.current = true
-    tracer.trace(label, componentInfo.traceOrigins.mount)
+    tracer.trace(label, componentInfo.traceOrigins.mount, 'mounting')
   }
 
-  // Effect with empty dependencies to track component unmount
+  // UseLayoutEffect is the most appropriate hook to report when a component has mounted.
+  // (See https://reactjs.org/docs/hooks-reference.html#uselayouteffect)
+  React.useLayoutEffect(
+    () => {
+      tracer.trace(label, componentInfo.traceOrigins.mount, 'mounted')
+    },
+    [label, componentInfo.traceOrigins.mount], // TODO: Maybe just ignore? Don't change anyway.
+  )
+
+  // Effect with empty dependencies to track component unmount on cleanup.
   React.useEffect(
     () => () => {
       tracer.trace(label, componentInfo.traceOrigins.unmount)
     },
-    [label, componentInfo.traceOrigins.unmount], // TODO: Maybe just ignore? Don't change anyway.
+    [label, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount],
   )
 
   const pendingProps = componentRegistry.getCurrentOwner()?.pendingProps ?? {}
