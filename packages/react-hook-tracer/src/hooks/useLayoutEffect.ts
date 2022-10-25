@@ -19,13 +19,13 @@ const useLayoutEffectTraced = (
   deps?: React.DependencyList,
 ): void => {
   const traceOrigin = componentRegistry.registerHook('layout')
-  const label = componentRegistry.getCurrentComponentLabel()
+  const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace({ label, origin: traceOrigin, phase: 'init' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })
   })
 
   const effect = () => {
-    tracer.trace({ label, origin: traceOrigin, phase: 'run' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
     effectRaw()
   }
 

@@ -38,7 +38,7 @@ const useStateTraced = <S>(
   showStateFn: ((s: S) => string) | undefined,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] => {
   const traceOrigin = componentRegistry.registerHook('state')
-  const label = componentRegistry.getCurrentComponentLabel()
+  const componentLabel = componentRegistry.getCurrentComponentLabel()
 
   const showUndefined =
     <T>(show: (x: T) => string) =>
@@ -55,7 +55,7 @@ const useStateTraced = <S>(
     : initialStateOrThunk
 
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace(label, traceOrigin, showState(initialState), 'init:')
+    tracer.trace(componentLabel, traceOrigin, showState(initialState), 'init:')
     traceOrigin.info = showState(initialState)
   })
 
@@ -67,13 +67,13 @@ const useStateTraced = <S>(
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        tracer.trace(label, traceOrigin, showState(newValue), 'update:')
+        tracer.trace(componentLabel, traceOrigin, showState(newValue), 'update:')
         traceOrigin.info = showState(newValue)
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      tracer.trace(label, traceOrigin, showState(newValue), 'set:')
+      tracer.trace(componentLabel, traceOrigin, showState(newValue), 'set:')
       setValue(newValue)
       traceOrigin.info = showState(newValue)
     }

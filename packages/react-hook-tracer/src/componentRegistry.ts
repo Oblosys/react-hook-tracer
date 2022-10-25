@@ -40,21 +40,21 @@ export interface FiberNode {
 export const getCurrentOwner = (): FiberNode | null =>
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner.current
 
-const nextComponentIdByLabel: Record<string, number> = {}
+const nextComponentIdByComponentName: Record<string, number> = {}
 const getFreshIdForName = (name: string) => {
-  if (nextComponentIdByLabel[name] === undefined) {
-    nextComponentIdByLabel[name] = 1
+  if (nextComponentIdByComponentName[name] === undefined) {
+    nextComponentIdByComponentName[name] = 1
   }
-  const id = nextComponentIdByLabel[name]
-  nextComponentIdByLabel[name] += 1
+  const id = nextComponentIdByComponentName[name]
+  nextComponentIdByComponentName[name] += 1
   return id
 }
 
 // Clear the id counters for new components. Only to be used for testing.
 // TODO: Maybe create an initialize function, and also group mutable constants.
 export const resetNextComponentIds = () => {
-  for (const key in nextComponentIdByLabel) {
-    delete nextComponentIdByLabel[key]
+  for (const key in nextComponentIdByComponentName) {
+    delete nextComponentIdByComponentName[key]
   }
 }
 
@@ -85,13 +85,12 @@ const mkTraceOrigins = (): TraceOrigins => ({
   hooks: [],
 })
 
-const mkComponentInfo = (name: string) => {
+const mkComponentInfo = (name: string): ComponentInfo => {
   const id = getFreshIdForName(name)
   return {
     name,
     id,
-    label: `${name}-${id}`,
-    isTraced: false,
+    componentLabel: `${name}-${id}`,
     nextHookIndex: 0,
     traceOrigins: mkTraceOrigins(),
   }
@@ -142,7 +141,7 @@ export const getCurrentComponentInfo = (): ComponentInfo => {
 
 export const getCurrentComponentLabel = (): string => {
   const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentLabel: no current owner')
-  return componentInfo.label
+  return componentInfo.componentLabel
 }
 
 export const registerCurrentComponent = (): ComponentInfo => {
@@ -166,8 +165,6 @@ export const registerCurrentComponent = (): ComponentInfo => {
 export const registerHook = (hookType: HookType): TraceOrigin => {
   const componentInfo = getCurrentComponentInfoOrThrow('registerHook: no current owner')
   const { nextHookIndex, traceOrigins } = componentInfo
-
-  // console.log(componentInfo.label, `${hookType} nextHookIndex`, nextHookIndex)
 
   const previouslyRegisteredHook = traceOrigins.hooks[nextHookIndex]
   if (previouslyRegisteredHook === undefined) {

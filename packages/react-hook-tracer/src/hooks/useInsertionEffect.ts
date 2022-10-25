@@ -19,13 +19,13 @@ const useInsertionEffectTraced = (
   deps?: React.DependencyList,
 ): void => {
   const traceOrigin = componentRegistry.registerHook('insertion')
-  const label = componentRegistry.getCurrentComponentLabel()
+  const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace({ label, origin: traceOrigin, phase: 'init' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })
   })
 
   const effect = () => {
-    tracer.trace({ label, origin: traceOrigin, phase: 'run' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
     effectRaw()
   }
 

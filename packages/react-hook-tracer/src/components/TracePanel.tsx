@@ -7,25 +7,30 @@ import * as util from '../util'
 import './TracePanel.css'
 
 interface TracePanelProps {
-  label: string
+  componentLabel: string
   props: Record<string, unknown>
   showPropValue: (propKey: string, propValue: unknown) => string
   // NOTE: traceOrigins is stable object that is mutated while rendering (i.e while evaluating function-component body).
   traceOrigins: TraceOrigins
 }
-export const TracePanel = ({ label, props, showPropValue, traceOrigins }: TracePanelProps) => {
+export const TracePanel = ({
+  componentLabel,
+  props,
+  showPropValue,
+  traceOrigins,
+}: TracePanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   useEffect(() => {
     const listenerId = tracer.subscribeSelectedEntry((value) =>
       setSelectedLogEntry(value?.entry ?? null),
     )
-    tracer.registerTracedComponentLabel(label)
+    tracer.registerTracedComponentLabel(componentLabel)
     return () => {
-      tracer.unregisterTracedComponentLabel(label)
+      tracer.unregisterTracedComponentLabel(componentLabel)
       tracer.unsubscribeSelectedEntry(listenerId)
     }
-  }, [label])
+  }, [componentLabel])
 
   const propKeyValues = util
     .getObjectKeys(props)
@@ -37,7 +42,7 @@ export const TracePanel = ({ label, props, showPropValue, traceOrigins }: TraceP
   return (
     <div className="trace-panel" data-testid="trace-panel">
       <div className="component-label">
-        <div>{label}</div>
+        <div>{componentLabel}</div>
       </div>
       {propKeyValues.length > 0 && (
         <div className="props">

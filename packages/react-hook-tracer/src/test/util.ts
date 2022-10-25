@@ -17,12 +17,12 @@ export const getPanelTraceOrigins = (): string[] =>
 
 const getLogEntryChildren = (
   element: HTMLElement,
-): Record<'label' | 'origin' | 'message', string> => {
+): Record<'componentLabel' | 'origin' | 'message', string> => {
   const getChildText = (index: number) => element.children[index].textContent ?? 'missing-child'
-  return { label: getChildText(0), origin: getChildText(1), message: getChildText(2) }
+  return { componentLabel: getChildText(0), origin: getChildText(1), message: getChildText(2) }
 }
 
-export const getLogEntries = (): Record<'label' | 'origin' | 'message', string>[] =>
+export const getLogEntries = (): Record<'componentLabel' | 'origin' | 'message', string>[] =>
   [...screen.queryAllByTestId('log-entry')].map(getLogEntryChildren)
 
 const showDebugLabel = (debugLabel?: string) => (debugLabel ? ` (${debugLabel})` : '')

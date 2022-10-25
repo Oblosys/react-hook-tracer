@@ -84,7 +84,7 @@
   animation: none;
   background-color: yellow;
 }
-.trace-log .entry td.label {
+.trace-log .entry td.component-label {
   padding-left: 6px;
 }
 .trace-log .entry td.origin {

@@ -17,8 +17,8 @@ test('renders TracePanel', () => {
   }
 
   render(<Test />)
-  const label = screen.getByTestId('trace-panel').querySelector('.component-label')
-  expect(label).toHaveTextContent('Test-1')
+  const componentLabel = screen.getByTestId('trace-panel').querySelector('.component-label')
+  expect(componentLabel).toHaveTextContent('Test-1')
 
   // TODO: Log
   expect(getPanelTraceOrigins()).toEqual([

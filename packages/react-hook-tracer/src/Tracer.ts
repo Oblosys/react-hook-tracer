@@ -51,16 +51,18 @@ export class Tracer {
     this.tracedComponentLabels.unsubscribe(observerId)
   }
 
-  protected setTracedComponentLabels(labels: string[]) {
-    this.tracedComponentLabels.setValue(labels)
+  protected setTracedComponentLabels(componentLabels: string[]) {
+    this.tracedComponentLabels.setValue(componentLabels)
   }
 
-  registerTracedComponentLabel(label: string): void {
-    this.setTracedComponentLabels([...this.tracedComponentLabels.value, label])
+  registerTracedComponentLabel(componentLabel: string): void {
+    this.setTracedComponentLabels([...this.tracedComponentLabels.value, componentLabel])
   }
 
-  unregisterTracedComponentLabel(label: string): void {
-    this.setTracedComponentLabels(this.tracedComponentLabels.value.filter((l) => l !== label))
+  unregisterTracedComponentLabel(componentLabel: string): void {
+    this.setTracedComponentLabels(
+      this.tracedComponentLabels.value.filter((l) => l !== componentLabel),
+    )
   }
 
   clearLog(): void {
@@ -76,8 +78,8 @@ export class Tracer {
     this.setSelectedEntryIndex(update(this.selectedEntry.value?.index ?? null))
   }
 
-  trace(label: string, origin: TraceOrigin, message?: string): void
-  trace(label: string, origin: TraceOrigin, message: string, phase: string): void
+  trace(componentLabel: string, origin: TraceOrigin, message?: string): void
+  trace(componentLabel: string, origin: TraceOrigin, message: string, phase: string): void
   trace(entry: LogEntry): void
   trace(...args: TraceArgs): void {
     if (reactDevTools.getIsRenderedByDevTools()) {
@@ -85,12 +87,12 @@ export class Tracer {
       return
     }
 
-    const { label, origin, message, phase } =
+    const { componentLabel, origin, message, phase } =
       args.length === 1
         ? args[0]
-        : { label: args[0], origin: args[1], phase: args[3], message: args[2] }
+        : { componentLabel: args[0], origin: args[1], phase: args[3], message: args[2] }
 
-    const logEntry: LogEntry = { label, origin, phase, message }
+    const logEntry: LogEntry = { componentLabel, origin, phase, message }
 
     // Since setLogEntries calls observer handlers that will in turn call setState functions, we call it asynchronously
     // in a timeout, to avoid calling setState during render.
@@ -99,8 +101,8 @@ export class Tracer {
 }
 
 type TraceArgs =
-  | readonly [label: string, origin: TraceOrigin, message?: string]
-  | readonly [label: string, origin: TraceOrigin, message: string, phase?: string]
+  | readonly [componentLabel: string, origin: TraceOrigin, message?: string]
+  | readonly [componentLabel: string, origin: TraceOrigin, message: string, phase?: string]
   | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()

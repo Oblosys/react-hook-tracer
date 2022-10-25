@@ -35,7 +35,7 @@ export const LogEntries = ({
               key={index}
               index={index}
               entry={entry}
-              isTraced={util.includes(tracedComponentLabels, entry.label)}
+              isTraced={util.includes(tracedComponentLabels, entry.componentLabel)}
               isHighlighted={index === highlightedIndex}
               setHighlightedIndex={setHighlightedIndex}
             />
@@ -57,7 +57,7 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { label, origin, message, phase },
+    entry: { componentLabel, origin, message, phase },
     isTraced,
     isHighlighted,
     setHighlightedIndex,
@@ -69,7 +69,7 @@ const LogEntry = memo(
       onMouseEnter={() => setHighlightedIndex(index)}
       data-testid="log-entry"
     >
-      <td className="label">{label}</td>
+      <td className="component-label">{componentLabel}</td>
       <td className="origin">{origin.originType}</td>
       <td className="phase-and-message">
         {phase && <span className="phase">{phase}</span>}

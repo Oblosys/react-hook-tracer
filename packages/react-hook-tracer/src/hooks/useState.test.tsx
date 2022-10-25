@@ -24,7 +24,11 @@ test('handles setState', async () => {
   render(<Test />)
   act(() => jest.runOnlyPendingTimers())
 
-  expect(getLogEntries()).toContainEqual({ label: 'Test-1', origin: 'state', message: 'init:42' })
+  expect(getLogEntries()).toContainEqual({
+    componentLabel: 'Test-1',
+    origin: 'state',
+    message: 'init:42',
+  })
   expect(screen.getByTestId('state').textContent).toBe('42')
   expect(getPanelTraceOrigins()).toContain('state: 42')
 
@@ -32,7 +36,7 @@ test('handles setState', async () => {
   act(() => jest.runOnlyPendingTimers())
 
   expect(getLogEntries()).toContainEqual({
-    label: 'Test-1',
+    componentLabel: 'Test-1',
     origin: 'state',
     message: 'update:43',
   })

@@ -11,21 +11,21 @@ export function useEffect(effectRaw: React.EffectCallback, deps?: React.Dependen
 
 const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
   const traceOrigin = componentRegistry.registerHook('effect')
-  const label = componentRegistry.getCurrentComponentLabel()
+  const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace({ label, origin: traceOrigin, phase: 'init' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })
   })
 
   const effect = () => {
     // maybe log which dep. changed
-    tracer.trace({ label, origin: traceOrigin, phase: 'run' })
+    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
 
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
       return
     } else {
       const cleanup = () => {
-        tracer.trace({ label, origin: traceOrigin, phase: 'cleanup' })
+        tracer.trace({ componentLabel, origin: traceOrigin, phase: 'cleanup' })
         cleanupRaw()
       }
       return cleanup

@@ -3,7 +3,7 @@ export type AssertNever<_T extends never> = never
 export interface ComponentInfo {
   name: string
   id: number
-  label: string
+  componentLabel: string
   nextHookIndex: number // Mutable property
   traceOrigins: TraceOrigins // Mutable object
 }
@@ -31,7 +31,7 @@ export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
 })
 
 export interface LogEntry {
-  label: string
+  componentLabel: string
   origin: TraceOrigin
   phase?: string // e.g to show 'state' log entries as 'init', 'set', etc.
   message?: string
