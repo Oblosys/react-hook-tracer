@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction, useRef } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as hookUtil from './hookUtil'
 
 export function useState<S>(
   initialState: S | (() => S),
@@ -53,12 +54,10 @@ const useStateTraced = <S>(
     ? initialStateOrThunk()
     : initialStateOrThunk
 
-  const isInitialized = useRef(false)
-  if (!isInitialized.current) {
+  hookUtil.useRunOnFirstRender(() => {
     tracer.trace(label, traceOrigin, showState(initialState), 'init:')
     traceOrigin.info = showState(initialState)
-    isInitialized.current = true
-  }
+  })
 
   const [value, setValue] = React.useState(initialState)
 

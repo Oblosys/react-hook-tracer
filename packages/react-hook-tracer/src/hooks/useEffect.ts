@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as hookUtil from './hookUtil'
 
 export function useEffect(effectRaw: React.EffectCallback, deps?: React.DependencyList): void {
   const hook = componentRegistry.isCurrentComponentTraced() ? useEffectTraced : React.useEffect
@@ -11,12 +12,9 @@ export function useEffect(effectRaw: React.EffectCallback, deps?: React.Dependen
 const useEffectTraced = (effectRaw: React.EffectCallback, deps?: React.DependencyList): void => {
   const traceOrigin = componentRegistry.registerHook('effect')
   const label = componentRegistry.getCurrentComponentLabel()
-
-  const isInitialized = useRef(false)
-  if (!isInitialized.current) {
+  hookUtil.useRunOnFirstRender(() => {
     tracer.trace({ label, origin: traceOrigin, phase: 'init' })
-    isInitialized.current = true
-  }
+  })
 
   const effect = () => {
     // maybe log which dep. changed

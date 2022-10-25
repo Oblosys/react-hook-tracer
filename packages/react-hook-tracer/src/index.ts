@@ -1,9 +1,8 @@
-export { useTracer } from './hooks/useTracer'
-export { useCallback } from './hooks/useCallback'
-export { useState } from './hooks/useState'
-export { useEffect } from './hooks/useEffect'
 export { TraceLog } from './components/TraceLog'
+export { useCallback } from './hooks/useCallback'
+export { useEffect } from './hooks/useEffect'
+export { useInsertionEffect } from './hooks/useInsertionEffect'
+export { useLayoutEffect } from './hooks/useLayoutEffect'
+export { useState } from './hooks/useState'
+export { useTracer } from './hooks/useTracer'
 export { type ShowProps } from './types'
-
-// TODO: Explicitly name exports, or just export everything?
-// TODO: add hooks/index.ts?

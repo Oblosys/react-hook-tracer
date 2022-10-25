@@ -16,7 +16,7 @@ export interface TraceOrigins {
   hooks: TraceOrigin[]
 }
 
-export type HookType = 'callback' | 'effect' | 'state'
+export type HookType = 'callback' | 'effect' | 'insertion' | 'layout' | 'state'
 
 export type TraceOriginType = 'mount' | 'render' | 'trace' | 'unmount' | HookType
 
