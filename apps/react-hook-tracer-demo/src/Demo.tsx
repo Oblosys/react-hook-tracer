@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { useRef } from 'react'
-import { ShowProps, useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
+import { useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
 
 import { SimpleButton } from './SimpleButton'
 
@@ -12,18 +12,12 @@ export const Demo = () => (
   </div>
 )
 
-interface UserData {
-  name: string
-}
-
-const showUsers = (users: UserData[]) => `Users [${users.map(({ name }) => name).join(', ')}]`
-
-const demoUsers = [{ name: 'Ren' }, { name: 'Stimpy' }]
+const demoUsers: string[] = ['Ren', 'Stimpy']
 
 const UserList = () => {
   const { trace, TracePanel } = useTracer()
-  const [users, setUsers] = useState<UserData[]>([], { showState: showUsers }) // custom showState
-  const [isFetching, setIsFetching] = useState(false)
+  const [users, setUsers] = useState<string[]>([], { label: 'users' }) // Pass trace options for custom label.
+  const [isFetching, setIsFetching] = useState(false, { label: 'isFetching' })
 
   useEffect(() => {
     trace('Simulated fetch')
@@ -37,15 +31,19 @@ const UserList = () => {
   const newUserIdRef = useRef(1)
 
   const addUser = () => {
-    setUsers((users) => [...users, { name: 'New-' + newUserIdRef.current }])
+    setUsers((users) => [...users, 'New-' + newUserIdRef.current])
     newUserIdRef.current += 1
   }
 
   const deleteUsers = () => setUsers([])
 
-  const deleteUser = useCallback((name: string) => {
-    setUsers((users) => users.filter((user) => user.name !== name))
-  }, [])
+  const deleteUser = useCallback(
+    (name: string) => {
+      setUsers((users) => users.filter((user) => user !== name))
+    },
+    [],
+    { label: 'deleteUser' },
+  )
 
   return (
     <div className="user-list">
@@ -64,7 +62,7 @@ const UserList = () => {
         {isFetching && users.length === 0 ? (
           <div className="placeholder">Fetching users..</div>
         ) : (
-          users.map(({ name }) => <User key={name} name={name} deleteUser={deleteUser} />)
+          users.map((name) => <User key={name} name={name} deleteUser={deleteUser} />)
         )}
       </div>
     </div>
@@ -76,7 +74,7 @@ interface UserProps {
   deleteUser: (name: string) => void
 }
 const User = ({ name, deleteUser }: UserProps) => {
-  const { TracePanel } = useTracer({ showProps }) // use showProps for another prop?
+  const { TracePanel } = useTracer()
   const [clickCount, setClickCount] = useState(0)
   return (
     <div className="user">
@@ -88,8 +86,4 @@ const User = ({ name, deleteUser }: UserProps) => {
       </div>
     </div>
   )
-}
-
-const showProps: ShowProps<UserProps> = {
-  // user: (user) => JSON.stringify(user),
 }
