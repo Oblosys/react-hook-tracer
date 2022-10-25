@@ -37,11 +37,13 @@ export interface FiberNode {
   // dependencies: Dependencies | null
 }
 
-export const getCurrentOwner = (): FiberNode | null =>
+const getCurrentOwner = (): FiberNode | null =>
   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner.current
 
+export const getCurrentPendingProps = () => getCurrentOwner()?.pendingProps ?? {}
+
 const nextComponentIdByComponentName: Record<string, number> = {}
-const getFreshIdForName = (name: string) => {
+const getFreshIdForComponentName = (name: string) => {
   if (nextComponentIdByComponentName[name] === undefined) {
     nextComponentIdByComponentName[name] = 1
   }
@@ -85,8 +87,8 @@ const mkTraceOrigins = (): TraceOrigins => ({
   hooks: [],
 })
 
-const mkComponentInfo = (name: string): ComponentInfo => {
-  const id = getFreshIdForName(name)
+const mkComponentInfoForComponentName = (name: string): ComponentInfo => {
+  const id = getFreshIdForComponentName(name)
   return {
     name,
     id,
@@ -96,11 +98,12 @@ const mkComponentInfo = (name: string): ComponentInfo => {
   }
 }
 
-const mkDummyComponentInfo = () => mkComponentInfo('DevTools-Shallow-Rendered')
+const mkDummyComponentInfo = () => mkComponentInfoForComponentName('DevToolsShallowRendered')
 
-const mkComponentInfoForFiber = (currentOwner: FiberNode) => mkComponentInfo(currentOwner.type.name)
+const mkComponentInfoForFiber = (currentOwner: FiberNode) =>
+  mkComponentInfoForComponentName(currentOwner.type.name)
 
-const getComponentInfo = (currentOwner: FiberNode): ComponentInfo => {
+const getComponentInfoForFiber = (currentOwner: FiberNode): ComponentInfo => {
   const componentInfo = componentInfoMap.get(currentOwner)
   if (componentInfo !== undefined) {
     return componentInfo
@@ -130,14 +133,12 @@ const getCurrentComponentInfoOrThrow = (message: string): ComponentInfo => {
   if (currentOwner === null) {
     throw new Error(message)
   } else {
-    return getComponentInfo(currentOwner)
+    return getComponentInfoForFiber(currentOwner)
   }
 }
 
-export const getCurrentComponentInfo = (): ComponentInfo => {
-  const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentInfo: no current owner')
-  return componentInfo
-}
+export const getCurrentComponentInfo = (): ComponentInfo =>
+  getCurrentComponentInfoOrThrow('getCurrentComponentInfo: no current owner')
 
 export const getCurrentComponentLabel = (): string => {
   const componentInfo = getCurrentComponentInfoOrThrow('getCurrentComponentLabel: no current owner')

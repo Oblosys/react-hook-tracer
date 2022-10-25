@@ -55,7 +55,7 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
     [componentLabel, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount],
   )
 
-  const pendingProps = componentRegistry.getCurrentOwner()?.pendingProps ?? {}
+  const pendingProps = componentRegistry.getCurrentPendingProps()
 
   const propsStr = util.showProps(pendingProps, showPropValue)
   tracer.trace(componentLabel, componentInfo.traceOrigins.render, propsStr) // Emit trace that component is rendering.
