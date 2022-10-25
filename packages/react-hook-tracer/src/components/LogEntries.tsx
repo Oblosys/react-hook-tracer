@@ -3,6 +3,8 @@ import { memo, useEffect, useRef } from 'react'
 import * as types from '../types'
 import * as util from '../util'
 
+import './LogEntries.css'
+
 interface LogEntriesProps {
   logEntries: types.LogEntry[]
   tracedComponentLabels: string[]

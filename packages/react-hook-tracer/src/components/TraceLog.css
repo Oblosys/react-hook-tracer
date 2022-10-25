@@ -32,70 +32,8 @@
   padding-bottom: 1px;
 }
 
-.trace-log .delay-selector {
-  padding-left: 2px;
-}
-.trace-log .delay-selector select {
-  margin-left: 2px;
-}
-
 .trace-log .hint {
   padding-top: 2px;
   text-align: left;
   user-select: none;
-}
-
-.trace-log .entries-wrapper {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  overflow-y: scroll;
-  margin-top: 2px;
-  padding-left: 2px;
-  background-color: #f0f0f0;
-  border: solid #ccc 1px;
-}
-.trace-log .entries {
-  border-collapse: collapse;
-}
-
-.trace-log .entry {
-  animation: emphasize-new-entries 5s;
-}
-
-@keyframes emphasize-new-entries {
-  from {
-    background-color: lightblue;
-  }
-  to {
-    background-color: inherit;
-  }
-}
-
-.trace-log .entry {
-  white-space: pre;
-}
-
-.trace-log .entry[data-is-traced='false'] td {
-  color: #888;
-}
-.trace-log .entry[data-is-highlighted='true'] td {
-  animation: none;
-  background-color: yellow;
-}
-.trace-log .entry td.component-label {
-  padding-left: 6px;
-}
-.trace-log .entry td.origin {
-  font-style: italic;
-  padding-left: 6px;
-}
-.trace-log .entry td.phase-and-message {
-  padding-left: 4px;
-  width: 100%;
-}
-.trace-log .entry .phase {
-  font-style: italic;
-  padding-right: 6px;
 }

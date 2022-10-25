@@ -2,6 +2,8 @@ import { ChangeEvent, useCallback } from 'react'
 
 import * as util from '../util'
 
+import './DelaySelector.css'
+
 const sessionStorageKey = '@@react-hook-tracer--persistent-state:'
 export const sessionReplayTimerDelayKey = sessionStorageKey + 'replayTimerDelay'
 
