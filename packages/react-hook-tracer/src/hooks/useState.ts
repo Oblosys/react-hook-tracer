@@ -4,22 +4,25 @@ import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
 import * as hookUtil from './hookUtil'
 
+export interface UseStateTraceOptions<S> {
+  showState?: (s: S) => string // Should be a stable function.
+}
 export function useState<S>(
   initialState: S | (() => S),
-  showState?: (s: S) => string,
+  tracerOptions?: UseStateTraceOptions<S>,
 ): [S, Dispatch<SetStateAction<S>>]
 export function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
 export function useState<S = undefined>(
   initialState: undefined,
-  showState: (s: S) => string,
+  tracerOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] // Extra overload for passing showState without initialState
 export function useState<S = undefined>(
   initialState?: S | (() => S),
-  showState?: (s: S) => string,
+  tracerOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
   if (componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStateTraced(initialState, showState)
+    return useStateTraced(initialState, tracerOptions)
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return React.useState(initialState)
@@ -35,10 +38,12 @@ const isUpdateFunction = <S>(
 
 const useStateTraced = <S>(
   initialStateOrThunk: S | (() => S) | undefined,
-  showStateFn: ((s: S) => string) | undefined,
+  tracerOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] => {
   const traceOrigin = componentRegistry.registerHook('state')
   const componentLabel = componentRegistry.getCurrentComponentLabel()
+
+  const showStateFn = tracerOptions?.showState
 
   const showUndefined =
     <T>(show: (x: T) => string) =>

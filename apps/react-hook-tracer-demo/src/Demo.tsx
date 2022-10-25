@@ -22,7 +22,7 @@ const demoUsers = [{ name: 'Ren' }, { name: 'Stimpy' }]
 
 const UserList = () => {
   const { trace, TracePanel } = useTracer()
-  const [users, setUsers] = useState<UserData[]>([], showUsers) // custom showState
+  const [users, setUsers] = useState<UserData[]>([], { showState: showUsers }) // custom showState
   const [isFetching, setIsFetching] = useState(false)
 
   useEffect(() => {

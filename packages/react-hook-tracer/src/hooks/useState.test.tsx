@@ -69,7 +69,7 @@ test('allows absent initial state', () => {
 test('supports custom showState', () => {
   const Test = () => {
     const { TracePanel } = useTracer()
-    useState({ p: 42 }, (s) => `[${s.p}]`)
+    useState({ p: 42 }, { showState: (s) => `[${s.p}]` })
     return <TracePanel />
   }
 
