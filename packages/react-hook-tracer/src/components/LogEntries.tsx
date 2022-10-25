@@ -72,7 +72,7 @@ const LogEntry = memo(
       <td className="component-label">{componentLabel}</td>
       <td className="origin">{origin.originType}</td>
       <td className="phase-and-message">
-        {phase && <span className="phase">{phase}</span>}
+        {phase && <span className="phase">{phase + ((message ?? '') !== '' ? ':' : '')}</span>}
         <span className="message">{message ?? ''}</span>
       </td>
     </tr>

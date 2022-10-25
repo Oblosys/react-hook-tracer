@@ -1,6 +1,6 @@
 import { Observable } from './Observable'
 import * as reactDevTools from './reactDevTools'
-import { LogEntry, TraceOrigin } from './types'
+import { LogEntry, Phase, TraceOrigin } from './types'
 
 export class Tracer {
   protected logEntries: Observable<LogEntry[]>
@@ -79,7 +79,7 @@ export class Tracer {
   }
 
   trace(componentLabel: string, origin: TraceOrigin, message?: string): void
-  trace(componentLabel: string, origin: TraceOrigin, message: string, phase: string): void
+  trace(componentLabel: string, origin: TraceOrigin, message: string, phase: Phase): void
   trace(entry: LogEntry): void
   trace(...args: TraceArgs): void {
     if (reactDevTools.getIsRenderedByDevTools()) {
@@ -102,7 +102,7 @@ export class Tracer {
 
 type TraceArgs =
   | readonly [componentLabel: string, origin: TraceOrigin, message?: string]
-  | readonly [componentLabel: string, origin: TraceOrigin, message: string, phase?: string]
+  | readonly [componentLabel: string, origin: TraceOrigin, message: string, phase?: Phase]
   | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()

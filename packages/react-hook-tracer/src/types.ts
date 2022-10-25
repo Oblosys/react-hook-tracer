@@ -30,10 +30,20 @@ export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
   info: null,
 })
 
+export type Phase =
+  | 'cleanup'
+  | 'init'
+  | 'mounted'
+  | 'mounting'
+  | 'refresh'
+  | 'run'
+  | 'set'
+  | 'update'
+
 export interface LogEntry {
   componentLabel: string
   origin: TraceOrigin
-  phase?: string // e.g to show 'state' log entries as 'init', 'set', etc.
+  phase?: Phase // e.g to show 'state' log entries as 'init', 'set', etc.
   message?: string
 }
 

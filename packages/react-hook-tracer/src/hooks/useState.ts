@@ -55,7 +55,7 @@ const useStateTraced = <S>(
     : initialStateOrThunk
 
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace(componentLabel, traceOrigin, showState(initialState), 'init:')
+    tracer.trace(componentLabel, traceOrigin, showState(initialState), 'init')
     traceOrigin.info = showState(initialState)
   })
 
@@ -67,13 +67,13 @@ const useStateTraced = <S>(
     if (isUpdateFunction(valueOrUpdateFunction)) {
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
-        tracer.trace(componentLabel, traceOrigin, showState(newValue), 'update:')
+        tracer.trace(componentLabel, traceOrigin, showState(newValue), 'update')
         traceOrigin.info = showState(newValue)
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
-      tracer.trace(componentLabel, traceOrigin, showState(newValue), 'set:')
+      tracer.trace(componentLabel, traceOrigin, showState(newValue), 'set')
       setValue(newValue)
       traceOrigin.info = showState(newValue)
     }
