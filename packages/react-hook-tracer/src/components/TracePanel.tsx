@@ -87,9 +87,9 @@ interface TraceOriginEntryProps {
 }
 const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => (
   <div className="trace-origin" data-is-highlighted={isHighlighted} data-testid="trace-origin">
-    <span className="origin-type">
-      {traceOrigin.originType + (traceOrigin.info !== null ? ': ' : '')}
-    </span>
-    <span className="origin-info">{traceOrigin.info ?? ''}</span>
+    <span className="origin-type">{traceOrigin.originType}</span>
+    {traceOrigin.label && <span className="origin-label">{`«${traceOrigin.label}»`}</span>}
+    {traceOrigin.info && ':'}
+    {traceOrigin.info && <span className="origin-info">{traceOrigin.info}</span>}
   </div>
 )

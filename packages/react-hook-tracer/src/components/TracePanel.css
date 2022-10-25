@@ -59,6 +59,16 @@
   padding-right: 1px;
   font-style: italic;
 }
+
 .trace-panel .origin-type {
   font-style: italic;
+}
+
+.trace-panel .origin-label {
+  font-weight: bold;
+  padding-left: 4px;
+}
+
+.trace-panel .origin-info {
+  padding-left: 6px;
 }

@@ -37,17 +37,26 @@
   animation: none;
   background-color: yellow;
 }
+
 .entry td.component-label {
   padding-left: 6px;
 }
-.entry td.origin {
+
+.entry td.origin-type {
   font-style: italic;
   padding-left: 6px;
 }
+
+.entry .origin-label {
+  font-weight: bold;
+  padding-right: 6px;
+}
+
 .entry td.phase-and-message {
   padding-left: 4px;
   width: 100%;
 }
+
 .entry .phase {
   font-style: italic;
   padding-right: 6px;

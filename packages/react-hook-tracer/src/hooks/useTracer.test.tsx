@@ -24,7 +24,7 @@ test('renders TracePanel', () => {
   expect(getPanelTraceOrigins()).toEqual([
     'mount',
     'render',
-    'state: undefined',
+    'state:undefined',
     'effect',
     'callback',
     'trace',

@@ -30,7 +30,7 @@ test('handles setState', async () => {
     message: 'init:42',
   })
   expect(screen.getByTestId('state').textContent).toBe('42')
-  expect(getPanelTraceOrigins()).toContain('state: 42')
+  expect(getPanelTraceOrigins()).toContain('state:42')
 
   await user.click(screen.getByText('inc'))
   act(() => jest.runOnlyPendingTimers())
@@ -41,7 +41,7 @@ test('handles setState', async () => {
     message: 'update:43',
   })
   expect(screen.getByTestId('state').textContent).toBe('43')
-  expect(getPanelTraceOrigins()).toContain('state: 43')
+  expect(getPanelTraceOrigins()).toContain('state:43')
 })
 
 test('allows initial state thunk', () => {
@@ -52,7 +52,7 @@ test('allows initial state thunk', () => {
   }
 
   render(<Test />)
-  expect(getPanelTraceOrigins()).toContain('state: 42')
+  expect(getPanelTraceOrigins()).toContain('state:42')
 })
 
 test('allows absent initial state', () => {
@@ -63,7 +63,18 @@ test('allows absent initial state', () => {
   }
 
   render(<Test />)
-  expect(getPanelTraceOrigins()).toContain('state: undefined')
+  expect(getPanelTraceOrigins()).toContain('state:undefined')
+})
+
+test('supports custom labael', () => {
+  const Test = () => {
+    const { TracePanel } = useTracer()
+    useState(42, { label: 'answer' })
+    return <TracePanel />
+  }
+
+  render(<Test />)
+  expect(getPanelTraceOrigins()).toContain('state«answer»:42')
 })
 
 test('supports custom showState', () => {
@@ -74,5 +85,5 @@ test('supports custom showState', () => {
   }
 
   render(<Test />)
-  expect(getPanelTraceOrigins()).toContain('state: [42]')
+  expect(getPanelTraceOrigins()).toContain('state:[42]')
 })

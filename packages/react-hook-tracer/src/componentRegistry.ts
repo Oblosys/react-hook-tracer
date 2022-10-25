@@ -163,13 +163,13 @@ export const registerCurrentComponent = (): ComponentInfo => {
 }
 
 // For each component, registerHook will always be called in the same order due to Rules of Hooks.
-export const registerHook = (hookType: HookType): TraceOrigin => {
+export const registerHook = (hookType: HookType, hookLabel?: string): TraceOrigin => {
   const componentInfo = getCurrentComponentInfoOrThrow('registerHook: no current owner')
   const { nextHookIndex, traceOrigins } = componentInfo
 
   const previouslyRegisteredHook = traceOrigins.hooks[nextHookIndex]
   if (previouslyRegisteredHook === undefined) {
-    traceOrigins.hooks[nextHookIndex] = mkTraceOrigin(hookType)
+    traceOrigins.hooks[nextHookIndex] = mkTraceOrigin(hookType, hookLabel)
   } else {
     const previousHookType = previouslyRegisteredHook.originType
     if (previousHookType !== hookType) {

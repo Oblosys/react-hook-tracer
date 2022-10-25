@@ -23,10 +23,12 @@ export type TraceOriginType = LifecycleEvent | HookType
 
 export interface TraceOrigin {
   originType: TraceOriginType
+  label: string | null
   info: string | null // Mutable property. Is shown next to the originType in the TracePanel (e.g. for current state).
 }
-export const mkTraceOrigin = (originType: TraceOriginType): TraceOrigin => ({
+export const mkTraceOrigin = (originType: TraceOriginType, label?: string): TraceOrigin => ({
   originType,
+  label: label ?? null,
   info: null,
 })
 

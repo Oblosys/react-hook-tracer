@@ -4,21 +4,27 @@ import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
 import * as hookUtil from './hookUtil'
 
+export interface UseLayoutEffectTraceOptions {
+  label?: string // Should be a stable string
+}
+
 export function useLayoutEffect(
   effectRaw: React.EffectCallback,
   deps?: React.DependencyList,
+  traceOptions?: UseLayoutEffectTraceOptions,
 ): void {
   const hook = componentRegistry.isCurrentComponentTraced()
     ? useLayoutEffectTraced
     : React.useEffect
-  return hook(effectRaw, deps)
+  return hook(effectRaw, deps, traceOptions)
 }
 
 const useLayoutEffectTraced = (
   effectRaw: React.EffectCallback,
   deps?: React.DependencyList,
+  traceOptions?: UseLayoutEffectTraceOptions,
 ): void => {
-  const traceOrigin = componentRegistry.registerHook('layout')
+  const traceOrigin = componentRegistry.registerHook('layout', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
     tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })

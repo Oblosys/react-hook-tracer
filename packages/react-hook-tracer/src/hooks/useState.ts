@@ -5,24 +5,25 @@ import * as componentRegistry from '../componentRegistry'
 import * as hookUtil from './hookUtil'
 
 export interface UseStateTraceOptions<S> {
+  label?: string // Should be a stable string
   showState?: (s: S) => string // Should be a stable function.
 }
 export function useState<S>(
   initialState: S | (() => S),
-  tracerOptions?: UseStateTraceOptions<S>,
+  traceOptions?: UseStateTraceOptions<S>,
 ): [S, Dispatch<SetStateAction<S>>]
 export function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>]
 export function useState<S = undefined>(
   initialState: undefined,
-  tracerOptions?: UseStateTraceOptions<S>,
+  traceOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] // Extra overload for passing showState without initialState
 export function useState<S = undefined>(
   initialState?: S | (() => S),
-  tracerOptions?: UseStateTraceOptions<S>,
+  traceOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
   if (componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStateTraced(initialState, tracerOptions)
+    return useStateTraced(initialState, traceOptions)
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return React.useState(initialState)
@@ -38,12 +39,12 @@ const isUpdateFunction = <S>(
 
 const useStateTraced = <S>(
   initialStateOrThunk: S | (() => S) | undefined,
-  tracerOptions?: UseStateTraceOptions<S>,
+  traceOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] => {
-  const traceOrigin = componentRegistry.registerHook('state')
+  const traceOrigin = componentRegistry.registerHook('state', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
 
-  const showStateFn = tracerOptions?.showState
+  const showStateFn = traceOptions?.showState
 
   const showUndefined =
     <T>(show: (x: T) => string) =>
