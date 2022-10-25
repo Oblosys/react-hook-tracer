@@ -2,47 +2,73 @@
   display: flex;
 }
 
-.user-list {
+.user-list-wrapper {
   align-self: flex-start;
   display: flex;
   flex-direction: column;
+  padding: 2px 6px 4px 6px;
+  background-color: #ddd;
+  border-radius: 10px;
 }
-.user-list > .trace-panel {
-  width: 300px; /* Override trace-panel width */
+.user-list-wrapper > * > .trace-panel {
+  width: 280px; /* Override trace-panel width */
 }
 
-.user-list-details {
+.user-list {
   display: flex;
+  flex-direction: column;
   padding-top: 2px;
   padding-left: 1px;
+  margin-right: 4px;
+  margin-bottom: 4px;
 }
+
 .placeholder {
-  padding-top: 15px;
-  padding-left: 80px;
+  font-size: 120%;
+  padding-top: 20px;
+  padding-bottom: 10px;
   font-style: italic;
 }
 
 .users {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding-left: 20px;
+  align-items: center;
+}
+
+.user-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  padding: 2px 6px 2px 6px;
+  background-color: #eee;
+  border-radius: 10px;
+}
+.user-wrapper > .trace-panel {
+  min-width: 200px; /* Override trace-panel min-width */
 }
 
 .user {
   display: flex;
   flex-direction: column;
-}
-.user {
-  margin-top: 8px;
-}
-
-.user-details {
-  display: flex;
   padding-top: 2px;
   padding-left: 1px;
+  margin-bottom: 4px;
+  min-width: 100px;
 }
 
-.spacer {
-  flex-grow: 1;
+.details-header {
+  font-size: 120%;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.button-row {
+  display: flex;
+  margin-top: 2px;
+}
+
+.wrapping-row {
+  display: flex;
+  flex-wrap: wrap;
 }

@@ -16,11 +16,11 @@ const demoUsers: string[] = ['Ren', 'Stimpy']
 
 const UserList = () => {
   const { trace, TracePanel } = useTracer()
-  const [users, setUsers] = useState<string[]>([], { label: 'users' }) // Pass trace options for custom label.
+  const [users, setUsers] = useState<string[]>([], { label: 'users' }) // Pass custom label.
   const [isFetching, setIsFetching] = useState(false, { label: 'isFetching' })
 
   useEffect(() => {
-    trace('Simulated fetch')
+    trace('Initiating simulated fetch..')
     setIsFetching(true)
     setTimeout(() => {
       setIsFetching(false)
@@ -46,17 +46,30 @@ const UserList = () => {
   )
 
   return (
-    <div className="user-list">
-      <TracePanel />
-      <div className="user-list-details">
-        <b>User list (#users: {users.length}):</b>
-        <div className="spacer"></div>
-        <SimpleButton onClick={() => addUser()} isDisabled={isFetching} value="add user" />
-        <SimpleButton
-          onClick={() => deleteUsers()}
-          isDisabled={users.length === 0}
-          value="delete users"
-        />
+    <div className="user-list-wrapper">
+      <div className="wrapping-row">
+        <div className="user-list">
+          <div className="details-header">User list</div>
+          User count: {users.length}
+          <div className="button-row">
+            <SimpleButton
+              onClick={() => {
+                newUserIdRef.current += 1
+              }}
+              isDisabled={users.length === 0}
+              value="inc newUserId"
+            />
+          </div>
+          <div className="button-row">
+            <SimpleButton onClick={addUser} isDisabled={isFetching} value="add user" />
+            <SimpleButton
+              onClick={deleteUsers}
+              isDisabled={users.length === 0}
+              value="delete users"
+            />
+          </div>
+        </div>
+        <TracePanel />
       </div>
       <div className="users">
         {isFetching && users.length === 0 ? (
@@ -77,13 +90,17 @@ const User = ({ name, deleteUser }: UserProps) => {
   const { TracePanel } = useTracer()
   const [clickCount, setClickCount] = useState(0)
   return (
-    <div className="user">
-      <TracePanel />
-      <div className="user-details">
-        {name} (clicks: {clickCount}) <div className="spacer"></div>
-        <SimpleButton onClick={() => setClickCount((n) => n + 1)} value="click" />
-        <SimpleButton onClick={() => deleteUser(name)} value="delete" />
+    <div className="user-wrapper">
+      <div className="user">
+        <div className="details-header">User</div>
+        <div>Name:'{name}'</div>
+        <div>Clicks: {clickCount}</div>
+        <div className="button-row">
+          <SimpleButton onClick={() => setClickCount((n) => n + 1)} value="click" />
+          <SimpleButton onClick={() => deleteUser(name)} value="delete" />
+        </div>
       </div>
+      <TracePanel />
     </div>
   )
 }

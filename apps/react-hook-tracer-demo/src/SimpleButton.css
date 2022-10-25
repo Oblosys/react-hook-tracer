@@ -1,5 +1,7 @@
 .simple-button {
-  display: inline-block;
+  align-self: flex-start; /* to prevent stretching when parent is flex */
+  display: inline-flex; /* inline to prevent stretching when parent is not flex */
+  white-space: nowrap;
   padding: 0 3px 0 3px;
   font-size: 12px;
   border: solid #aaa 1px;
