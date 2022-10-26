@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "start": "yarn start-app",
-    "build": "yarn build-lib && yarn build-app",
+    "build": "yarn build-lib && yarn type-check-app",
     "clean": "yarn workspaces foreach run clean",
     "lint-check": "yarn workspaces foreach run lint-check",
     "test": "yarn test-lib && yarn test-app",
@@ -33,6 +33,8 @@
     "publish-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer npm publish",
     "test-lib": "yarn workspace react-hook-tracer test",
     "test-watch-lib": "yarn workspace react-hook-tracer test-watch",
+    "type-check-app": "yarn workspace react-hook-tracer-demo type-check",
+    "type-check-watch-app": "yarn workspace react-hook-tracer-demo type-check-watch",
     "type-check-lib": "yarn workspace react-hook-tracer type-check",
     "type-check-watch-lib": "yarn workspace react-hook-tracer type-check-watch"
   },

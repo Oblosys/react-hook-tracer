@@ -24,12 +24,40 @@
         "isDefault": true
       },
       "runOptions": {
+        "instanceLimit": 1,
         "runOn": "folderOpen"
       },
       "presentation": {
-        "revealProblems": "always" // Prevents VSCode opening the Terminal tab on startup.
+        "reveal": "never",
+        "revealProblems": "onProblem"
       },
       "label": "yarn run type-check-watch - packages/react-hook-tracer"
+    },
+    {
+      "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
+      "script": "type-check-watch",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/apps/react-hook-tracer-demo"
+      },
+      "problemMatcher": [
+        {
+          "base": "$tsc-watch",
+          "fileLocation": ["relative", "${workspaceFolder}/apps/react-hook-tracer-demo"]
+        }
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never",
+        "revealProblems": "onProblem"
+      },
+      "label": "yarn run type-check-watch - apps/react-hook-tracer-demo"
     },
     {
       // Build the package in the background.
@@ -43,10 +71,12 @@
         "kind": "build",
       },
       "runOptions": {
+        "instanceLimit": 1,
         "runOn": "folderOpen"
       },
       "presentation": {
-        "revealProblems": "always" // Prevents VSCode opening the Terminal tab on startup.
+        "reveal": "never",
+        "revealProblems": "onProblem"
       },
       "label": "yarn run build-watch - packages/react-hook-tracer"
     }
