@@ -3,7 +3,7 @@
 The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-tracer) allows tracing function components to reveal the order of hook-function calls in an interactive trace-log component, and provides a live view of the component's props and state. The functionality is similar to what [`react-lifecycle-visualizer`](https://github.com/Oblosys/react-lifecycle-visualizer#readme) does for class components.
 
 <p align="center">
-  <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/Demo.tsx">
+  <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx">
     <img
       alt="User-list demo screen capture"
       src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/user-list-demo.gif"
@@ -16,7 +16,7 @@ Function components can be traced by importing the hooks from `react-hook-tracer
 
 ### Demo
 
-The demo above is live on this [CodeSandbox playground](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/Demo.tsx), and can be run locally with:
+The demo above is live on this [CodeSandbox playground](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx), and can be run locally with:
 
 ```sh
 > git clone git@github.com:Oblosys/react-hook-tracer

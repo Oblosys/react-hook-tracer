@@ -1,8 +1,5 @@
 .demo {
-  flex-grow: 1;
   display: flex;
-  overflow-y: scroll;
-  margin: 5px;
 }
 
 .user-list {

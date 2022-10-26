@@ -2,7 +2,7 @@
 import { useRef } from 'react'
 import { useCallback, useEffect, useState, useTracer } from 'react-hook-tracer'
 
-import { SimpleButton } from './SimpleButton'
+import { SimpleButton } from '../SimpleButton'
 
 import './Demo.css'
 

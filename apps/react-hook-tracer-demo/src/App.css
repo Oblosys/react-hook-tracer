@@ -1,20 +1,16 @@
-body {
-  font-size: 13px;
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
-  display: flex;
-}
-
-#root {
-  margin: 0;
-  flex-grow: 1;
-  display: flex;
-}
-
 .app {
   flex-grow: 1;
   display: flex;
+}
+
+.app .demo-pane {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 8px;
 }
 
 .app .trace-log {
