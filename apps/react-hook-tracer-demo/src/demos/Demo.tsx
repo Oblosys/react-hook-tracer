@@ -21,10 +21,13 @@ const UserList = () => {
   useEffect(() => {
     trace('Initiating simulated fetch..')
     setIsFetching(true)
-    setTimeout(() => {
+    const fetchTimeout = setTimeout(() => {
       setIsFetching(false)
       setUsers(demoUsers)
     }, 2000)
+    return () => {
+      clearTimeout(fetchTimeout)
+    }
   }, [trace])
 
   const newUserIdRef = useRef(1, { label: 'newUserId' })
@@ -55,7 +58,7 @@ const UserList = () => {
               onClick={() => {
                 newUserIdRef.current += 1
               }}
-              value="inc newUserId"
+              value="inc newUserId ref"
             />
           </div>
           <div className="button-row">

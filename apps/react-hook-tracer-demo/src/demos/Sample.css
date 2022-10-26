@@ -1,0 +1,13 @@
+.sample {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sample span {
+  margin-bottom: 2px;
+}
+
+.sample input {
+  margin-left: 6px;
+}
