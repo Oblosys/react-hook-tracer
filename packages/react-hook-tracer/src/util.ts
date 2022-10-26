@@ -15,6 +15,12 @@ export const isIncluded = <T extends Wide, Wide>(values: readonly T[], value: Wi
 // Type-safe widening for arrays, so we don't have to use `as` or declare a `const wideArray: readonly Wide[] = array`.
 export const widenArray = <T extends Wide, Wide>(array: readonly T[]): readonly Wide[] => array
 
+// Extend parameter function `show: (x: T) => string` to handle `undefined`.
+export const showWithUndefined =
+  <T>(show: (x: T) => string): ((x: T | undefined) => string) =>
+  (x: T | undefined) =>
+    x === undefined ? 'undefined' : show(x)
+
 export const showPropValue = (_propKey: string, value: unknown): string => {
   switch (typeof value) {
     case 'bigint':
