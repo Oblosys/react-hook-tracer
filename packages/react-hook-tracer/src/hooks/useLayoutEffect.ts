@@ -9,14 +9,14 @@ export interface UseLayoutEffectTraceOptions {
 }
 
 export function useLayoutEffect(
-  effectRaw: React.EffectCallback,
+  effect: React.EffectCallback,
   deps?: React.DependencyList,
   traceOptions?: UseLayoutEffectTraceOptions,
 ): void {
   const hook = componentRegistry.isCurrentComponentTraced()
     ? useLayoutEffectTraced
     : React.useEffect
-  return hook(effectRaw, deps, traceOptions)
+  return hook(effect, deps, traceOptions)
 }
 
 const useLayoutEffectTraced = (

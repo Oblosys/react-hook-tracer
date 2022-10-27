@@ -8,12 +8,12 @@ export interface UseEffectTraceOptions {
   label?: string // Should be a stable string
 }
 export function useEffect(
-  effectRaw: React.EffectCallback,
+  effect: React.EffectCallback,
   deps?: React.DependencyList,
   traceOptions?: UseEffectTraceOptions,
 ): void {
   const hook = componentRegistry.isCurrentComponentTraced() ? useEffectTraced : React.useEffect
-  return hook(effectRaw, deps, traceOptions)
+  return hook(effect, deps, traceOptions)
 }
 
 const useEffectTraced = (

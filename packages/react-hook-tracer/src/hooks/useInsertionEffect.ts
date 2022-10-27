@@ -8,14 +8,14 @@ export interface UseInsertionEffectTraceOptions {
   label?: string // Should be a stable string
 }
 export function useInsertionEffect(
-  effectRaw: React.EffectCallback,
+  effect: React.EffectCallback,
   deps?: React.DependencyList,
   traceOptions?: UseInsertionEffectTraceOptions,
 ): void {
   const hook = componentRegistry.isCurrentComponentTraced()
     ? useInsertionEffectTraced
     : React.useEffect
-  return hook(effectRaw, deps, traceOptions)
+  return hook(effect, deps, traceOptions)
 }
 
 const useInsertionEffectTraced = (

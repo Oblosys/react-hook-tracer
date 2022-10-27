@@ -10,20 +10,20 @@ export interface UseCallbackTraceOptions {
 // Typing useCallback is a bit of a nuisance as it uses Function.
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function useCallback<F extends Function>(
-  callbackRaw: F,
+  callback: F,
   deps: React.DependencyList,
   traceOptions?: UseCallbackTraceOptions,
 ): F {
   if (componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useCallbackTraced(
-      callbackRaw as unknown as (...args: never[]) => unknown, // Convert untyped Function to explicit function type.
+      callback as unknown as (...args: never[]) => unknown, // Convert untyped Function to explicit function type.
       deps,
       traceOptions,
     ) as unknown as F // Correct, since result of useCallbackTraced has the same type as its callback argument.
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return React.useCallback(callbackRaw, deps)
+    return React.useCallback(callback, deps)
   }
 }
 
