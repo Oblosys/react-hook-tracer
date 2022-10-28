@@ -8,11 +8,8 @@
       // settings.json (created by `yarn dlx @yarnpkg/sdks vscode`), so we just run the yarn build-watch script instead.
       // NOTE: This task only type checks.
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
-      "script": "type-check-watch",
+      "script": "type-check-watch-lib",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/packages/react-hook-tracer"
-      },
       "problemMatcher": [
         {
           "base": "$tsc-watch",
@@ -31,15 +28,12 @@
         "reveal": "never",
         "revealProblems": "onProblem"
       },
-      "label": "yarn run type-check-watch - packages/react-hook-tracer"
+      "label": "yarn run type-check-watch - lib"
     },
     {
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
-      "script": "type-check-watch",
+      "script": "type-check-watch-app",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/apps/react-hook-tracer-demo"
-      },
       "problemMatcher": [
         {
           "base": "$tsc-watch",
@@ -47,17 +41,17 @@
         }
       ],
       "group": {
-        "kind": "build",
-        "isDefault": true
+        "kind": "build"
       },
       "runOptions": {
+        "instanceLimit": 1,
         "runOn": "folderOpen"
       },
       "presentation": {
         "reveal": "never",
         "revealProblems": "onProblem"
       },
-      "label": "yarn run type-check-watch - apps/react-hook-tracer-demo"
+      "label": "yarn run type-check-watch - app"
     },
     {
       // Build the package in the background.
