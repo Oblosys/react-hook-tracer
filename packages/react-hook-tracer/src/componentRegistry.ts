@@ -1,3 +1,4 @@
+import { componentInfoMap } from './ComponentInfoMap'
 import * as reactDevTools from './reactDevTools'
 import { FiberNode, getCurrentOwner } from './reactInternals'
 import { ComponentInfo, HookType, TraceOrigin, TraceOrigins, mkTraceOrigin } from './types'
@@ -19,8 +20,6 @@ export const resetNextComponentIds = () => {
     delete nextComponentIdByComponentName[key]
   }
 }
-
-const componentInfoMap = new WeakMap<FiberNode, ComponentInfo>()
 
 const mkTraceOrigins = (): TraceOrigins => ({
   mount: mkTraceOrigin('mount'),
