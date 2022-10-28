@@ -106,3 +106,5 @@ type TraceArgs =
   | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()
+
+export const clearLog = (): void => tracer.clearLog()
