@@ -3,6 +3,7 @@ import React, { useCallback, useRef } from 'react'
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
 import { TracePanel } from '../components/TracePanel'
+import * as reactInternals from '../reactInternals'
 import { ShowProps } from '../types'
 import * as util from '../util'
 
@@ -55,7 +56,7 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
     [componentLabel, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount],
   )
 
-  const pendingProps = componentRegistry.getCurrentPendingProps()
+  const pendingProps = reactInternals.getCurrentPendingProps()
 
   const propsStr = util.showProps(pendingProps, showPropValue)
   tracer.trace(componentLabel, componentInfo.traceOrigins.render, propsStr) // Emit trace that component is rendering.
