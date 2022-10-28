@@ -1,24 +1,12 @@
+import { componentIds } from './ComponentIds'
 import { componentInfoMap } from './ComponentInfoMap'
 import * as reactDevTools from './reactDevTools'
 import { FiberNode, getCurrentOwner } from './reactInternals'
 import { ComponentInfo, HookType, TraceOrigin, TraceOrigins, mkTraceOrigin } from './types'
 
-const nextComponentIdByComponentName: Record<string, number> = {}
-const getFreshIdForComponentName = (name: string) => {
-  if (nextComponentIdByComponentName[name] === undefined) {
-    nextComponentIdByComponentName[name] = 1
-  }
-  const id = nextComponentIdByComponentName[name]
-  nextComponentIdByComponentName[name] += 1
-  return id
-}
-
-// Clear the id counters for new components. Only to be used for testing.
-// TODO: Maybe create an initialize function, and also group mutable constants.
-export const resetNextComponentIds = () => {
-  for (const key in nextComponentIdByComponentName) {
-    delete nextComponentIdByComponentName[key]
-  }
+export const resetComponentRegistry = (): void => {
+  componentInfoMap.initialize()
+  componentIds.initialize()
 }
 
 const mkTraceOrigins = (): TraceOrigins => ({
@@ -30,7 +18,7 @@ const mkTraceOrigins = (): TraceOrigins => ({
 })
 
 const mkComponentInfoForComponentName = (name: string): ComponentInfo => {
-  const id = getFreshIdForComponentName(name)
+  const id = componentIds.getFreshIdForComponentName(name)
   return {
     name,
     id,
