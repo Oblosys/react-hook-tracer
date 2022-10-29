@@ -75,8 +75,10 @@ const LogEntry = memo(
       <td className="origin-type">{origin.originType}</td>
       <td className="phase-and-message">
         {origin.label && <span className="origin-label">{`«${origin.label}»`}</span>}
-        {phase && <span className="phase">{phase + ((message ?? '') !== '' ? ':' : '')}</span>}
-        <span className="message">{message ?? ''}</span>
+        {phase && (
+          <span className="trace-phase">{phase + ((message ?? '') !== '' ? ':' : '')}</span>
+        )}
+        {message && <span className="trace-message">{message}</span>}
       </td>
     </tr>
   ),

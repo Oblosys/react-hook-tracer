@@ -71,5 +71,6 @@
 }
 
 .trace-panel .origin-info {
+  word-wrap: break-word;
   padding-left: 6px;
 }

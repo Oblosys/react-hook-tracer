@@ -26,16 +26,15 @@
   }
 }
 
-.entry {
-  white-space: pre;
-}
-
 .entry[data-is-traced='false'] td {
   color: #888;
 }
 .entry[data-is-highlighted='true'] td {
   animation: none;
   background-color: yellow;
+}
+.entry td {
+  vertical-align: top;
 }
 
 .entry td.component-label {
@@ -55,9 +54,10 @@
 .entry td.phase-and-message {
   padding-left: 4px;
   width: 100%;
+  word-wrap: break-word;
 }
 
-.entry .phase {
+.entry .trace-phase {
   font-style: italic;
   padding-right: 6px;
 }
