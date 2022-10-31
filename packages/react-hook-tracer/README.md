@@ -1,6 +1,6 @@
 # React-hook-tracer [![Npm version](https://img.shields.io/npm/v/react-hook-tracer.svg?style=flat)](https://www.npmjs.com/package/react-hook-tracer) [![Build status](https://img.shields.io/github/workflow/status/Oblosys/react-hook-tracer/Build%20and%20run%20tests/main)](https://github.com/Oblosys/react-hook-tracer/actions/workflows/build-test.yml?query=branch/main)
 
-The [`react-hook-tracer` package](https://www.npmjs.com/package/react-hook-tracer) traces function components to reveal the order of hook-function calls and lifecycle events in an interactive trace-log component. It also provides a live view of a component's props, state, and refs directly inside its renderering. The functionality is similar to what [`react-lifecycle-visualizer`](https://github.com/Oblosys/react-lifecycle-visualizer#readme) does for class components.
+The [react-hook-tracer package](https://www.npmjs.com/package/react-hook-tracer) traces function components to reveal the order of hook-function calls and lifecycle events in an interactive trace-log component. It also provides a live view of a component's props, state, and refs directly inside its renderering. The functionality is similar to what [react-lifecycle-visualizer](https://github.com/Oblosys/react-lifecycle-visualizer#readme) does for class components.
 
 The demo below shows a traced `UserList` component that uses an effect to load two `User` components, which each have local state to keep track of button clicks. Newly added users get an index that is kept in the `newUserId` ref. The purple panels in the components and the trace log on the right-hand side are created by the package.
 
@@ -59,7 +59,7 @@ export const App = (): JSX.Element => (
 )
 ```
 
-The trace log can also be omitted, in which case traced components just show the used hooks as well as props, state, and refs, without the highlight feature.
+The trace log can also be omitted, in which case traced components just show the used hooks as well as props, state, and refs, without the highlight feature. Without the trace log, it may be useful to turn on tracing to the console (see the [Tracing to the browser console](#tracing-to-the-browser-console) section).
 
 #### Tracing a component
 
@@ -144,6 +144,26 @@ const Sample = ({ title }: { title: string }) => {
 }
 ```
 
+### Tracing to the browser console
+
+To enable tracing to the browser console, call `setTracerConfig` anywhere in your project:
+
+```ts
+setTracerConfig({ shouldTraceToConsole: true })
+```
+
+Instead of a string representation, console traces show the actual object values for props, state, and refs, which means they can be expanded to inspect properties:
+
+<p align="center">
+  <img
+    alt="Console trace"
+    src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/console-traces.png"
+    width="520"
+  />
+</p>
+
+Console traces may also be useful to diagnose infinite render loops, since the trace log will not update in that case as it is itself a React component. To see what the console traces look like, check out the [CodeSandbox demo](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx), which has a checkbox to control console tracing.
+
 ### Trace-log message overview
 
 **Hooks with values**
@@ -180,5 +200,4 @@ const Sample = ({ title }: { title: string }) => {
 
 ### Coming soon
 
-- Tracing to the browser console.
 - Trace support for `useContext`, `useReducer`, and maybe more hooks.
