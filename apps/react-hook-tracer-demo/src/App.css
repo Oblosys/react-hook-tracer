@@ -15,7 +15,7 @@
 }
 
 .app .trace-log {
-  width: 460px; /* Override trace-log width */
+  min-width: 460px; /* Override trace-log min-width */
 }
 
 .demo-pane-header {
