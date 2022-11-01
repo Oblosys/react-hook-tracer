@@ -1,0 +1,48 @@
+.context-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.context-demo .context-selection {
+  margin-bottom: 10px;
+}
+
+.context-demo .context-counter input {
+  margin-right: 6px;
+}
+
+.context-demo .theme-selector {
+  margin-bottom: 10px;
+}
+
+.context-demo .themed-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px 4px 10px;
+  border-radius: 10px;
+}
+.context-demo .themed-wrapper[data-theme='dark'] {
+  background-color: #333;
+  color: white;
+}
+.context-demo .themed-wrapper[data-theme='light'] {
+  background-color: #ddd;
+  color: #444;
+}
+.context-demo .themed-wrapper .trace-panel {
+  align-self: center;
+}
+
+.context-demo .inner-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  padding: 4px 10px 4px 10px;
+  border-radius: 10px;
+  border: solid #888 1px;
+}
+.context-demo .inner-component > b {
+  margin-bottom: 4px;
+}
