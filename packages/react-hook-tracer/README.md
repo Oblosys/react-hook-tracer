@@ -8,7 +8,7 @@ The demo below shows a traced `UserList` component that uses an effect to load t
   <a href="https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx">
     <img
       alt="User-list demo screen capture"
-      src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/user-list-demo.gif"
+      src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/user-list-demo.gif"
       width="900"
     />
   </a>
