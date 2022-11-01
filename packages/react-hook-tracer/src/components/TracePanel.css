@@ -5,6 +5,7 @@
   display: inline-flex; /* inline to prevent stretching when parent is not flex */
   min-width: 250px;
   flex-direction: column;
+  color: #000;
   background-color: #dde;
   border: solid #666 1px;
   border-radius: 4px;
