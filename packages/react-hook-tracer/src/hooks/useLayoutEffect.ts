@@ -27,11 +27,11 @@ const useLayoutEffectTraced = (
   const traceOrigin = componentRegistry.registerHook('layout', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })
+    tracer.trace(componentLabel, traceOrigin, 'init')
   })
 
   const effect = () => {
-    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
+    tracer.trace(componentLabel, traceOrigin, 'run')
     effectRaw()
   }
 

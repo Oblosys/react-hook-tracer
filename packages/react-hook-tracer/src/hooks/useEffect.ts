@@ -24,19 +24,19 @@ const useEffectTraced = (
   const traceOrigin = componentRegistry.registerHook('effect', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   hookUtil.useRunOnFirstRender(() => {
-    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'init' })
+    tracer.trace(componentLabel, traceOrigin, 'init')
   })
 
   const effect = () => {
     // maybe log which dep. changed
-    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
+    tracer.trace(componentLabel, traceOrigin, 'run')
 
     const cleanupRaw = effectRaw()
     if (cleanupRaw === undefined) {
       return
     } else {
       const cleanup = () => {
-        tracer.trace({ componentLabel, origin: traceOrigin, phase: 'cleanup' })
+        tracer.trace(componentLabel, traceOrigin, 'cleanup')
         cleanupRaw()
       }
       return cleanup

@@ -78,19 +78,11 @@ export class Tracer {
     this.setSelectedEntryIndex(update(this.selectedEntry.value?.index ?? null))
   }
 
-  trace(componentLabel: string, origin: TraceOrigin, message?: string): void
-  trace(componentLabel: string, origin: TraceOrigin, message: string, phase: Phase): void
-  trace(entry: LogEntry): void
-  trace(...args: TraceArgs): void {
+  trace(componentLabel: string, origin: TraceOrigin, phase?: Phase, message?: string): void {
     if (reactDevTools.getIsRenderedByDevTools()) {
       // Silence any traces emitted during a React DevTools shallow render.
       return
     }
-
-    const { componentLabel, origin, message, phase } =
-      args.length === 1
-        ? args[0]
-        : { componentLabel: args[0], origin: args[1], phase: args[3], message: args[2] }
 
     const logEntry: LogEntry = { componentLabel, origin, phase, message }
 
@@ -99,11 +91,6 @@ export class Tracer {
     setTimeout(() => this.setLogEntries([...this.logEntries.value, logEntry]), 0)
   }
 }
-
-type TraceArgs =
-  | readonly [componentLabel: string, origin: TraceOrigin, message?: string]
-  | readonly [componentLabel: string, origin: TraceOrigin, message: string, phase?: Phase]
-  | readonly [entry: LogEntry]
 
 export const tracer = new Tracer()
 

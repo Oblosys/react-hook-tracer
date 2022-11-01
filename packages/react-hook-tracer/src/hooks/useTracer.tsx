@@ -59,10 +59,11 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
   const pendingProps = reactInternals.getCurrentPendingProps()
 
   const propsStr = util.showProps(pendingProps, showPropValue)
-  tracer.trace(componentLabel, componentInfo.traceOrigins.render, propsStr) // Emit trace that component is rendering.
+  tracer.trace(componentLabel, componentInfo.traceOrigins.render, undefined, propsStr) // Emit trace that component is rendering.
 
   const trace = useCallback(
-    (message: string) => tracer.trace(componentLabel, componentInfo.traceOrigins.trace, message),
+    (message: string) =>
+      tracer.trace(componentLabel, componentInfo.traceOrigins.trace, undefined, message),
     [componentLabel, componentInfo.traceOrigins.trace],
   )
 

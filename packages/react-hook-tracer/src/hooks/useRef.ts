@@ -51,12 +51,12 @@ const useRefTraced = <T>(
 
   hookUtil.useRunOnFirstRender(() => {
     traceOrigin.info = showValue(initialValue)
-    tracer.trace(componentLabel, traceOrigin, showValue(initialValue), 'init')
+    tracer.trace(componentLabel, traceOrigin, 'init', showValue(initialValue))
   })
 
   const tracedMutableRefObject = mkTracedMutableRefObject(initialValue, (newValue) => {
     traceOrigin.info = showValue(newValue)
-    tracer.trace(componentLabel, traceOrigin, showValue(newValue), 'set')
+    tracer.trace(componentLabel, traceOrigin, 'set', showValue(newValue))
     componentInfo.refreshTracePanelRef.current?.()
   })
 

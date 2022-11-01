@@ -36,7 +36,7 @@ const useCallbackTraced = <A extends never[], R>(
   const componentLabel = componentRegistry.getCurrentComponentLabel()
 
   const callback = (...args: A) => {
-    tracer.trace({ componentLabel, origin: traceOrigin, phase: 'run' })
+    tracer.trace(componentLabel, traceOrigin, 'run')
     return callbackRaw(...args)
   }
 
@@ -47,7 +47,7 @@ const useCallbackTraced = <A extends never[], R>(
   if (memoizedCallback !== previousCallbackRef.current) {
     const phase = previousCallbackRef.current === undefined ? 'init' : 'refresh'
     // TODO: Maybe log which dependency changed (will just be an index, as we don't have names).
-    tracer.trace({ componentLabel, origin: traceOrigin, phase })
+    tracer.trace(componentLabel, traceOrigin, phase)
   }
   previousCallbackRef.current = memoizedCallback
 

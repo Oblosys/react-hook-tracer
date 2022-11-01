@@ -50,7 +50,7 @@ const useStateTraced = <S>(
 
   hookUtil.useRunOnFirstRender(() => {
     traceOrigin.info = showState(initialState)
-    tracer.trace(componentLabel, traceOrigin, showState(initialState), 'init')
+    tracer.trace(componentLabel, traceOrigin, 'init', showState(initialState))
   })
 
   const [value, setValue] = React.useState(initialState)
@@ -62,13 +62,13 @@ const useStateTraced = <S>(
       setValue((prevState) => {
         const newValue = valueOrUpdateFunction(prevState)
         traceOrigin.info = showState(newValue)
-        tracer.trace(componentLabel, traceOrigin, showState(newValue), 'update')
+        tracer.trace(componentLabel, traceOrigin, 'update', showState(newValue))
         return newValue
       })
     } else {
       const newValue = valueOrUpdateFunction
       traceOrigin.info = showState(newValue)
-      tracer.trace(componentLabel, traceOrigin, showState(newValue), 'set')
+      tracer.trace(componentLabel, traceOrigin, 'set', showState(newValue))
       setValue(newValue)
     }
   }
