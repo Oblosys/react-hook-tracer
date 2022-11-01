@@ -44,6 +44,7 @@ export type Phase =
   | 'run'
   | 'set'
   | 'update'
+  | 'props'
 
 export interface LogEntry {
   componentLabel: string

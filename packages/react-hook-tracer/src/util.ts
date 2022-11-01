@@ -44,7 +44,9 @@ export const showPropValue = (_propKey: string, value: unknown): string => {
 export const showProps = (
   props: Record<string, unknown>,
   showPropValue: (propKey: string, propValue: unknown) => string,
-): string =>
-  getObjectKeys(props)
-    .map((key) => `${key}=${showPropValue(key, props[key])}`)
-    .join(' ')
+): string => {
+  const propKeys = getObjectKeys(props)
+  return propKeys.length === 0
+    ? 'none'
+    : propKeys.map((key) => `${key}=${showPropValue(key, props[key])}`).join(' ')
+}

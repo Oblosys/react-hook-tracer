@@ -62,7 +62,7 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
   const messageOrObject = { value: pendingProps, show }
 
   // Emit trace that component is rendering.
-  tracer.trace(componentLabel, componentInfo.traceOrigins.render, undefined, messageOrObject)
+  tracer.trace(componentLabel, componentInfo.traceOrigins.render, 'props', messageOrObject)
 
   const trace = useCallback(
     (message: string) =>
