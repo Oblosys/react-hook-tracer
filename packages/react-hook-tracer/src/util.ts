@@ -1,3 +1,5 @@
+import * as types from './types'
+
 export const includes = <T>(xs: readonly T[], x: T): boolean => xs.indexOf(x) >= 0
 
 export const flatMap = <T, S>(xs: readonly T[], f: (x: T) => readonly S[]): S[] =>
@@ -50,3 +52,13 @@ export const showProps = (
     ? 'none'
     : propKeys.map((key) => `${key}=${showPropValue(key, props[key])}`).join(' ')
 }
+
+// Rewrite {originType: 'mount', phase: 'mounting'/'mounted' } to {originType: 'mounting'/'mounted', phase: undefined }
+// to avoid logging 'mount mounting' and 'mount mounted'.
+export const rewriteOriginTypeMount = (
+  originType: types.TraceOriginType,
+  phase: types.Phase | undefined,
+) =>
+  originType === 'mount' && (phase === 'mounting' || phase === 'mounted')
+    ? { originType: phase, undefined }
+    : { originType, phase }

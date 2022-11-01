@@ -20,6 +20,9 @@ export interface TraceOrigins {
 }
 
 type LifecycleEvent = 'mount' | 'render' | 'trace' | 'unmount'
+// NOTE: 'mount' gets logged as 'mounting' or 'mounted' based on the phase, as we don't want to clutter trace panels
+// with separate origin types for mounting and mounted.
+
 export type HookType = 'callback' | 'context' | 'effect' | 'insertion' | 'layout' | 'ref' | 'state'
 
 export type TraceOriginType = LifecycleEvent | HookType

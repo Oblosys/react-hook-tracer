@@ -1,6 +1,7 @@
 import { Observable } from './Observable'
 import * as reactDevTools from './reactDevTools'
 import { LogEntry, Phase, TraceOrigin } from './types'
+import * as util from './util'
 
 export class Tracer {
   protected shouldTraceToConsole: boolean // Does not need to be observable.
@@ -133,16 +134,19 @@ export const clearLog = (): void => tracer.clearLog()
 const traceToConsole = <T>(
   componentLabel: string,
   origin: TraceOrigin,
-  phase?: Phase,
+  rawPhase?: Phase,
   messageOrObject?: string | { value: T; show: (v: T) => string },
 ) => {
+  const rawOriginType = origin.originType
+  const { originType, phase } = util.rewriteOriginTypeMount(rawOriginType, rawPhase)
+
   const colon = phase !== undefined && messageOrObject !== undefined ? ':' : ''
 
   // TODO: Would be nice to use show if it is user-specified, but we currently cannot determine that here.
   const message = typeof messageOrObject == 'string' ? messageOrObject : ''
 
   const initialArgs: (string | unknown)[] = [
-    `${componentLabel} %c${origin.originType}%c ` +
+    `${componentLabel} %c${originType}%c ` +
       `%c${origin.label ? `«${origin.label}» ` : ''}%c` +
       `%c${phase ?? ''}%c${colon}` +
       `${message}`,

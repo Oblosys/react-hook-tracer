@@ -59,27 +59,32 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { componentLabel, origin, message, phase },
+    entry: { componentLabel, origin, message, phase: rawPhase },
     isTraced,
     isHighlighted,
     setHighlightedIndex,
-  }: LogEntryProps) => (
-    <tr
-      className="entry"
-      data-is-traced={isTraced}
-      data-is-highlighted={isHighlighted}
-      onMouseEnter={() => setHighlightedIndex(index)}
-      data-testid="log-entry"
-    >
-      <td className="component-label">{componentLabel}</td>
-      <td className="origin-type">{origin.originType}</td>
-      <td className="phase-and-message">
-        {origin.label && <span className="origin-label">{`«${origin.label}»`}</span>}
-        {phase && (
-          <span className="trace-phase">{phase + ((message ?? '') !== '' ? ':' : '')}</span>
-        )}
-        {message && <span className="trace-message">{message}</span>}
-      </td>
-    </tr>
-  ),
+  }: LogEntryProps) => {
+    const rawOriginType = origin.originType
+    const { originType, phase } = util.rewriteOriginTypeMount(rawOriginType, rawPhase)
+
+    return (
+      <tr
+        className="entry"
+        data-is-traced={isTraced}
+        data-is-highlighted={isHighlighted}
+        onMouseEnter={() => setHighlightedIndex(index)}
+        data-testid="log-entry"
+      >
+        <td className="component-label">{componentLabel}</td>
+        <td className="origin-type">{originType}</td>
+        <td className="phase-and-message">
+          {origin.label && <span className="origin-label">{`«${origin.label}»`}</span>}
+          {phase && (
+            <span className="trace-phase">{phase + ((message ?? '') !== '' ? ':' : '')}</span>
+          )}
+          {message && <span className="trace-message">{message}</span>}
+        </td>
+      </tr>
+    )
+  },
 )
