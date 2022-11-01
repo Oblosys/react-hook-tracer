@@ -174,7 +174,7 @@ Console traces may also be useful to diagnose infinite render loops, since the t
 |            | `set`    | When setting the state to a value.                                                |
 |            | `update` | When setting the state with an update function (i.e `setState(prevState => ..)`). |
 | `useRef`   | `init`   | On the first render, at the `useRef` call.                                        |
-|            | `set`    | Whenever the ref value changes (even if no component re-renders).                 |
+|            | `update` | Whenever the ref value changes (even if no component re-renders).                 |
 
 **Hooks without values**
 

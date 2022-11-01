@@ -8,7 +8,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseRefTraceOptions<T> {
   label?: string // Should be a stable string
-  showValue?: (s: T) => string // Should be a stable function.
+  showValue?: (value: T) => string // Should be a stable function.
 }
 export function useRef<T>(
   initialValue: T,
@@ -45,7 +45,7 @@ const useRefTraced = <T>(
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   const componentInfo = getCurrentComponentInfo()
 
-  const showDefinedValue = traceOptions?.showValue ?? ((s: T) => JSON.stringify(s))
+  const showDefinedValue = traceOptions?.showValue ?? ((value: T) => JSON.stringify(value))
 
   const showValue = util.showWithUndefined(showDefinedValue)
 
@@ -56,7 +56,7 @@ const useRefTraced = <T>(
 
   const tracedMutableRefObject = mkTracedMutableRefObject(initialValue, (newValue) => {
     traceOrigin.info = showValue(newValue)
-    tracer.trace(componentLabel, traceOrigin, 'set', { value: newValue, show: showValue })
+    tracer.trace(componentLabel, traceOrigin, 'update', { value: newValue, show: showValue })
     componentInfo.refreshTracePanelRef.current?.()
   })
 
