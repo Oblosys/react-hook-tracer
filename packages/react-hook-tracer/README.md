@@ -168,13 +168,15 @@ Console traces may also be useful to diagnose infinite render loops, since the t
 
 **Hooks with values**
 
-| Hook       | Phase    | Appearance in trace log                                                           |
-| ---------- | -------- | --------------------------------------------------------------------------------- |
-| `useState` | `init`   | On the first render, at the `useState` call.                                      |
-|            | `set`    | When setting the state to a value.                                                |
-|            | `update` | When setting the state with an update function (i.e `setState(prevState => ..)`). |
-| `useRef`   | `init`   | On the first render, at the `useRef` call.                                        |
-|            | `update` | Whenever the ref value changes (even if no component re-renders).                 |
+| Hook         | Phase    | Appearance in trace log                                                           |
+| ------------ | -------- | --------------------------------------------------------------------------------- |
+| `useState`   | `init`   | On the first render, at the `useState` call.                                      |
+|              | `set`    | When setting the state to a value.                                                |
+|              | `update` | When setting the state with an update function (i.e `setState(prevState => ..)`). |
+| `useRef`     | `init`   | On the first render, at the `useRef` call.                                        |
+|              | `set`    | Whenever the ref value changes (even if no component re-renders).                 |
+| `useContext` | `init`   | On the first render, at the `useContext` call.                                    |
+|              | `update` | Whenever the context value changes.                                               |
 
 **Hooks without values**
 
