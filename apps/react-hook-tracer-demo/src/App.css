@@ -25,13 +25,31 @@
   white-space: nowrap;
 }
 
+.demo-pane-header .controls {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
 .demo-pane-header .label {
   font-weight: bold;
   margin-right: 3px;
 }
 
-.demo-pane-header select {
+.demo-selector {
+  display: flex;
+  align-items: baseline;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.labeled-input {
   margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.labeled-input input {
+  margin-left: 0;
 }
 
 .demo-pane-header .github-link {

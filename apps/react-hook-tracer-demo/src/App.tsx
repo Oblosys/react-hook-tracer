@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useEffect, useState } from 'react'
-import { clearLog, resetComponentRegistry, TraceLog } from 'react-hook-tracer'
-
+import { ReactEventHandler, useCallback, useEffect, useState } from 'react'
+import { clearLog, resetComponentRegistry, setTracerConfig, TraceLog } from 'react-hook-tracer'
 import * as demo from './demos/Demo'
 import * as sample from './demos/Sample'
 import { ItemSelector } from './ItemSelector'
@@ -13,19 +12,33 @@ const demoComponents = [
   { label: 'Sample', component: sample.Demo },
 ]
 
-const sessionStorageKey = '@@react-hook-tracer--persistent-state:selectedDemoIndex'
-const sessionSelectedDemoIndex = +(sessionStorage.getItem(sessionStorageKey) ?? '0')
+const sessionStorageKeyBase = '@@react-hook-tracer-demo--persistent-state:'
+export const sessionShouldTraceToConsoleKey = sessionStorageKeyBase + 'shouldTraceToConsole'
+export const sessionSelectedDemoIndexKey = sessionStorageKeyBase + 'demoIndexKey'
+
+const sessionShouldTraceToConsole =
+  (sessionStorage.getItem(sessionShouldTraceToConsoleKey) ?? 'false') === 'true'
+const sessionSelectedDemoIndex = +(sessionStorage.getItem(sessionSelectedDemoIndexKey) ?? '0')
 
 export const App = (): JSX.Element => {
+  const [shouldTraceToConsole, setShouldTraceToConsole] = useState(sessionShouldTraceToConsole)
   const [selectedDemoIndex, setSelectedDemoIndex] = useState(sessionSelectedDemoIndex)
   const [isShowing, setIsShowing] = useState(true)
 
-  const onSelectDemo = (selectedIndex: number) => {
+  const onChangeConsoleCheckbox: ReactEventHandler<HTMLInputElement> = useCallback((e) => {
+    const shouldTraceToConsole = e.currentTarget.checked
+    setShouldTraceToConsole(shouldTraceToConsole)
+    sessionStorage.setItem(sessionShouldTraceToConsoleKey, '' + shouldTraceToConsole)
+  }, [])
+
+  setTracerConfig({ shouldTraceToConsole })
+
+  const onSelectDemo = useCallback((selectedIndex: number) => {
     setSelectedDemoIndex(selectedIndex)
-    sessionStorage.setItem(sessionStorageKey, '' + selectedIndex)
+    sessionStorage.setItem(sessionSelectedDemoIndexKey, '' + selectedIndex)
     resetComponentRegistry()
     setIsShowing(false)
-  }
+  }, [])
 
   useEffect(() => {
     // Resetting and clearing is slightly tricky, as rendering a new demo component will queue up unmount traces from
@@ -45,12 +58,25 @@ export const App = (): JSX.Element => {
       <div className="demo-pane">
         <div className="column">
           <div className="demo-pane-header">
-            <div className="label">Selected demo:</div>
-            <ItemSelector
-              labeledItems={demoComponents}
-              selectedIndex={selectedDemoIndex}
-              onSelect={onSelectDemo}
-            />
+            <div className="controls">
+              <div className="demo-selector">
+                <div className="label">Selected demo:</div>
+                <ItemSelector
+                  labeledItems={demoComponents}
+                  selectedIndex={selectedDemoIndex}
+                  onSelect={onSelectDemo}
+                />
+              </div>
+              <div className="labeled-input">
+                <input
+                  id="console-checkbox"
+                  type="checkbox"
+                  checked={shouldTraceToConsole}
+                  onChange={onChangeConsoleCheckbox}
+                />
+                <label htmlFor="console-checkbox">Trace to console</label>
+              </div>
+            </div>
             <a
               className="github-link"
               href="https://github.com/Oblosys/react-hook-tracer#readme"
