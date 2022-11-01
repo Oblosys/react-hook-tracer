@@ -1,5 +1,5 @@
 export { TraceLog } from './components/TraceLog'
-export { clearLog } from './Tracer'
+export { clearLog, setTracerConfig } from './Tracer'
 export { resetComponentRegistry } from './componentRegistry'
 export { useCallback } from './hooks/useCallback'
 export { useEffect } from './hooks/useEffect'

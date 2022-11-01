@@ -56,10 +56,13 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
     [componentLabel, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount],
   )
 
-  const pendingProps = reactInternals.getCurrentPendingProps()
+  const pendingProps = { ...reactInternals.getCurrentPendingProps() } // Should be immutable, but let's make sure.
 
-  const propsStr = util.showProps(pendingProps, showPropValue)
-  tracer.trace(componentLabel, componentInfo.traceOrigins.render, undefined, propsStr) // Emit trace that component is rendering.
+  const show = (props: Record<string, unknown>) => util.showProps(props, showPropValue)
+  const messageOrObject = { value: pendingProps, show }
+
+  // Emit trace that component is rendering.
+  tracer.trace(componentLabel, componentInfo.traceOrigins.render, undefined, messageOrObject)
 
   const trace = useCallback(
     (message: string) =>

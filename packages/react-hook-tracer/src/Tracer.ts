@@ -3,6 +3,8 @@ import * as reactDevTools from './reactDevTools'
 import { LogEntry, Phase, TraceOrigin } from './types'
 
 export class Tracer {
+  protected shouldTraceToConsole: boolean // Does not need to be observable.
+
   protected logEntries: Observable<LogEntry[]>
 
   protected selectedEntry: Observable<{ index: number; entry: LogEntry } | null>
@@ -10,9 +12,14 @@ export class Tracer {
   protected tracedComponentLabels: Observable<string[]>
 
   constructor() {
+    this.shouldTraceToConsole = false
     this.logEntries = new Observable<LogEntry[]>([])
     this.selectedEntry = new Observable<{ index: number; entry: LogEntry } | null>(null)
     this.tracedComponentLabels = new Observable<string[]>([])
+  }
+
+  setShouldTraceToConsole(shouldTraceToConsole: boolean) {
+    this.shouldTraceToConsole = shouldTraceToConsole
   }
 
   subscribeLogEntries(changeHandler: (value: LogEntry[]) => void): number {
@@ -78,11 +85,27 @@ export class Tracer {
     this.setSelectedEntryIndex(update(this.selectedEntry.value?.index ?? null))
   }
 
-  trace(componentLabel: string, origin: TraceOrigin, phase?: Phase, message?: string): void {
+  trace<T>(
+    componentLabel: string,
+    origin: TraceOrigin,
+    phase?: Phase,
+    messageOrObject?: string | { value: T; show: (v: T) => string },
+  ): void {
     if (reactDevTools.getIsRenderedByDevTools()) {
       // Silence any traces emitted during a React DevTools shallow render.
       return
     }
+
+    if (this.shouldTraceToConsole) {
+      traceToConsole(componentLabel, origin, phase, messageOrObject)
+    }
+
+    const message =
+      messageOrObject === undefined
+        ? undefined
+        : typeof messageOrObject == 'string'
+        ? messageOrObject
+        : messageOrObject.show(messageOrObject.value)
 
     const logEntry: LogEntry = { componentLabel, origin, phase, message }
 
@@ -94,4 +117,49 @@ export class Tracer {
 
 export const tracer = new Tracer()
 
+interface TracerConfig {
+  shouldTraceToConsole?: boolean
+}
+export const setTracerConfig = (tracerConfig: TracerConfig): void => {
+  const { shouldTraceToConsole } = tracerConfig
+
+  if (shouldTraceToConsole !== undefined) {
+    tracer.setShouldTraceToConsole(shouldTraceToConsole)
+  }
+}
+
 export const clearLog = (): void => tracer.clearLog()
+
+const traceToConsole = <T>(
+  componentLabel: string,
+  origin: TraceOrigin,
+  phase?: Phase,
+  messageOrObject?: string | { value: T; show: (v: T) => string },
+) => {
+  const colon = phase !== undefined && messageOrObject !== undefined ? ':' : ''
+
+  // TODO: Would be nice to use show if it is user-specified, but we currently cannot determine that here.
+  const message = typeof messageOrObject == 'string' ? messageOrObject : ''
+
+  const initialArgs: (string | unknown)[] = [
+    `${componentLabel} %c${origin.originType}%c ` +
+      `%c${origin.label ? `«${origin.label}» ` : ''}%c` +
+      `%c${phase ?? ''}%c${colon}` +
+      `${message}`,
+
+    'font-style:italic;',
+    '',
+    'font-weight:bold;',
+    '',
+    'font-style:italic;',
+    '',
+  ]
+
+  const objectArg: unknown[] =
+    messageOrObject !== undefined && typeof messageOrObject !== 'string'
+      ? [messageOrObject.value]
+      : []
+
+  const logArgs = [...initialArgs, ...objectArg]
+  console.log(...logArgs)
+}
