@@ -4,8 +4,8 @@ import * as util from '../util'
 
 import './DelaySelector.css'
 
-const sessionStorageKey = '@@react-hook-tracer--persistent-state:'
-export const sessionReplayTimerDelayKey = sessionStorageKey + 'replayTimerDelay'
+const sessionStorageKeyBase = '@@react-hook-tracer--persistent-state:'
+export const sessionReplayTimerDelayKey = sessionStorageKeyBase + 'replayTimerDelay'
 
 const allDelayValues = [0.25, 0.5, 1, 2, 5, 10] as const
 export type Delay = typeof allDelayValues[number]
