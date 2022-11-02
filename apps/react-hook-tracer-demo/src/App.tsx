@@ -33,7 +33,7 @@ export const App = (): JSX.Element => {
     sessionStorage.setItem(sessionShouldTraceToConsoleKey, '' + shouldTraceToConsole)
   }, [])
 
-  setTracerConfig({ shouldTraceToConsole })
+  setTracerConfig({ traceToConsole: shouldTraceToConsole })
 
   const onSelectDemo = useCallback((selectedIndex: number) => {
     setSelectedDemoIndex(selectedIndex)

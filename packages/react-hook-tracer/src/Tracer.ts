@@ -1,6 +1,6 @@
 import { Observable } from './Observable'
 import * as reactDevTools from './reactDevTools'
-import { LogEntry, Phase, TraceOrigin } from './types'
+import { LogEntry, Phase, TraceOrigin, TracerConfig } from './types'
 import * as util from './util'
 
 export class Tracer {
@@ -118,14 +118,11 @@ export class Tracer {
 
 export const tracer = new Tracer()
 
-interface TracerConfig {
-  shouldTraceToConsole?: boolean
-}
 export const setTracerConfig = (tracerConfig: TracerConfig): void => {
-  const { shouldTraceToConsole } = tracerConfig
+  const { traceToConsole } = tracerConfig
 
-  if (shouldTraceToConsole !== undefined) {
-    tracer.setShouldTraceToConsole(shouldTraceToConsole)
+  if (traceToConsole !== undefined) {
+    tracer.setShouldTraceToConsole(traceToConsole)
   }
 }
 
