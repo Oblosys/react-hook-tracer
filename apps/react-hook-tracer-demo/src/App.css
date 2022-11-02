@@ -14,10 +14,6 @@
   margin-left: 8px;
 }
 
-.app .trace-log {
-  min-width: 460px; /* Override trace-log min-width */
-}
-
 .demo-pane-header {
   display: flex;
   align-items: baseline;
