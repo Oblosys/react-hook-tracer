@@ -2,6 +2,7 @@ import React from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseInsertionEffectTraceOptions {
@@ -12,9 +13,10 @@ export function useInsertionEffect(
   deps?: React.DependencyList,
   traceOptions?: UseInsertionEffectTraceOptions,
 ): void {
-  const hook = componentRegistry.isCurrentComponentTraced()
-    ? useInsertionEffectTraced
-    : React.useEffect
+  const hook =
+    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+      ? useInsertionEffectTraced
+      : React.useEffect
   return hook(effect, deps, traceOptions)
 }
 

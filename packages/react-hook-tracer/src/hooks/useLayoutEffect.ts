@@ -2,6 +2,7 @@ import React from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseLayoutEffectTraceOptions {
@@ -13,9 +14,10 @@ export function useLayoutEffect(
   deps?: React.DependencyList,
   traceOptions?: UseLayoutEffectTraceOptions,
 ): void {
-  const hook = componentRegistry.isCurrentComponentTraced()
-    ? useLayoutEffectTraced
-    : React.useEffect
+  const hook =
+    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+      ? useLayoutEffectTraced
+      : React.useEffect
   return hook(effect, deps, traceOptions)
 }
 

@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as util from '../util'
 
 export interface UseMemoTraceOptions<T> {
   label?: string // Should be a stable string
@@ -13,7 +14,7 @@ export function useMemo<T>(
   deps: React.DependencyList | undefined,
   traceOptions?: UseMemoTraceOptions<T>,
 ): T {
-  if (componentRegistry.isCurrentComponentTraced()) {
+  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useMemoTraced(factory, deps, traceOptions)
   } else {

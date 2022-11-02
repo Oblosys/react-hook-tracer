@@ -2,6 +2,7 @@ import React from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseEffectTraceOptions {
@@ -12,7 +13,10 @@ export function useEffect(
   deps?: React.DependencyList,
   traceOptions?: UseEffectTraceOptions,
 ): void {
-  const hook = componentRegistry.isCurrentComponentTraced() ? useEffectTraced : React.useEffect
+  const hook =
+    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+      ? useEffectTraced
+      : React.useEffect
   return hook(effect, deps, traceOptions)
 }
 

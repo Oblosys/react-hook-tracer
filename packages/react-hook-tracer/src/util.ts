@@ -1,5 +1,7 @@
 import * as types from './types'
 
+export const isProductionBuild = process.env.NODE_ENV === 'production'
+
 export const includes = <T>(xs: readonly T[], x: T): boolean => xs.indexOf(x) >= 0
 
 export const flatMap = <T, S>(xs: readonly T[], f: (x: T) => readonly S[]): S[] =>

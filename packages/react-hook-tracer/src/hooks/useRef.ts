@@ -28,7 +28,7 @@ export function useRef<T>(
   initialValue?: T,
   traceOptions?: UseRefTraceOptions<T>,
 ): MutableRefObject<T | undefined> | RefObject<T | undefined> {
-  if (componentRegistry.isCurrentComponentTraced()) {
+  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useRefTraced(initialValue, traceOptions)
   } else {

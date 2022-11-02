@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 
 import { tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
+import * as util from '../util'
 
 export interface UseCallbackTraceOptions {
   label?: string // Should be a stable string
@@ -14,7 +15,7 @@ export function useCallback<F extends Function>(
   deps: React.DependencyList,
   traceOptions?: UseCallbackTraceOptions,
 ): F {
-  if (componentRegistry.isCurrentComponentTraced()) {
+  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useCallbackTraced(
       callback as unknown as (...args: never[]) => unknown, // Convert untyped Function to explicit function type.

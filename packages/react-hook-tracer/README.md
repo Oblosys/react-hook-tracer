@@ -16,6 +16,8 @@ The demo below shows a traced `UserList` component that uses an effect to load t
 
 To trace a function component, simply import the hooks from `react-hook-tracer` instead of `react`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`.
 
+Note that even though tracing is disabled on production builds, it is not advisable to use react-hook-tracer on production.
+
 ### Demo
 
 The demo above is live on a [CodeSandbox playground](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx), and can be run locally with:
