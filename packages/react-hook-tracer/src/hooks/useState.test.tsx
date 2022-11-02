@@ -80,7 +80,7 @@ test('supports custom labael', () => {
 test('supports custom showState', () => {
   const Test = () => {
     const { TracePanel } = useTracer()
-    useState({ p: 42 }, { showState: (s) => `[${s.p}]` })
+    useState({ p: 42 }, { show: (s) => `[${s.p}]` })
     return <TracePanel />
   }
 

@@ -7,7 +7,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseStateTraceOptions<S> {
   label?: string // Should be a stable string
-  showState?: (state: S) => string // Should be a stable function.
+  show?: (state: S) => string // Should be a stable function.
 }
 export function useState<S>(
   initialState: S | (() => S),
@@ -39,7 +39,7 @@ const useStateTraced = <S>(
   const traceOrigin = componentRegistry.registerHook('state', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
 
-  const showDefinedState = traceOptions?.showState ?? ((state: S) => JSON.stringify(state))
+  const showDefinedState = traceOptions?.show ?? ((state: S) => JSON.stringify(state))
 
   const showState = util.showWithUndefined(showDefinedState)
 

@@ -8,7 +8,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseRefTraceOptions<T> {
   label?: string // Should be a stable string
-  showValue?: (value: T) => string // Should be a stable function.
+  show?: (refValue: T) => string // Should be a stable function.
 }
 export function useRef<T>(
   initialValue: T,
@@ -45,7 +45,7 @@ const useRefTraced = <T>(
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   const componentInfo = getCurrentComponentInfo()
 
-  const showDefinedValue = traceOptions?.showValue ?? ((value: T) => JSON.stringify(value))
+  const showDefinedValue = traceOptions?.show ?? ((value: T) => JSON.stringify(value))
 
   const showValue = util.showWithUndefined(showDefinedValue)
 
