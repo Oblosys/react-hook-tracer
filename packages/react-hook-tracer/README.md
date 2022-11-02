@@ -9,12 +9,12 @@ The demo below shows a traced `UserList` component that uses an effect to load t
     <img
       alt="User-list demo screen capture"
       src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/user-list-demo.gif"
-      width="900"
+      width="830"
     />
   </a>
 </p>
 
-To trace a function component, simply import the hooks from `react-hook-tracer` instead of `react`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`.
+To trace a function component, simply import the hooks from `'react-hook-tracer'` instead of `'react'`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`.
 
 Note that even though tracing is disabled on production builds, it is not advisable to use react-hook-tracer on production.
 
@@ -94,7 +94,7 @@ Rendering this component with `<Sample title="Trace test" />` yields:
   />
 </p>
 
-To add tracing, import any hook functions (here only `useState`) from `react-hook-tracer`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function. Traced hooks take an optional extra argument to add a custom label, so we can pass `{ label: 'n' }` to `useState`. The `TracePanel` component from `useTracer` can be included in the rendering:
+To add tracing, import any hook functions (here only `useState`) from `'react-hook-tracer'`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function. Traced hooks take an optional extra argument to add a custom label, so we can pass `{ label: 'n' }` to `useState`. The `TracePanel` component from `useTracer` can be included in the rendering:
 
 ```tsx
 import { useState, useTracer } from 'react-hook-tracer'
@@ -121,17 +121,17 @@ Now the rendering of `<Sample title="Trace test" />` together with the trace log
   <img
     alt="Traced Sample component"
     src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/sample-component-traced.png"
-    width="900"
+    width="830"
   />
 </p>
 
-Hooks imported from `react-hook-tracer` can also be used in untraced components (i.e. without a `useTracer` call), in which case they behave as regular React hooks. It is also possible to use regular React hooks in traced components, to hide them from the panels and the log.
+Hooks imported from `'react-hook-tracer'` can also be used in untraced components (i.e. without a `useTracer` call), in which case they behave as regular React hooks. It is also possible to use regular React hooks in traced components, to hide them from the panels and the log.
 
 Besides `TracePanel`, `useTracer` also returns a function `trace: (message: string) => void`, which can be used to log custom trace messages.
 
 #### Alternative import
 
-Instead of using a named import, `react-hook-tracer` can also be imported as a variable, e.g. `traced`. Hooks can then be traced by prefixing each one with `traced.`:
+Instead of using a named import, `'react-hook-tracer'` can also be imported as a variable, e.g. `traced`. Hooks can then be traced by prefixing each one with `traced.`:
 
 ```tsx
 import { useTracer } from 'react-hook-tracer'
@@ -158,52 +158,72 @@ Instead of a string representation, console traces show the actual object values
 
 <p align="center">
   <img
-    alt="Console trace"
+    alt="Console traces"
     src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/console-traces.png"
-    width="520"
+    width="560"
   />
 </p>
 
 Console traces may also be useful to diagnose infinite render loops, since the trace log will not update in that case as it is itself a React component. To see what the console traces look like, check out the [CodeSandbox demo](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx), which has a checkbox to control console tracing.
 
+### List of traced hooks
+
+| Hook                 | Shorthand     | Optional configuration argument                         |
+| -------------------- | ------------- | ------------------------------------------------------- |
+| `useContext`         | `'context'`   | `{label?: string, show?: (contextValue: T) => string}`  |
+| `useMemo`            | `'memo'`      | `{label?: string, show?: (memoizedValue: T) => string}` |
+| `useRef`             | `'ref'`       | `{label?: string, show?: (refValue: T) => string}`      |
+| `useState`           | `'state'`     | `{label?: string, show?: (state: S) => string}`         |
+| `useCallback`        | `'callback'`  | `{label?: string}`                                      |
+| `useEffect`          | `'effect'`    | `{label?: string}`                                      |
+| `useInsertionEffect` | `'insertion'` | `{label?: string}`                                      |
+| `useLayoutEffect`    | `'layout'`    | `{label?: string}`                                      |
+
 ### Trace-log message overview
 
-**Hooks with values**
+#### Hooks with values
 
 | Hook         | Phase     | Appearance in trace log                                                           |
 | ------------ | --------- | --------------------------------------------------------------------------------- |
-| `useState`   | `init`    | On the first render, at the `useState` call.                                      |
-|              | `set`     | When setting the state to a value.                                                |
-|              | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`). |
-| `useRef`     | `init`    | On the first render, at the `useRef` call.                                        |
-|              | `set`     | Whenever the ref value changes (even if no component re-renders).                 |
 | `useContext` | `init`    | On the first render, at the `useContext` call.                                    |
 |              | `update`  | Whenever the context value changes.                                               |
 | `useMemo`    | `init`    | On the first render, at the `useMemo` call.                                       |
 |              | `refresh` | Whenever the memoized value is recomputed due to changes in the dependencies.     |
+| `useRef`     | `init`    | On the first render, at the `useRef` call.                                        |
+|              | `set`     | Whenever the ref value changes (even if no component re-renders).                 |
+| `useState`   | `init`    | On the first render, at the `useState` call.                                      |
+|              | `set`     | When setting the state to a value.                                                |
+|              | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`). |
 
 **Hooks without values**
 
 | Hook                 | Phase     | Appearance in trace log                                            |
 | -------------------- | --------- | ------------------------------------------------------------------ |
-| `useEffect`          | `init`    | On the first render, at the `useEffect` call.                      |
-|                      | `run`     | Before the effect runs.                                            |
-|                      | `cleanup` | Before the effect's cleanup function gets called.                  |
 | `useCallback`        | `init`    | On the first render, at the `useCallback` call.                    |
 |                      | `run`     | When the callback gets called                                      |
 |                      | `refresh` | When a new callback is created due to changes in the dependencies. |
-| `useLayoutEffect`    | `init`    | On the first render, at the `useLayoutEffect` call.                |
+| `useEffect`          | `init`    | On the first render, at the `useEffect` call.                      |
+|                      | `run`     | Before the effect runs.                                            |
+|                      | `cleanup` | Before the effect's cleanup function gets called.                  |
 | `useInsertionEffect` | `init`    | On the first render, at the `useInsertionEffect` call.             |
+|                      | `run`     | Before the effect runs.                                            |
+| `useLayoutEffect`    | `init`    | On the first render, at the `useLayoutEffect` call.                |
+|                      | `run`     | Before the effect runs.                                            |
 
-**Lifecycle events & `trace`**
+#### Lifecycle events & `trace`
 
-| Event     | Appearance in trace log                       |
-| --------- | --------------------------------------------- |
-| `mount`   | When the component mounts.                    |
-| `render`  | At the start of each render.                  |
-| `trace`   | When the custom `trace` function gets called. |
-| `unmount` | Just before the component unmounts.           |
+| Event      | Appearance in trace log                       |
+| ---------- | --------------------------------------------- |
+| `mounting` | Just before the component begins to mount.    |
+| `mounted`  | When the component has mounted.               |
+| `render`   | At the start of each render.                  |
+| `trace`    | When the custom `trace` function gets called. |
+| `unmount`  | Just before the component unmounts.           |
 
-### Coming soon
+### Upcoming features
 
-- Trace support for `useContext`, `useReducer`, and maybe more hooks.
+- Trace support for `useReducer`, and maybe other, more exotic, hooks.
+- For hooks with dependencies, log which dependencies changed.
+- A configuration component to replace `setTracerConfig`.
+- JSDoc comments for exported hooks.
+- Maybe: Show render count in log and panel.
