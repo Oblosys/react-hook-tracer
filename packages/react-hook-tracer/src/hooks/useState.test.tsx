@@ -1,4 +1,3 @@
-import '@testing-library/react'
 import { act, render, screen } from '@testing-library/react'
 
 import { TraceLog } from '../components/TraceLog'
@@ -66,7 +65,7 @@ test('allows absent initial state', () => {
   expect(getPanelTraceOrigins()).toContain('state:undefined')
 })
 
-test('supports custom labael', () => {
+test('supports custom label', () => {
   const Test = () => {
     const { TracePanel } = useTracer()
     useState(42, { label: 'answer' })

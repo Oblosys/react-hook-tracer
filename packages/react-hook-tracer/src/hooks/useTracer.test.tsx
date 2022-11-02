@@ -1,4 +1,3 @@
-import '@testing-library/react'
 import { render, screen } from '@testing-library/react'
 
 import { getPanelProps, getPanelTraceOrigins } from '../test/util'

@@ -122,11 +122,9 @@ export const registerHook = (hookType: HookType, hookLabel?: string): TraceOrigi
     const previousHookType = previouslyRegisteredHook.originType
     if (previousHookType !== hookType) {
       // Either Rules of Hooks were broken or we enccountered an internal error.
-      // (can this also happen when adding/removing hooks with hot reload?)
-      console.error(
+      throw new Error(
         `The ${hookType} hook at index ${nextHookIndex} was previously registered as ${previousHookType} hook`,
       )
-      // TODO: throw
     }
   }
 

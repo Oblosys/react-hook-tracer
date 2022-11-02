@@ -56,6 +56,11 @@ export interface LogEntry {
   message?: string
 }
 
+export interface TracerConfig {
+  traceToConsole?: boolean
+}
+
+// Can't use unknown because of contravariance in show-function parameters, and never is incorrect for non-generic use.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ShowProps<Props = Record<string, any>> = {
   [K in keyof Props]?: (propValue: Props[K]) => string
