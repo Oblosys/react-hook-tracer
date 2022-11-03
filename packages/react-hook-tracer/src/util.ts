@@ -31,6 +31,7 @@ export const showPropValue = (_propKey: string, value: unknown): string => {
     case 'boolean':
     case 'number':
     case 'string':
+    case 'object':
     case 'symbol': {
       return JSON.stringify(value)
     }
@@ -39,9 +40,6 @@ export const showPropValue = (_propKey: string, value: unknown): string => {
     }
     case 'function':
       return '<function>'
-    case 'object': {
-      return value === null ? 'null' : '<object>'
-    }
   }
 }
 
