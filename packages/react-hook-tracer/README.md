@@ -14,7 +14,7 @@ The demo below shows a traced `UserList` component that uses an effect to load t
   </a>
 </p>
 
-To trace a function component, simply import the hooks from `'react-hook-tracer'` instead of `'react'`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`.
+To trace a function component, simply import the hooks from `'react-hook-tracer'` instead of `'react'`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`. The package currently supports tracing for `useCallback`, `useContext`, `useEffect`, `useInsertionEffect`, `useLayoutEffect`, `useMemo`, `useRef`, and `useState`.
 
 Note that even though tracing is disabled on production builds, it is not advisable to use react-hook-tracer on production.
 
@@ -61,11 +61,11 @@ export const App = (): JSX.Element => (
 )
 ```
 
-The trace log can also be omitted, in which case traced components just show the used hooks as well as props, state, and refs, without the highlight feature. Without the trace log, it may be useful to turn on tracing to the console (see the [Tracing to the browser console](#tracing-to-the-browser-console) section).
+The trace log can also be omitted, in which case traced components just show the used hooks as well as props, state, and refs, without the highlight feature. When leaving out the trace log, it may be useful to turn on tracing to the console (see the [Tracing to the browser console](#tracing-to-the-browser-console) section).
 
 #### Tracing a component
 
-To illustrate what needs to be done to trace a component, consider this simple `Sample` component:
+To illustrate how to trace a component, consider this simple `Sample` component:
 
 ```tsx
 import { useState } from 'react'
@@ -84,7 +84,7 @@ const Sample = ({ title }: { title: string }) => {
 }
 ```
 
-Rendering this component with `<Sample title="Trace test" />` yields:
+Rendering the component with `<Sample title="Trace test" />` yields:
 
 <p align="center">
   <img
@@ -94,14 +94,14 @@ Rendering this component with `<Sample title="Trace test" />` yields:
   />
 </p>
 
-To add tracing, import any hook functions (here only `useState`) from `'react-hook-tracer'`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function. Traced hooks take an optional extra argument to add a custom label, so we can pass `{ label: 'n' }` to `useState`. The `TracePanel` component from `useTracer` can be included in the rendering:
+To trace this component, import any hook functions (here only `useState`) from `'react-hook-tracer'`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function. Traced hooks accept an optional argument to add a custom label, so we will also pass `{ label: 'n' }` to `useState`. The `TracePanel` component returned by `useTracer` is included in the rendering:
 
 ```tsx
-import { useState, useTracer } from 'react-hook-tracer'
+import { useState, useTracer } from 'react-hook-tracer' // Update import
 
 const Sample = ({ title }: { title: string }) => {
-  const { TracePanel } = useTracer()
-  const [n, setN] = useState(0, { label: 'n' })
+  const { TracePanel } = useTracer() // Call useTracer at the start
+  const [n, setN] = useState(0, { label: 'n' }) // Add custom label (optional)
   return (
     <div className="sample">
       <b>{title}</b>
@@ -109,7 +109,7 @@ const Sample = ({ title }: { title: string }) => {
         Value of n: {n}
         <input type="button" value="Inc n" onClick={() => setN((prev) => prev + 1)} />
       </span>
-      <TracePanel />
+      <TracePanel /> {/* Include TracePanel in rendering */}
     </div>
   )
 }
@@ -125,7 +125,7 @@ Now the rendering of `<Sample title="Trace test" />` together with the trace log
   />
 </p>
 
-Hooks imported from `'react-hook-tracer'` can also be used in untraced components (i.e. without a `useTracer` call), in which case they behave as regular React hooks. It is also possible to use regular React hooks in traced components, to hide them from the panels and the log.
+Note that traces are generated only by hooks imported from `'react-hook-tracer'`, and only for the calls that follow a `useTracer` call. Regular React hook calls following `useTracer` call do not generate traces, and neither do traced-hook calls in components without a `useTracer` call.
 
 Besides `TracePanel`, `useTracer` also returns a function `trace: (message: string) => void`, which can be used to log custom trace messages.
 
@@ -166,7 +166,46 @@ Instead of a string representation, console traces show the actual object values
 
 Console traces may also be useful to diagnose infinite render loops, since the trace log will not update in that case as it is itself a React component. To see what the console traces look like, check out the [CodeSandbox demo](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Demo.tsx), which has a checkbox to control console tracing.
 
+### The `useTracer` hook
+
+The `useTracer` hook should be called at the start of the traced component, and returns a record containing the `TracePanel` component and a `trace` function:
+
+```ts
+useTracer: (options?: { showProps?: ShowProps }) => { trace: (message: string) => void, TracePanel: () => JSX.Element }
+```
+
+The `TracePanel` component can be included in the rendering, and `trace` can be used to emit custom traces to the trace log.
+
+To override how prop values are displayed in the trace log, `useTracer` takes an optional `showProps: ShowProps` argument:
+
+```ts
+type ShowProps<Props = Record<string, any>> = {
+  [K in keyof Props]?: (propValue: Props[K]) => string
+}
+```
+
+This can be useful for object prop values, which are stringified by default. For example, if we have a `User` component that takes these props:
+
+```ts
+interface UserProps {
+  user: { name: string; color: string }
+  count: number
+}
+```
+
+The trace log will contain entries like `render props: user={"name":"Stimpy","color":"red"} count=1`, which could be made more concise by declaring an override for prop `user`:
+
+```ts
+const showProps: ShowProps<UserProps> = { user: ({ name, color }) => `<<${name}:${color}>>` }
+```
+
+and in the `User` component call `useTracer({ showProps })`.
+
+Now the log will contain entries like this: `render props: user=<<Stimpy:red>> count=1`.
+
 ### List of traced hooks
+
+All traced hooks accept an optional configuration argument, which can be used to specify a custom label that will appear in the trace log and panels. For hooks that keep track of a value, a custom `show` function can be specified as well.
 
 | Hook                 | Shorthand     | Optional configuration argument                         |
 | -------------------- | ------------- | ------------------------------------------------------- |
@@ -180,6 +219,8 @@ Console traces may also be useful to diagnose infinite render loops, since the t
 | `useLayoutEffect`    | `'layout'`    | `{label?: string}`                                      |
 
 ### Trace-log message overview
+
+Hooks have different phases in which traces are emitted. The overview below shows all possible phases for each hook.
 
 #### Hooks with values
 
@@ -195,7 +236,7 @@ Console traces may also be useful to diagnose infinite render loops, since the t
 |              | `set`     | When setting the state to a value.                                                |
 |              | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`). |
 
-**Hooks without values**
+#### Hooks without values
 
 | Hook                 | Phase     | Appearance in trace log                                            |
 | -------------------- | --------- | ------------------------------------------------------------------ |
@@ -212,18 +253,20 @@ Console traces may also be useful to diagnose infinite render loops, since the t
 
 #### Lifecycle events & `trace`
 
-| Event      | Appearance in trace log                       |
-| ---------- | --------------------------------------------- |
-| `mounting` | Just before the component begins to mount.    |
-| `mounted`  | When the component has mounted.               |
-| `render`   | At the start of each render.                  |
-| `trace`    | When the custom `trace` function gets called. |
-| `unmount`  | Just before the component unmounts.           |
+Even though function components don't have a traditional lifecycle like class components, traced components will emit traces on certain lifecycle events.
+
+| Event      | Appearance in trace log                                    |
+| ---------- | ---------------------------------------------------------- |
+| `mounting` | Just before the component begins to mount.                 |
+| `mounted`  | When the component has mounted.                            |
+| `render`   | At the start of each render, also shows the current props. |
+| `trace`    | When the custom `trace` function gets called.              |
+| `unmount`  | Just before the component unmounts.                        |
 
 ### Upcoming features
 
 - Trace support for `useReducer`, and maybe other, more exotic, hooks.
-- For hooks with dependencies, log which dependencies changed.
+- For hooks with dependencies, show which dependencies changed.
 - A configuration component to replace `setTracerConfig`.
 - JSDoc comments for exported hooks.
 - Maybe: Show render count in log and panel.
