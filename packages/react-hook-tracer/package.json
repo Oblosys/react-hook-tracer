@@ -1,7 +1,7 @@
 {
   "name": "react-hook-tracer",
   "author": "Martijn Schrage (https://www.oblomov.com)",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "See the order of hook-function calls in an interactive log, and inspect a function-component's props, state & refs inside its rendering.",
   "license": "MIT",
   "keywords": [
