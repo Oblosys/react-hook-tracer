@@ -10,11 +10,6 @@ import * as util from '../util'
 export interface UseTracerOptions {
   showProps?: ShowProps
 }
-export interface UseTracer {
-  componentLabel: string
-  trace: (message: string) => void
-  TracePanel: () => JSX.Element
-}
 
 const mkShowPropValue: (showProps?: ShowProps) => (propKey: string, propValue: unknown) => string =
   (showProps) => (propKey, propValue) => {
@@ -27,7 +22,12 @@ const mkShowPropValue: (showProps?: ShowProps) => (propKey: string, propValue: u
     return util.showPropValue(propKey, propValue)
   }
 
-export const useTracer = (options?: UseTracerOptions): UseTracer => {
+export const useTracer = (
+  options?: UseTracerOptions,
+): {
+  trace: (message: string) => void
+  TracePanel: () => JSX.Element
+} => {
   const showPropValue = mkShowPropValue(options?.showProps)
   const componentInfo = componentRegistry.registerCurrentComponent()
   const componentLabel = componentInfo.componentLabel
@@ -92,5 +92,5 @@ export const useTracer = (options?: UseTracerOptions): UseTracer => {
   )
 
   // NOTE: TracePanel must be used directly inside the rendering of the traced component.
-  return { componentLabel, trace, TracePanel: WrappedTracePanel }
+  return { trace, TracePanel: WrappedTracePanel }
 }
