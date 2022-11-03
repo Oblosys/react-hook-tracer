@@ -7,18 +7,20 @@
       // The default `"type": "typescript"` task does not respect `"typescript.tsdk": ".yarn/sdks/typescript/lib"` in
       // settings.json (created by `yarn dlx @yarnpkg/sdks vscode`), so we just run the yarn build-watch script instead.
       // NOTE: This task only type checks.
+      "label": "yarn run type-check-watch-lib",
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
       "script": "type-check-watch-lib",
       "isBackground": true,
       "problemMatcher": [
         {
+          // Needs to be different from type-check-watch-app owner, or one task may clear the other's problems.
+          "owner": "typescript - lib",
           "base": "$tsc-watch",
           "fileLocation": ["relative", "${workspaceFolder}/packages/react-hook-tracer"]
         }
       ],
       "group": {
         "kind": "build",
-        "isDefault": true
       },
       "runOptions": {
         "instanceLimit": 1,
@@ -27,15 +29,17 @@
       "presentation": {
         "reveal": "never",
         "revealProblems": "always"
-      },
-      "label": "yarn run type-check-watch - lib"
+      }
     },
     {
+      "label": "yarn run type-check-watch-app",
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
       "script": "type-check-watch-app",
       "isBackground": true,
       "problemMatcher": [
         {
+          // Needs to be different from type-check-watch-app owner, or one task may clear the other's problems.
+          "owner": "typescript - app",
           "base": "$tsc-watch",
           "fileLocation": ["relative", "${workspaceFolder}/apps/react-hook-tracer-demo"]
         }
@@ -50,19 +54,17 @@
       "presentation": {
         "reveal": "never",
         "revealProblems": "always"
-      },
-      "label": "yarn run type-check-watch - app"
+      }
     },
     {
       // Build the package in the background.
+      "label": "yarn run build-watch-lib",
       "type": "npm", // Confusing label, VS Code will use yarn because of the yarn.lock.
-      "script": "build-watch",
+      "script": "build-watch-lib",
       "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/packages/react-hook-tracer"
-      },
       "group": {
         "kind": "build",
+        "isDefault": true
       },
       "runOptions": {
         "instanceLimit": 1,
@@ -70,9 +72,7 @@
       },
       "presentation": {
         "reveal": "never",
-        "revealProblems": "always"
-      },
-      "label": "yarn run build-watch - packages/react-hook-tracer"
+      }
     }
   ]
 }
