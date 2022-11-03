@@ -43,7 +43,7 @@ const useMemoTraced = <T>(
     const memoizedValue = factoryRaw()
     traceOrigin.info = show(memoizedValue)
 
-    tracer.trace(componentLabel, traceOrigin, phase)
+    tracer.trace(componentLabel, traceOrigin, phase, { value: memoizedValue, show })
     return memoizedValue
   }
 
