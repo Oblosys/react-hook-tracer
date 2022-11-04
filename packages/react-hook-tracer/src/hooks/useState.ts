@@ -39,7 +39,7 @@ const useStateTraced = <S>(
   const traceOrigin = componentRegistry.registerHook('state', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
 
-  const showDefinedState = traceOptions?.show ?? ((state: S) => JSON.stringify(state))
+  const showDefinedState = traceOptions?.show ?? util.showValue
 
   const showState = util.showWithUndefined(showDefinedState)
 

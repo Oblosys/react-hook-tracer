@@ -19,7 +19,7 @@ const mkShowPropValue: (showProps?: ShowProps) => (propKey: string, propValue: u
         return showProp(propValue)
       }
     }
-    return util.showPropValue(propKey, propValue)
+    return util.showValue(propValue)
   }
 
 export const useTracer = (

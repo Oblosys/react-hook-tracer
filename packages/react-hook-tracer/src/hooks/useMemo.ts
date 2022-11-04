@@ -30,7 +30,7 @@ const useMemoTraced = <T>(
 ): T => {
   const traceOrigin = componentRegistry.registerHook('memo', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
-  const show = traceOptions?.show ?? ((value: T) => JSON.stringify(value))
+  const show = traceOptions?.show ?? util.showValue
 
   const isInitialized = useRef(false)
 

@@ -24,7 +24,7 @@ const useContextTraced = <T>(context: Context<T>, traceOptions?: UseContextTrace
   const traceOrigin = componentRegistry.registerHook('context', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
 
-  const show = traceOptions?.show ?? ((context: T) => JSON.stringify(context))
+  const show = traceOptions?.show ?? util.showValue
 
   const contextValue = React.useContext(context)
 

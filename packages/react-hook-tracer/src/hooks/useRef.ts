@@ -45,7 +45,7 @@ const useRefTraced = <T>(
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   const componentInfo = getCurrentComponentInfo()
 
-  const showDefinedValue = traceOptions?.show ?? ((value: T) => JSON.stringify(value))
+  const showDefinedValue = traceOptions?.show ?? util.showValue
 
   const showValue = util.showWithUndefined(showDefinedValue)
 

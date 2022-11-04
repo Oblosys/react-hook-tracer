@@ -76,7 +76,7 @@ test('supports custom label', () => {
   expect(getPanelTraceOrigins()).toContain('state«answer»:42')
 })
 
-test('supports custom showState', () => {
+test('supports custom show', () => {
   const Test = () => {
     const { TracePanel } = useTracer()
     useState({ p: 42 }, { show: (s) => `[${s.p}]` })

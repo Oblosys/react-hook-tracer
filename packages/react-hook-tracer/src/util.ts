@@ -25,21 +25,36 @@ export const showWithUndefined =
   (x: T | undefined) =>
     x === undefined ? 'undefined' : show(x)
 
-export const showPropValue = (_propKey: string, value: unknown): string => {
+export const showValue = (value: unknown): string => {
   switch (typeof value) {
     case 'bigint':
     case 'boolean':
     case 'number':
     case 'string':
-    case 'object':
     case 'symbol': {
       return JSON.stringify(value)
     }
     case 'undefined': {
       return 'undefined'
     }
-    case 'function':
+    case 'function': {
       return '<function>'
+    }
+    case 'object': {
+      if (value === null) {
+        return 'null'
+      }
+      // For DOM elements, toString is just fine.
+      if (value instanceof HTMLElement) {
+        return value.toString()
+      }
+      // For other objects, try to stringify first.
+      try {
+        return JSON.stringify(value)
+      } catch (error) {
+        return value.toString()
+      }
+    }
   }
 }
 
