@@ -89,7 +89,7 @@ Rendering the component with `<Sample title="Trace test" />` yields:
 <p align="center">
   <img
     alt="Sample component"
-    src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/sample-component.png"
+    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/sample-component.png"
     width="132"
   />
 </p>
@@ -120,7 +120,7 @@ Now the rendering of `<Sample title="Trace test" />` together with the trace log
 <p align="center">
   <img
     alt="Traced Sample component"
-    src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/sample-component-traced.png"
+    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/sample-component-traced.png"
     width="830"
   />
 </p>
@@ -159,7 +159,7 @@ Instead of a string representation, console traces show the actual object values
 <p align="center">
   <img
     alt="Console traces"
-    src="https://raw.githubusercontent.com/Oblosys/react-hook-tracer/main/images/console-traces.png"
+    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/console-traces.png"
     width="560"
   />
 </p>
