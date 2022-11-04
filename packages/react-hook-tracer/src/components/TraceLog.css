@@ -33,9 +33,3 @@
   align-items: center;
   padding-bottom: 1px;
 }
-
-.trace-log .hint {
-  padding-top: 2px;
-  text-align: left;
-  user-select: none;
-}
