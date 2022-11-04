@@ -3,15 +3,15 @@ import { ReactEventHandler, useCallback, useEffect, useState } from 'react'
 import { clearLog, resetComponentRegistry, setTracerConfig, TraceLog } from 'react-hook-tracer'
 import * as contextDemo from './demos/ContextDemo'
 import * as demo from './demos/Demo'
-import * as sample from './demos/Sample'
+import * as counter from './demos/Counter'
 import { ItemSelector } from './ItemSelector'
 
 import './App.css'
 
 const demoComponents = [
   { label: 'Demo', component: demo.Demo },
-  { label: 'Sample', component: sample.Demo },
   { label: 'Context', component: contextDemo.Demo },
+  { label: 'Counter', component: counter.Demo },
 ]
 
 const sessionStorageKeyBase = '@@react-hook-tracer-demo--persistent-state:'

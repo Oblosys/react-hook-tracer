@@ -65,15 +65,15 @@ The trace log can also be omitted, in which case traced components just show the
 
 #### Tracing a component
 
-To illustrate how to trace a component, consider this simple `Sample` component:
+To illustrate how to trace a component, consider this simple `Counter` component:
 
 ```tsx
 import { useState } from 'react'
 
-const Sample = ({ title }: { title: string }) => {
+const Counter = ({ title }: { title: string }) => {
   const [n, setN] = useState(0)
   return (
-    <div className="sample">
+    <div className="counter">
       <b>{title}</b>
       <span>
         Value of n: {n}
@@ -84,12 +84,12 @@ const Sample = ({ title }: { title: string }) => {
 }
 ```
 
-Rendering the component with `<Sample title="Trace test" />` yields:
+Rendering the component with `<Counter title="Trace test" />` yields:
 
 <p align="center">
   <img
-    alt="Sample component"
-    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/sample-component.png"
+    alt="Counter component"
+    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/counter-component.png"
     width="132"
   />
 </p>
@@ -99,11 +99,11 @@ To trace this component, import any hook functions (here only `useState`) from `
 ```tsx
 import { useState, useTracer } from 'react-hook-tracer' // Update import
 
-const Sample = ({ title }: { title: string }) => {
+const Counter = ({ title }: { title: string }) => {
   const { TracePanel } = useTracer() // Call useTracer at the start
   const [n, setN] = useState(0, { label: 'n' }) // Add custom label (optional)
   return (
-    <div className="sample">
+    <div className="counter">
       <b>{title}</b>
       <span>
         Value of n: {n}
@@ -115,15 +115,17 @@ const Sample = ({ title }: { title: string }) => {
 }
 ```
 
-Now the rendering of `<Sample title="Trace test" />` together with the trace log will look like this:
+Now the rendering of `<Counter title="Trace test" />` together with the trace log will look like this:
 
 <p align="center">
   <img
-    alt="Traced Sample component"
-    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/sample-component-traced.png"
-    width="830"
+    alt="Traced Counter component"
+    src="https://raw.githubusercontent.com/Oblosys/asset-storage/react-hook-tracer/images/counter-component-traced.png"
+    width="730"
   />
 </p>
+
+To experiment with this example, open the [CodeSandbox playground at `/src/demos/Counter.tsx`](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Counter.tsx) and select 'Counter' instead of 'Demo' in the running app.
 
 Note that traces are generated only by hooks imported from `'react-hook-tracer'`, and only for the calls that follow a `useTracer` call. Regular React hook calls following `useTracer` call do not generate traces, and neither do traced-hook calls in components without a `useTracer` call.
 
@@ -137,7 +139,7 @@ Instead of using a named import, `'react-hook-tracer'` can also be imported as a
 import { useTracer } from 'react-hook-tracer'
 import * as traced from 'react-hook-tracer'
 
-const Sample = ({ title }: { title: string }) => {
+const Counter = ({ title }: { title: string }) => {
   const { TracePanel } = useTracer()
   const [n, setN] = traced.useState(0, { label: 'n' })
   return (

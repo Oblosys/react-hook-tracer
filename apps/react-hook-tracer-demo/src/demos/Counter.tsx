@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState, useTracer } from 'react-hook-tracer'
 
-import './Sample.css'
+import './Counter.css'
 
-export const Demo = () => <Sample title="Trace test" />
+export const Demo = () => <Counter title="Trace test" />
 
-export const Sample = ({ title }: { title: string }) => {
+const Counter = ({ title }: { title: string }) => {
   const { TracePanel } = useTracer()
   const [n, setN] = useState(0, { label: 'n' })
   return (
-    <div className="sample">
+    <div className="counter">
       <b>{title}</b>
       <span>
         Value of n: {n}

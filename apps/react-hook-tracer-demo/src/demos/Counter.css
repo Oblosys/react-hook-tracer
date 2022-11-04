@@ -1,13 +1,13 @@
-.sample {
+.counter {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.sample span {
+.counter span {
   margin-bottom: 2px;
 }
 
-.sample input {
+.counter input {
   margin-left: 6px;
 }
