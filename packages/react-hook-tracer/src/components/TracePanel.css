@@ -1,5 +1,5 @@
 .trace-panel {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: system-ui, Arial, sans-serif;
   font-size: 13px;
   align-self: flex-start; /* to prevent stretching when parent is flex */
   display: inline-flex; /* inline to prevent stretching when parent is not flex */
@@ -30,11 +30,15 @@
   padding-left: 4px;
   padding-right: 4px;
 }
+
 .trace-panel .prop-key {
-  font-weight: bolder;
+  font-weight: 550;
   margin-right: 2px;
 }
+
 .trace-panel .prop-value {
+  font-family: Menlo, monospace;
+  font-size: 95%;
   margin-left: 2px;
 }
 
@@ -43,6 +47,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
 }
+
 .trace-panel .trace-origins > * {
   padding-left: 4px;
   padding-right: 4px;
@@ -67,11 +72,12 @@
 }
 
 .trace-panel .origin-label {
-  font-weight: bold;
+  font-weight: 550;
   padding-left: 4px;
 }
 
 .trace-panel .origin-info {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   word-wrap: break-word;
   padding-left: 6px;
 }

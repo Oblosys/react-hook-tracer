@@ -2,7 +2,8 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: system-ui, Arial, sans-serif;
+  line-height: 17px;
   overflow-y: scroll;
   margin-top: 2px;
   padding-left: 2px;
@@ -39,6 +40,7 @@
 
 .entry td.component-label {
   padding-left: 6px;
+  white-space: nowrap;
 }
 
 .entry td.origin-type {
@@ -47,7 +49,7 @@
 }
 
 .entry .origin-label {
-  font-weight: bold;
+  font-weight: 550;
   padding-right: 6px;
 }
 
@@ -60,4 +62,9 @@
 .entry .trace-phase {
   font-style: italic;
   padding-right: 6px;
+}
+
+.entry .trace-message {
+  font-family: Menlo, monospace;
+  font-size: 95%;
 }

@@ -1,8 +1,10 @@
 .replay-control-button {
-  width: 32px;
+  width: 24px;
   height: 22px;
   border-radius: 8px;
   flex-grow: 0;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .replay-control-button > svg {
   padding: 0px 4px;

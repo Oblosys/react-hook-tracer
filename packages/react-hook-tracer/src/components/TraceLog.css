@@ -1,6 +1,6 @@
 .trace-log {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  font-size: 13px;
+  font-family: system-ui, Arial, sans-serif;
+  font-size: 14px;
   box-sizing: border-box;
   margin: 4px 8px 4px 8px;
   flex-shrink: 0;
@@ -10,10 +10,10 @@
   min-width: 500px;
   color: #000;
 }
-.trace-log.header {
-  flex-basis: 3ex;
-  flex-shrink: 0;
+
+.trace-log .header {
   user-select: none;
+  margin-bottom: 2px;
 }
 
 .trace-log .controls {
@@ -23,7 +23,7 @@
 }
 .trace-log .title {
   font-size: 140%;
-  font-weight: bold;
+  font-weight: 600;
 }
 .trace-log .spacer {
   flex-grow: 1;
@@ -31,5 +31,5 @@
 .trace-log .buttons {
   display: flex;
   align-items: center;
-  padding-bottom: 1px;
+  padding-bottom: 0px;
 }
