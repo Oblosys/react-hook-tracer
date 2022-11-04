@@ -14,7 +14,7 @@ The demo below shows a traced `UserList` component that uses an effect to load t
   </a>
 </p>
 
-To trace a function component, simply import the hooks from `'react-hook-tracer'` instead of `'react'`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`. The package currently supports tracing for `useCallback`, `useContext`, `useEffect`, `useInsertionEffect`, `useLayoutEffect`, `useMemo`, `useRef`, and `useState`.
+To trace a function component, simply import the hooks from `'react-hook-tracer'` instead of `'react'`, and call `useTracer()` at the start of the function. The `useTracer` hook returns a `TracePanel` component that can be included in the rendering to show the component's hooks, as well as the current values for its state, props, and refs. A global `TraceLog` component will show the trace messages, and when hovered over will highlight the traced hook in the corresponding `TracePanel`. The package currently supports tracing for `useCallback`, `useContext`, `useEffect`, `useInsertionEffect`, `useLayoutEffect`, `useMemo`, `useReducer`, `useRef`, and `useState`.
 
 Note that even though tracing is disabled on production builds, it is not advisable to use react-hook-tracer on production.
 
@@ -213,12 +213,21 @@ All traced hooks accept an optional configuration argument, which can be used to
 | -------------------- | ------------- | ------------------------------------------------------- |
 | `useContext`         | `'context'`   | `{label?: string, show?: (contextValue: T) => string}`  |
 | `useMemo`            | `'memo'`      | `{label?: string, show?: (memoizedValue: T) => string}` |
+| `useReducer`         | `'reducer'`   | See interface `UseReducerTraceOptions` below.           |
 | `useRef`             | `'ref'`       | `{label?: string, show?: (refValue: T) => string}`      |
 | `useState`           | `'state'`     | `{label?: string, show?: (state: S) => string}`         |
 | `useCallback`        | `'callback'`  | `{label?: string}`                                      |
 | `useEffect`          | `'effect'`    | `{label?: string}`                                      |
 | `useInsertionEffect` | `'insertion'` | `{label?: string}`                                      |
 | `useLayoutEffect`    | `'layout'`    | `{label?: string}`                                      |
+
+```ts
+interface UseReducerTraceOptions<S, A> {
+  label?: string
+  showState?: (state: S) => string
+  showAction?: (state: A) => string
+}
+```
 
 ### Trace-log message overview
 
@@ -232,6 +241,9 @@ Hooks have different phases in which traces are emitted. The overview below show
 |              | `update`  | Whenever the context value changes.                                               |
 | `useMemo`    | `init`    | On the first render, at the `useMemo` call.                                       |
 |              | `refresh` | Whenever the memoized value is recomputed due to changes in the dependencies.     |
+| `useReducer` | `init`    | On the first render, at the `useReducer` call.                                    |
+|              | `action`  | At the start of a reduction step, shows the dispatched action.                    |
+|              | `state`   | Immediately after a reduction step, shows the updated state.                      |
 | `useRef`     | `init`    | On the first render, at the `useRef` call.                                        |
 |              | `set`     | Whenever the ref value changes (even if no component re-renders).                 |
 | `useState`   | `init`    | On the first render, at the `useState` call.                                      |
@@ -267,7 +279,6 @@ Even though function components don't have a traditional lifecycle like class co
 
 ### Upcoming features
 
-- Trace support for `useReducer`, and maybe other, more exotic, hooks.
 - For hooks with dependencies, show which dependencies changed.
 - A configuration component to replace `setTracerConfig`.
 - JSDoc comments for exported hooks.

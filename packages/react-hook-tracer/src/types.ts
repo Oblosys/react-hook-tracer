@@ -30,6 +30,7 @@ export type HookType =
   | 'insertion'
   | 'layout'
   | 'memo'
+  | 'reducer'
   | 'ref'
   | 'state'
 
@@ -47,6 +48,7 @@ export const mkTraceOrigin = (originType: TraceOriginType, label?: string): Trac
 })
 
 export type Phase =
+  | 'action'
   | 'cleanup'
   | 'init'
   | 'mounted'
@@ -54,6 +56,7 @@ export type Phase =
   | 'refresh'
   | 'run'
   | 'set'
+  | 'state'
   | 'update'
   | 'props'
 

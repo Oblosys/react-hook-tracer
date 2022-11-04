@@ -11,7 +11,7 @@
   border-radius: 10px;
 }
 .user-list-wrapper > * > .trace-panel {
-  width: 282px; /* Override trace-panel width */
+  width: 284px; /* Override trace-panel width */
 }
 
 .user-list {

@@ -1,0 +1,14 @@
+.reducer-form {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.reducer-form input {
+  width: 16ex;
+}
+
+.reducer-form button {
+  margin-left: 8px;
+}

@@ -4,6 +4,7 @@ import { clearLog, resetComponentRegistry, setTracerConfig, TraceLog } from 'rea
 import * as contextDemo from './demos/ContextDemo'
 import * as demo from './demos/Demo'
 import * as counter from './demos/Counter'
+import * as reducer from './demos/Reducer'
 import { ItemSelector } from './ItemSelector'
 
 import './App.css'
@@ -12,6 +13,7 @@ const demoComponents = [
   { label: 'Demo', component: demo.Demo },
   { label: 'Context', component: contextDemo.Demo },
   { label: 'Counter', component: counter.Demo },
+  { label: 'Reducer', component: reducer.Demo },
 ]
 
 const sessionStorageKeyBase = '@@react-hook-tracer-demo--persistent-state:'
