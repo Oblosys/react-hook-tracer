@@ -6,6 +6,8 @@ import * as util from './util'
 export class Tracer {
   protected shouldTraceToConsole: boolean // Does not need to be observable.
 
+  protected traceLogRegistered: boolean // Does not need to be observable.
+
   protected logEntries: Observable<LogEntry[]>
 
   protected selectedEntry: Observable<{ index: number; entry: LogEntry } | null>
@@ -14,9 +16,18 @@ export class Tracer {
 
   constructor() {
     this.shouldTraceToConsole = false
+    this.traceLogRegistered = false
     this.logEntries = new Observable<LogEntry[]>([])
     this.selectedEntry = new Observable<{ index: number; entry: LogEntry } | null>(null)
     this.tracedComponentLabels = new Observable<string[]>([])
+  }
+
+  registerTraceLog() {
+    this.traceLogRegistered = true
+  }
+
+  isTraceLogRegistered(): boolean {
+    return this.traceLogRegistered
   }
 
   setShouldTraceToConsole(shouldTraceToConsole: boolean) {
@@ -86,6 +97,10 @@ export class Tracer {
     this.setSelectedEntryIndex(update(this.selectedEntry.value?.index ?? null))
   }
 
+  logPendingToConsole(): void {
+    this.logEntries.value.forEach(traceToConsole)
+  }
+
   trace<T>(
     componentLabel: string,
     origin: TraceOrigin,
@@ -127,6 +142,10 @@ export const setTracerConfig = (tracerConfig: TracerConfig): void => {
 }
 
 export const clearLog = (): void => tracer.clearLog()
+
+export const isTraceLogRegistered = (): boolean => tracer.isTraceLogRegistered()
+
+export const logPendingToConsole = (): void => tracer.logPendingToConsole()
 
 const traceToConsole = (logEntry: LogEntry) => {
   const { componentLabel, origin, phase: rawPhase, payload } = logEntry

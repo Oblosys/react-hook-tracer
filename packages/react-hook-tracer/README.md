@@ -48,7 +48,7 @@ You may want to temporarily disable [React strict mode](https://reactjs.org/docs
 
 #### Include `TraceLog` component
 
-The `TraceLog` component can be included anywhere in the application, but it probably makes the most sense to keep it near the root.
+The optional `TraceLog` component can be included anywhere in the application, but it probably makes the most sense to keep it near the root.
 
 ```tsx
 import { TraceLog } from 'react-hook-tracer'
@@ -61,7 +61,7 @@ export const App = (): JSX.Element => (
 )
 ```
 
-The trace log can also be omitted, in which case traced components just show the used hooks as well as props, state, and refs, without the highlight feature. When leaving out the trace log, it may be useful to turn on tracing to the console (see the [Tracing to the browser console](#tracing-to-the-browser-console) section).
+If the `TraceLog` is omitted, traces will get logged to the console instead (see [Tracing to the browser console](#tracing-to-the-browser-console)).
 
 #### Tracing a component
 
@@ -150,7 +150,7 @@ const Counter = ({ title }: { title: string }) => {
 
 ### Tracing to the browser console
 
-To enable tracing to the browser console, call `setTracerConfig` anywhere in your project:
+To enable tracing to the browser console, leave out the `TraceLog` component, or call `setTracerConfig` anywhere in your project:
 
 ```ts
 setTracerConfig({ shouldTraceToConsole: true })

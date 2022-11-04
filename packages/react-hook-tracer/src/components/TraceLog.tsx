@@ -96,6 +96,8 @@ const reducer = (prevState: State, action: Action): State => {
 }
 
 export const TraceLog = (): JSX.Element => {
+  tracer.registerTraceLog()
+
   const [state, dispatch] = useReducer(reducer, initialState)
 
   // Update local state.tracedComponentLabels when global tracer value changes.

@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react'
 
-import { tracer } from '../Tracer'
+import { isTraceLogRegistered, logPendingToConsole, setTracerConfig, tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
 import { TracePanel } from '../components/TracePanel'
 import * as reactInternals from '../reactInternals'
@@ -48,13 +48,22 @@ export const useTracer = (
     [componentLabel, componentInfo.traceOrigins.mount], // TODO: Maybe just ignore? Don't change anyway.
   )
 
-  // Effect with empty dependencies to track component unmount on cleanup.
-  React.useEffect(
-    () => () => {
+  // Effect with stable dependencies, runs only on first render.
+  React.useEffect(() => {
+    if (!isTraceLogRegistered()) {
+      // Any traces before this point will already have been queued in timeouts, so we need to queue a timeout as well.
+      setTimeout(() => {
+        console.log(
+          'react-hook-tracer: No TraceLog component found, tracing to the console instead.',
+        )
+        logPendingToConsole()
+        setTracerConfig({ traceToConsole: true })
+      }, 0)
+    }
+    return () => {
       tracer.trace(componentLabel, componentInfo.traceOrigins.unmount)
-    },
-    [componentLabel, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount],
-  )
+    }
+  }, [componentLabel, componentInfo.traceOrigins.mount, componentInfo.traceOrigins.unmount]) // All stable.
 
   const pendingProps = { ...reactInternals.getCurrentPendingProps() } // Should be immutable, but let's make sure.
 
