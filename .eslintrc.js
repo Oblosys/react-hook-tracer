@@ -40,6 +40,7 @@ module.exports = {
     ],
     'arrow-body-style': ['warn', 'as-needed'],
     curly: ['warn', 'all'],
+    eqeqeq: ['warn', 'always'],
     'import/order': [
       'warn',
       {

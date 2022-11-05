@@ -104,7 +104,7 @@ export class Tracer {
     const message =
       messageOrObject === undefined
         ? undefined
-        : typeof messageOrObject == 'string'
+        : typeof messageOrObject === 'string'
         ? messageOrObject
         : messageOrObject.show(messageOrObject.value)
 
@@ -140,7 +140,7 @@ const traceToConsole = <T>(
   const colon = phase !== undefined && messageOrObject !== undefined ? ':' : ''
 
   // TODO: Would be nice to use show if it is user-specified, but we currently cannot determine that here.
-  const message = typeof messageOrObject == 'string' ? messageOrObject : ''
+  const message = typeof messageOrObject === 'string' ? messageOrObject : ''
 
   const initialArgs: (string | unknown)[] = [
     `${componentLabel} %c${originType}%c ` +
