@@ -59,11 +59,13 @@ interface LogEntryProps {
 const LogEntry = memo(
   ({
     index,
-    entry: { componentLabel, origin, message, phase: rawPhase },
+    entry: { componentLabel, origin, payload, phase: rawPhase },
     isTraced,
     isHighlighted,
     setHighlightedIndex,
   }: LogEntryProps) => {
+    const message = util.showPayload(payload)
+
     const rawOriginType = origin.originType
     const { originType, phase } = util.rewriteOriginTypeMount(rawOriginType, rawPhase)
 

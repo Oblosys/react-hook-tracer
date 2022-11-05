@@ -64,8 +64,15 @@ export interface LogEntry {
   componentLabel: string
   origin: TraceOrigin
   phase?: Phase // e.g to show 'state' log entries as 'init', 'set', etc.
-  message?: string
+  payload: Payload
 }
+
+// Can't use unknown or never as T is in both co- & contravariant positions. Existential-type tricks are not worth it.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Payload<T = any> =
+  | { type: 'empty' }
+  | { type: 'string'; message: string }
+  | { type: 'value'; value: T; show: (value: T) => string }
 
 export interface TracerConfig {
   traceToConsole?: boolean

@@ -68,6 +68,20 @@ export const showProps = (
     : propKeys.map((key) => `${key}=${showPropValue(key, props[key])}`).join(' ')
 }
 
+export const showPayload = <T>(payload: types.Payload<T>): string => {
+  switch (payload.type) {
+    case 'empty': {
+      return ''
+    }
+    case 'string': {
+      return payload.message
+    }
+    case 'value': {
+      return payload.show(payload.value)
+    }
+  }
+}
+
 // Rewrite {originType: 'mount', phase: 'mounting'/'mounted' } to {originType: 'mounting'/'mounted', phase: undefined }
 // to avoid logging 'mount mounting' and 'mount mounted'.
 export const rewriteOriginTypeMount = (

@@ -1,6 +1,6 @@
 import { Observable } from './Observable'
 import * as reactDevTools from './reactDevTools'
-import { LogEntry, Phase, TraceOrigin, TracerConfig } from './types'
+import { LogEntry, Payload, Phase, TraceOrigin, TracerConfig } from './types'
 import * as util from './util'
 
 export class Tracer {
@@ -97,18 +97,18 @@ export class Tracer {
       return
     }
 
-    if (this.shouldTraceToConsole) {
-      traceToConsole(componentLabel, origin, phase, messageOrObject)
-    }
-
-    const message =
+    const payload: Payload<T> =
       messageOrObject === undefined
-        ? undefined
+        ? { type: 'empty' }
         : typeof messageOrObject === 'string'
-        ? messageOrObject
-        : messageOrObject.show(messageOrObject.value)
+        ? { type: 'string', message: messageOrObject }
+        : { type: 'value', value: messageOrObject.value, show: messageOrObject.show }
 
-    const logEntry: LogEntry = { componentLabel, origin, phase, message }
+    const logEntry: LogEntry = { componentLabel, origin, phase, payload }
+
+    if (this.shouldTraceToConsole) {
+      traceToConsole(logEntry)
+    }
 
     // Since setLogEntries calls observer handlers that will in turn call setState functions, we call it asynchronously
     // in a timeout, to avoid calling setState during render.
@@ -128,19 +128,16 @@ export const setTracerConfig = (tracerConfig: TracerConfig): void => {
 
 export const clearLog = (): void => tracer.clearLog()
 
-const traceToConsole = <T>(
-  componentLabel: string,
-  origin: TraceOrigin,
-  rawPhase?: Phase,
-  messageOrObject?: string | { value: T; show: (v: T) => string },
-) => {
+const traceToConsole = (logEntry: LogEntry) => {
+  const { componentLabel, origin, phase: rawPhase, payload } = logEntry
+
   const rawOriginType = origin.originType
   const { originType, phase } = util.rewriteOriginTypeMount(rawOriginType, rawPhase)
 
-  const colon = phase !== undefined && messageOrObject !== undefined ? ':' : ''
+  const colon = phase !== undefined && payload.type !== 'empty' ? ':' : ''
 
   // TODO: Would be nice to use show if it is user-specified, but we currently cannot determine that here.
-  const message = typeof messageOrObject === 'string' ? messageOrObject : ''
+  const message = payload.type === 'string' ? payload.message : ''
 
   const initialArgs: (string | unknown)[] = [
     `${componentLabel} %c${originType}%c ` +
@@ -156,10 +153,7 @@ const traceToConsole = <T>(
     '',
   ]
 
-  const objectArg: unknown[] =
-    messageOrObject !== undefined && typeof messageOrObject !== 'string'
-      ? [messageOrObject.value]
-      : []
+  const objectArg: unknown[] = payload.type === 'value' ? [payload.value] : []
 
   const logArgs = [...initialArgs, ...objectArg]
   console.log(...logArgs)
