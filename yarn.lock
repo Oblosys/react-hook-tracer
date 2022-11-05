@@ -11587,7 +11587,7 @@ __metadata:
     eslint-config-react-app: ^7.0.1
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-hook-tracer: 1.0.1
+    react-hook-tracer: 1.1.0
     react-scripts: 5.0.1
     typescript: ^4.8.4
   languageName: unknown
@@ -11612,7 +11612,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-hook-tracer@1.0.1, react-hook-tracer@workspace:packages/react-hook-tracer":
+"react-hook-tracer@1.1.0, react-hook-tracer@workspace:packages/react-hook-tracer":
   version: 0.0.0-use.local
   resolution: "react-hook-tracer@workspace:packages/react-hook-tracer"
   dependencies:
