@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   font-family: system-ui, Arial, sans-serif;
-  line-height: 17px;
   overflow-y: scroll;
   margin-top: 2px;
   padding-left: 2px;
@@ -15,6 +14,7 @@
 }
 
 .entry {
+  height: 20px;
   animation: emphasize-new-entries 5s;
 }
 
@@ -56,7 +56,7 @@
 .entry td.phase-and-message {
   padding-left: 4px;
   width: 100%;
-  word-wrap: break-word;
+  word-wrap: anywhere;
 }
 
 .entry .trace-phase {

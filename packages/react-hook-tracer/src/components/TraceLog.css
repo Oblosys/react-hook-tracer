@@ -14,22 +14,22 @@
 .trace-log .header {
   user-select: none;
   margin-bottom: 2px;
+  display: flex;
+  min-height: 24px;
+  align-items: flex-start;
 }
 
-.trace-log .controls {
-  display: flex;
-  line-height: 22px;
-  user-select: none;
-}
 .trace-log .title {
-  font-size: 140%;
+  font-size: 20px;
+  line-height: 20px;
   font-weight: 600;
 }
+
 .trace-log .spacer {
   flex-grow: 1;
 }
+
 .trace-log .buttons {
   display: flex;
-  align-items: center;
   padding-bottom: 0px;
 }

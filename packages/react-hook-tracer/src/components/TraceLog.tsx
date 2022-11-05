@@ -162,50 +162,48 @@ export const TraceLog = (): JSX.Element => {
   return (
     <div className="trace-log">
       <div className="header">
-        <div className="controls">
-          <div className="title">Trace log</div>
-          <div className="spacer"></div>
-          <div className="buttons">
+        <div className="title">Trace log</div>
+        <div className="spacer"></div>
+        <div className="buttons">
+          <SvgButton
+            type="previous"
+            tooltip="previous entry"
+            isDisabled={state.highlightedIndex === null || state.highlightedIndex === 0}
+            onClick={() => stepReplay(-1)}
+          />{' '}
+          {state.isReplaying ? (
+            <SvgButton type="pause" tooltip="pause replay" onClick={stopReplay} />
+          ) : (
             <SvgButton
-              type="previous"
-              tooltip="previous entry"
-              isDisabled={state.highlightedIndex === null || state.highlightedIndex === 0}
-              onClick={() => stepReplay(-1)}
-            />{' '}
-            {state.isReplaying ? (
-              <SvgButton type="pause" tooltip="pause replay" onClick={stopReplay} />
-            ) : (
-              <SvgButton
-                type="play"
-                tooltip="start replay"
-                onClick={startReplay}
-                isDisabled={
-                  state.logEntries.length === 0 ||
-                  state.highlightedIndex === state.logEntries.length - 1
-                }
-              />
-            )}{' '}
-            <SvgButton
-              type="next"
-              tooltip="next entry"
+              type="play"
+              tooltip="start replay"
+              onClick={startReplay}
               isDisabled={
-                state.highlightedIndex === null ||
+                state.logEntries.length === 0 ||
                 state.highlightedIndex === state.logEntries.length - 1
               }
-              onClick={() => stepReplay(1)}
             />
-          </div>
-          <div className="spacer"></div>
+          )}{' '}
           <SvgButton
-            type="trash"
-            tooltip="clear log"
-            onClick={clearLog}
-            isDisabled={state.logEntries.length === 0}
+            type="next"
+            tooltip="next entry"
+            isDisabled={
+              state.highlightedIndex === null ||
+              state.highlightedIndex === state.logEntries.length - 1
+            }
+            onClick={() => stepReplay(1)}
           />
-          <div className="delay-selector">
-            Delay:
-            <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
-          </div>
+        </div>
+        <div className="spacer"></div>
+        <SvgButton
+          type="trash"
+          tooltip="clear log"
+          onClick={clearLog}
+          isDisabled={state.logEntries.length === 0}
+        />
+        <div className="delay-selector">
+          Delay:
+          <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
         </div>
       </div>
       <LogEntries
