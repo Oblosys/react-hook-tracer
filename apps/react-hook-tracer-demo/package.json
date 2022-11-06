@@ -15,7 +15,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint-check": "eslint --cache .",
-    "lint-fix": "yarn --silent lint-check --fix",
+    "lint-fix": "yarn lint-check --fix",
     "test": "react-scripts test --watchAll=false",
     "type-check": "tsc",
     "type-check-watch": "yarn type-check --watch"
