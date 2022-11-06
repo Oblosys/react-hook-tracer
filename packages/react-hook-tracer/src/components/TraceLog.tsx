@@ -10,7 +10,7 @@ import {
   setSessionReplayTimerDelay,
 } from './DelaySelector'
 import { LogEntries } from './LogEntries'
-import { Button } from './SvgButton'
+import { SvgButton } from './SvgButton'
 
 import './TraceLog.css'
 
@@ -166,16 +166,16 @@ export const TraceLog = (): JSX.Element => {
           <div className="title">Trace log</div>
           <div className="spacer"></div>
           <div className="buttons">
-            <Button
+            <SvgButton
               type="previous"
               tooltip="previous entry"
               isDisabled={state.highlightedIndex === null || state.highlightedIndex === 0}
               onClick={() => stepReplay(-1)}
             />{' '}
             {state.isReplaying ? (
-              <Button type="pause" tooltip="pause replay" onClick={stopReplay} />
+              <SvgButton type="pause" tooltip="pause replay" onClick={stopReplay} />
             ) : (
-              <Button
+              <SvgButton
                 type="play"
                 tooltip="start replay"
                 onClick={startReplay}
@@ -185,7 +185,7 @@ export const TraceLog = (): JSX.Element => {
                 }
               />
             )}{' '}
-            <Button
+            <SvgButton
               type="next"
               tooltip="next entry"
               isDisabled={
@@ -196,7 +196,7 @@ export const TraceLog = (): JSX.Element => {
             />
           </div>
           <div className="spacer"></div>
-          <Button
+          <SvgButton
             type="trash"
             tooltip="clear log"
             onClick={clearLog}

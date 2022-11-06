@@ -121,7 +121,7 @@ export const registerHook = (hookType: HookType, hookLabel?: string): TraceOrigi
   } else {
     const previousHookType = previouslyRegisteredHook.originType
     if (previousHookType !== hookType) {
-      // Either Rules of Hooks were broken or we enccountered an internal error.
+      // Either Rules of Hooks were broken or we encountered an internal error.
       throw new Error(
         `The ${hookType} hook at index ${nextHookIndex} was previously registered as ${previousHookType} hook`,
       )

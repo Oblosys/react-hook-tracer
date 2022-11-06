@@ -76,15 +76,15 @@ const buttonSvgByType = {
   ),
 }
 
-type ButtonType = keyof typeof buttonSvgByType
+type SvgButtonType = keyof typeof buttonSvgByType
 
-interface ButtonProps {
-  type: ButtonType
+interface SvgButtonProps {
+  type: SvgButtonType
   tooltip: string
   onClick: () => void
   isDisabled?: boolean
 }
-export const Button = ({ type, tooltip, onClick, isDisabled }: ButtonProps) => (
+export const SvgButton = ({ type, tooltip, onClick, isDisabled }: SvgButtonProps) => (
   <div
     className={'replay-control-button'}
     title={tooltip}

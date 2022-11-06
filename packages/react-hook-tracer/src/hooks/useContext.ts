@@ -33,7 +33,7 @@ const useContextTraced = <T>(context: Context<T>, traceOptions?: UseContextTrace
     tracer.trace(componentLabel, traceOrigin, 'init', { value: contextValue, show })
   })
 
-  // Keep track of the context value in a ref, and trace and 'update' message whenever it changes.
+  // Keep track of the context value in a ref, and trace and 'update' traceOrigin.info whenever it changes.
   const contextValueRef = React.useRef<T>(contextValue)
 
   if (contextValueRef.current !== contextValue) {
