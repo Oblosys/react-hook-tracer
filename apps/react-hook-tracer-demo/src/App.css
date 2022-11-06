@@ -16,8 +16,8 @@
 
 .demo-pane-header {
   display: flex;
-  align-items: baseline;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  margin-bottom: 12px;
   white-space: nowrap;
 }
 
@@ -50,18 +50,27 @@
 
 .demo-pane-header .github-link {
   display: flex;
-  align-items: baseline;
+  padding-top: 3px;
   margin-left: auto;
   margin-right: 6px;
 }
 
-.demo-pane-header .github-link svg {
-  position: relative;
-  top: 5px;
-  margin-right: 2px;
+.demo-pane-header .github-logo {
+  margin-right: 3px;
 }
 
 .column {
   display: flex;
   flex-direction: column;
+}
+
+.svg-icon::before {
+  content: '\200B';
+}
+.svg-icon {
+  display: inline-flex;
+  align-items: center;
+}
+.svg-icon svg {
+  margin-bottom: 0.5px;
 }
