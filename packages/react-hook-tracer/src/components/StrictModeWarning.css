@@ -1,0 +1,18 @@
+.strict-mode-warning[data-strict-mode='false'] {
+  display: none;
+}
+.strict-mode-warning[data-strict-mode='true'] {
+  display: block;
+  align-self: stretch;
+  color: white;
+  background-color: #940000;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border: solid #ccc 1px;
+  border-bottom: none;
+}
+.strict-mode-warning a,
+.strict-mode-warning a:visited {
+  color: inherit;
+}

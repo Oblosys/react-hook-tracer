@@ -12,3 +12,17 @@ export const useRunOnFirstRender = (action: () => void) => {
     action()
   }
 }
+
+export const useStrictModeDetector = (): boolean => {
+  const strictModeRef = useRef(false)
+
+  // React v17 mutes the console during the second strict-mode render with a method that has a '__reactDisabledLog' key.
+  // React v18 dims the log message with a method that has a '__REACT_DEVTOOLS_STRICT_MODE_ORIGINAL_METHOD__' key.
+  if (
+    '__reactDisabledLog' in console.log ||
+    '__REACT_DEVTOOLS_STRICT_MODE_ORIGINAL_METHOD__' in console.log
+  ) {
+    strictModeRef.current = true
+  }
+  return strictModeRef.current
+}

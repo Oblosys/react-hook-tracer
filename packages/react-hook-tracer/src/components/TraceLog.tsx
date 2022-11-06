@@ -10,6 +10,7 @@ import {
   setSessionReplayTimerDelay,
 } from './DelaySelector'
 import { LogEntries } from './LogEntries'
+import { StrictModeWarning } from './StrictModeWarning'
 import { SvgButton } from './SvgButton'
 
 import './TraceLog.css'
@@ -208,6 +209,7 @@ export const TraceLog = (): JSX.Element => {
           <DelaySelector value={state.replayTimerDelay} onChange={setReplayTimerDelay} />
         </div>
       </div>
+      <StrictModeWarning />
       <LogEntries
         logEntries={state.logEntries}
         tracedComponentLabels={state.tracedComponentLabels}

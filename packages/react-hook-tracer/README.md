@@ -42,10 +42,6 @@ Install the package with npm (or yarn):
 > npm install react-hook-tracer
 ```
 
-#### Optionally disable React strict mode
-
-You may want to temporarily disable [React strict mode](https://reactjs.org/docs/strict-mode.html) by removing the `<React.StrictMode>` tags (typically in the root `index.tsx` or `index.jsx` file). In development builds, strict mode executes each component render twice, and also mounts components twice, which makes the log harder to read.
-
 #### Include `TraceLog` component
 
 The optional `TraceLog` component can be included anywhere in the application, but it probably makes the most sense to keep it near the root.
@@ -147,6 +143,12 @@ const Counter = ({ title }: { title: string }) => {
   )
 }
 ```
+
+#### React strict mode
+
+<!-- Keep title in sync with link in packages/react-hook-tracer/src/components/StrictModeWarning.tsx -->
+
+You may want to temporarily disable [React strict mode](https://reactjs.org/docs/strict-mode.html) by removing the `<React.StrictMode>` tags (typically in the root `index.tsx` or `index.jsx` file). In development builds, strict mode executes each component render twice, and also mounts components twice, which makes the log harder to read.
 
 ### Tracing to the browser console
 

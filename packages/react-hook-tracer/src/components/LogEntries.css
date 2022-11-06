@@ -4,11 +4,10 @@
   flex-direction: column;
   font-family: system-ui, Arial, sans-serif;
   overflow-y: scroll;
-  margin-top: 2px;
-  padding-left: 2px;
   background-color: #f0f0f0;
   border: solid #ccc 1px;
 }
+
 .entries {
   border-collapse: collapse;
 }
@@ -39,7 +38,7 @@
 }
 
 .entry td.component-label {
-  padding-left: 6px;
+  padding-left: 8px;
   white-space: nowrap;
 }
 
