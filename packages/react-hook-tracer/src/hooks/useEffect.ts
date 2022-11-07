@@ -6,7 +6,7 @@ import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseEffectTraceOptions {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
 }
 export function useEffect(
   effect: React.EffectCallback,

@@ -14,13 +14,13 @@ import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseReducerTraceOptions<S, A> {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
   showState?: (state: S) => string // Should be a stable function.
   showAction?: (state: A) => string // Should be a stable function.
 }
 
 export interface UseReducerTraceOptionsWithoutAction<S> {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
   showState?: (state: S) => string // Should be a stable function.
 }
 

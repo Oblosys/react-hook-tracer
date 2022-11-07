@@ -5,7 +5,7 @@ import * as componentRegistry from '../componentRegistry'
 import * as util from '../util'
 
 export interface UseMemoTraceOptions<T> {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
   show?: (memoizedValue: T) => string // Should be a stable function.
 }
 

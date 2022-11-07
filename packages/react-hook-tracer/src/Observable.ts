@@ -21,14 +21,14 @@ export class Observable<T> {
     this.nextObserverId = this.nextObserverId + 1
 
     this.observers = [...this.observers, { id: observerId, changeHandler }]
-    const value = this.value // Indexing in the timeout callback would be fine, but this is more accurate.
+    const value = this.value
     changeHandler(value)
     return observerId
   }
 
   unsubscribe(id: number): void {
     this.observers = util.flatMap(this.observers, (observer) =>
-      observer.id === id ? [] : ([observer] as const),
+      observer.id === id ? [] : [observer],
     )
   }
 

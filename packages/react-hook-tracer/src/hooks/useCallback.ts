@@ -5,7 +5,7 @@ import * as componentRegistry from '../componentRegistry'
 import * as util from '../util'
 
 export interface UseCallbackTraceOptions {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
 }
 
 // Typing useCallback is a bit of a nuisance as it uses Function.

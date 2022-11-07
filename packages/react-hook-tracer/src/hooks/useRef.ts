@@ -7,7 +7,7 @@ import * as util from '../util'
 import * as hookUtil from './hookUtil'
 
 export interface UseRefTraceOptions<T> {
-  label?: string // Should be a stable string
+  label?: string // Should be a stable string.
   show?: (refValue: T) => string // Should be a stable function.
 }
 export function useRef<T>(
