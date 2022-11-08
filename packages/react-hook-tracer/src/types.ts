@@ -48,8 +48,8 @@ export const mkTraceOrigin = (originType: TraceOriginType, label?: string): Trac
 })
 
 export type Phase =
-  | 'action'
   | 'cleanup'
+  | 'dispatch'
   | 'init'
   | 'mounted'
   | 'mounting'

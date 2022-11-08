@@ -237,20 +237,20 @@ Hooks have different phases in which traces are emitted. The overview below show
 
 #### Hooks with values
 
-| Hook         | Phase     | Appearance in trace log                                                           |
-| ------------ | --------- | --------------------------------------------------------------------------------- |
-| `useContext` | `init`    | On the first render, at the `useContext` call.                                    |
-|              | `update`  | Whenever the context value changes.                                               |
-| `useMemo`    | `init`    | On the first render, at the `useMemo` call.                                       |
-|              | `refresh` | Whenever the memoized value is recomputed due to changes in the dependencies.     |
-| `useReducer` | `init`    | On the first render, at the `useReducer` call.                                    |
-|              | `action`  | At the start of a reduction step, shows the dispatched action.                    |
-|              | `state`   | Immediately after a reduction step, shows the updated state.                      |
-| `useRef`     | `init`    | On the first render, at the `useRef` call.                                        |
-|              | `set`     | Whenever the ref value changes (even if no component re-renders).                 |
-| `useState`   | `init`    | On the first render, at the `useState` call.                                      |
-|              | `set`     | When setting the state to a value.                                                |
-|              | `update`  | When setting the state with an update function (i.e `setState(prevState => ..)`). |
+| Hook         | Phase      | Appearance in trace log                                                           |
+| ------------ | ---------- | --------------------------------------------------------------------------------- |
+| `useContext` | `init`     | On the first render, at the `useContext` call.                                    |
+|              | `update`   | Whenever the context value changes.                                               |
+| `useMemo`    | `init`     | On the first render, at the `useMemo` call.                                       |
+|              | `refresh`  | Whenever the memoized value is recomputed due to changes in the dependencies.     |
+| `useReducer` | `init`     | On the first render, at the `useReducer` call.                                    |
+|              | `dispatch` | When dispatching an action, shows the action.                                     |
+|              | `state`    | Immediately after a reduction step, shows the updated state.                      |
+| `useRef`     | `init`     | On the first render, at the `useRef` call.                                        |
+|              | `set`      | Whenever the ref value changes (even if no component re-renders).                 |
+| `useState`   | `init`     | On the first render, at the `useState` call.                                      |
+|              | `set`      | When setting the state to a value.                                                |
+|              | `update`   | When setting the state with an update function (i.e `setState(prevState => ..)`). |
 
 #### Hooks without values
 

@@ -6,6 +6,7 @@ import React, {
   ReducerState,
   ReducerStateWithoutAction,
   ReducerWithoutAction,
+  useCallback,
 } from 'react'
 
 import { tracer } from '../Tracer'
@@ -107,7 +108,6 @@ const useReducerTraced = <I, S, A>(
   })
 
   const reducer = (prevState: S, action: A): S => {
-    tracer.trace(componentLabel, traceOrigin, 'action', { value: action, show: showAction })
     const state = rawReducer(prevState, action)
     traceOrigin.info = showState(state)
     tracer.trace(componentLabel, traceOrigin, 'state', { value: state, show: showState })
@@ -115,5 +115,15 @@ const useReducerTraced = <I, S, A>(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return React.useReducer(reducer, initialArg as any, initializer as any)
+  const [state, dispatch] = React.useReducer(reducer, initialArg as any, initializer as any)
+
+  const tracedDispatch: (action: A) => void = useCallback(
+    (action: A) => {
+      tracer.trace(componentLabel, traceOrigin, 'dispatch', { value: action, show: showAction })
+      return dispatch(action)
+    },
+    [componentLabel, showAction, traceOrigin], // All stable.
+  )
+
+  return [state, tracedDispatch]
 }
