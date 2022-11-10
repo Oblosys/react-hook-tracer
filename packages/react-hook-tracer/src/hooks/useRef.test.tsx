@@ -131,3 +131,17 @@ test('can handle cyclic object', () => {
     message: 'update:[object Object]',
   })
 })
+
+test('allows ref mutation during render', () => {
+  const Test = () => {
+    const { TracePanel } = useTracer()
+    const ref = useRef(1)
+    ref.current += 1
+
+    return <TracePanel />
+  }
+
+  const { rerender } = render(<Test />)
+  rerender(<Test />)
+  expect(getPanelTraceOrigins()).toContain('ref:3')
+})

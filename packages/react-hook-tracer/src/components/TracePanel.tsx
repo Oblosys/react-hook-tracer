@@ -23,8 +23,13 @@ export const TracePanel = ({
 }: TracePanelProps) => {
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
-  const [, setRefreshDummy] = useState([])
-  const refreshTracePanel = useCallback(() => setRefreshDummy(() => []), [])
+  const [, setRefreshDummy] = useState([]) // Dummy state to trigger re-render.
+
+  // Called after ref mutation to update the ref value shown.
+  const refreshTracePanel = useCallback(() => {
+    // Defer the setting the state with a timeout, as the ref mutation may happen during a render.
+    setTimeout(() => setRefreshDummy(() => []), 0)
+  }, [])
 
   refreshTracePanelRef.current = refreshTracePanel
 
