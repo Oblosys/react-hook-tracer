@@ -45,7 +45,7 @@ export const useTracer = (
     () => {
       tracer.trace(componentLabel, componentInfo.traceOrigins.mount, 'mounted')
     },
-    [componentLabel, componentInfo.traceOrigins.mount], // TODO: Maybe just ignore? Don't change anyway.
+    [componentLabel, componentInfo.traceOrigins.mount], // All stable.
   )
 
   // Effect with stable dependencies, runs only on first render.
@@ -76,28 +76,29 @@ export const useTracer = (
   const trace = useCallback(
     (message: string) =>
       tracer.trace(componentLabel, componentInfo.traceOrigins.trace, undefined, message),
-    [componentLabel, componentInfo.traceOrigins.trace],
+    [componentLabel, componentInfo.traceOrigins.trace], // All stable.
   )
 
-  // Refs to pass props and traceOrigins to WrappedTracePanel.
+  // Refs to pass props, showPropValue, and traceOrigins to WrappedTracePanel.
   const pendingPropsRef = useRef(pendingProps)
   pendingPropsRef.current = pendingProps
+  const showPropValueRef = useRef(showPropValue)
+  showPropValueRef.current = showPropValue
   const traceOriginsRef = useRef(componentInfo.traceOrigins)
   traceOriginsRef.current = componentInfo.traceOrigins
 
-  // useCallback guarantees stable component that only remounts if user-specified showPropValue changes.
+  // useCallback guarantees stable component.
   const WrappedTracePanel = useCallback(
     () => (
       <TracePanel
         componentLabel={componentLabel} // Constant
         props={pendingPropsRef.current} // Changes on prop changes, but only happens on component render.
-        showPropValue={showPropValue}
+        showPropValue={showPropValueRef.current}
         traceOrigins={traceOriginsRef.current} // Mutable, will contain correct values before TracePanel is rendered.
         refreshTracePanelRef={componentInfo.refreshTracePanelRef} // Mutable, will be set by TracePanel on render.
       />
     ),
-    //
-    [componentInfo, componentLabel, showPropValue],
+    [componentInfo.refreshTracePanelRef, componentLabel], // All stable.
   )
 
   // NOTE: TracePanel must be used directly inside the rendering of the traced component.

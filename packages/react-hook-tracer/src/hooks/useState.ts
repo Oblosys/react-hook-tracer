@@ -7,7 +7,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseStateTraceOptions<S> {
   label?: string // Should be a stable string.
-  show?: (state: S) => string // Should be a stable function.
+  show?: (state: S) => string
 }
 export function useState<S>(
   initialState: S | (() => S),

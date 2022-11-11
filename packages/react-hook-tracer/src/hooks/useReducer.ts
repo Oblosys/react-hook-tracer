@@ -16,13 +16,13 @@ import * as hookUtil from './hookUtil'
 
 export interface UseReducerTraceOptions<S, A> {
   label?: string // Should be a stable string.
-  showState?: (state: S) => string // Should be a stable function.
-  showAction?: (state: A) => string // Should be a stable function.
+  showState?: (state: S) => string
+  showAction?: (state: A) => string
 }
 
 export interface UseReducerTraceOptionsWithoutAction<S> {
   label?: string // Should be a stable string.
-  showState?: (state: S) => string // Should be a stable function.
+  showState?: (state: S) => string
 }
 
 // useReducer overloads from @types/react:
@@ -107,6 +107,7 @@ const useReducerTraced = <I, S, A>(
     tracer.trace(componentLabel, traceOrigin, 'init', { value: initialState, show: showState })
   })
 
+  // No need to put showState in a ref, since useReducer does not memoize its reducer argument.
   const reducer = (prevState: S, action: A): S => {
     const state = rawReducer(prevState, action)
     traceOrigin.info = showState(state)
@@ -115,14 +116,20 @@ const useReducerTraced = <I, S, A>(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [state, dispatch] = React.useReducer(reducer, initialArg as any, initializer as any)
+  const [state, dispatch] = React.useReducer(reducer, initialArg as any, initializer as any) // Unavoidable any's.
+
+  const showActionRef = React.useRef(showAction) // Ref to pass showAction to dispatch function.
+  showActionRef.current = showAction
 
   const tracedDispatch: (action: A) => void = useCallback(
     (action: A) => {
-      tracer.trace(componentLabel, traceOrigin, 'dispatch', { value: action, show: showAction })
+      tracer.trace(componentLabel, traceOrigin, 'dispatch', {
+        value: action,
+        show: showActionRef.current,
+      })
       return dispatch(action)
     },
-    [componentLabel, showAction, traceOrigin], // All stable.
+    [componentLabel, traceOrigin], // All stable.
   )
 
   return [state, tracedDispatch]

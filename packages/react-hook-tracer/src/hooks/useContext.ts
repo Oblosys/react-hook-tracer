@@ -7,7 +7,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseContextTraceOptions<T> {
   label?: string // Should be a stable string.
-  show?: (contextValue: T) => string // Should be a stable function.
+  show?: (contextValue: T) => string
 }
 
 export function useContext<T>(context: Context<T>, traceOptions?: UseContextTraceOptions<T>): T {

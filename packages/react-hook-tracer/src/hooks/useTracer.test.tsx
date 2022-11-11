@@ -42,7 +42,16 @@ test('shows props in TracePanel', () => {
   expect(getPanelProps()).toEqual(['n=42', 'f=<function>'])
 })
 
-// TODO: test custom showProps
+test('supports custom showProps', () => {
+  const Parent = () => <Test n={42} f={() => {}} />
+  const Test = (_props: { n: number; f: () => void }) => {
+    const { TracePanel } = useTracer({ showProps: { n: (n) => `[${n}]`, f: () => '[Function]' } })
+    return <TracePanel />
+  }
+
+  render(<Parent />)
+  expect(getPanelProps()).toEqual(['n=[42]', 'f=[Function]'])
+})
 
 test('does not error when useTracer is omitted', () => {
   const Test = () => {

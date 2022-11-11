@@ -6,7 +6,7 @@ import * as util from '../util'
 
 export interface UseMemoTraceOptions<T> {
   label?: string // Should be a stable string.
-  show?: (memoizedValue: T) => string // Should be a stable function.
+  show?: (memoizedValue: T) => string
 }
 
 export function useMemo<T>(
@@ -31,6 +31,8 @@ const useMemoTraced = <T>(
   const traceOrigin = componentRegistry.registerHook('memo', traceOptions?.label)
   const componentLabel = componentRegistry.getCurrentComponentLabel()
   const show = traceOptions?.show ?? util.showValue
+  const showValueRef = React.useRef(show) // Ref to pass showValue to factory function.
+  showValueRef.current = show
 
   const isInitialized = useRef(false)
 
@@ -41,9 +43,12 @@ const useMemoTraced = <T>(
     }
 
     const memoizedValue = factoryRaw()
-    traceOrigin.info = show(memoizedValue)
+    traceOrigin.info = showValueRef.current(memoizedValue)
 
-    tracer.trace(componentLabel, traceOrigin, phase, { value: memoizedValue, show })
+    tracer.trace(componentLabel, traceOrigin, phase, {
+      value: memoizedValue,
+      show: showValueRef.current,
+    })
     return memoizedValue
   }
 

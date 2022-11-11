@@ -8,7 +8,7 @@ import * as hookUtil from './hookUtil'
 
 export interface UseRefTraceOptions<T> {
   label?: string // Should be a stable string.
-  show?: (refValue: T) => string // Should be a stable function.
+  show?: (refValue: T) => string
 }
 export function useRef<T>(
   initialValue: T,
@@ -51,12 +51,21 @@ const useRefTraced = <T>(
 
   hookUtil.useRunOnFirstRender(() => {
     traceOrigin.info = showValue(initialValue)
-    tracer.trace(componentLabel, traceOrigin, 'init', { value: initialValue, show: showValue })
+    tracer.trace(componentLabel, traceOrigin, 'init', {
+      value: initialValue,
+      show: showValue,
+    })
   })
 
+  const showValueRef = React.useRef(showValue) // Ref to pass showValue to MutableRefObject change handler.
+  showValueRef.current = showValue
+
   const tracedMutableRefObject = mkTracedMutableRefObject(initialValue, (newValue) => {
-    traceOrigin.info = showValue(newValue)
-    tracer.trace(componentLabel, traceOrigin, 'update', { value: newValue, show: showValue })
+    traceOrigin.info = showValueRef.current(newValue)
+    tracer.trace(componentLabel, traceOrigin, 'update', {
+      value: newValue,
+      show: showValueRef.current,
+    })
     componentInfo.refreshTracePanelRef.current?.()
   })
 
