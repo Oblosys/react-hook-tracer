@@ -76,6 +76,11 @@ export const getCurrentComponentLabel = (): string => {
   return componentInfo.componentLabel
 }
 
+/**
+ * The set of components that called a react-hook-tracer hook before calling useTracer.
+ */
+const componentsWithUntracedHooks = new WeakSet<FiberNode>()
+
 export const isCurrentComponentTraced = (): boolean => {
   if (reactDevTools.getIsRenderedByDevTools()) {
     return reactDevTools.getIsRenderingTracedComponent()
@@ -86,14 +91,35 @@ export const isCurrentComponentTraced = (): boolean => {
   if (currentOwner === null) {
     throw new Error('isComponentTraced: no current owner')
   } else {
-    return (
+    const isTraced =
       componentInfoMap.has(currentOwner) ||
       (currentOwner.alternate !== null && componentInfoMap.has(currentOwner.alternate))
-    )
+
+    if (!isTraced) {
+      // If there's no componentInfo, either the hook call is from a component without a useTracer call (which is fine),
+      // or the hook call happened before the useTracer call (which will trigger an error).
+      componentsWithUntracedHooks.add(currentOwner)
+    }
+    return isTraced
   }
 }
 
 export const registerCurrentComponent = (): ComponentInfo => {
+  const currentOwner = getCurrentOwner()
+  if (currentOwner === null) {
+    throw new Error('registerCurrentComponent: no current owner')
+  }
+
+  if (componentsWithUntracedHooks.has(currentOwner)) {
+    // Since we cannot detect the start or end of a render, we cannot distinguish between traced-hook calls that occur
+    // after the useTracer call and hook calls before it (on the next render). This means there is no reliable way to
+    // disable tracing on these preceding calls after the first render, and we need to disallow them altogether.
+    throw new Error(
+      'react-hook-tracer: `useTracer` needs to be called at the start of the component,' +
+        " before any other 'react-hook-tracer' hook functions.",
+    )
+  }
+
   if (reactDevTools.getIsRenderedByDevTools()) {
     // If the component is being rendered by React DevTools, create a dummy ComponentInfo to be used by subsequent
     // traced hook calls, and mark that we're currently shallow-rendering a traced component (mark will get cleared
@@ -103,7 +129,7 @@ export const registerCurrentComponent = (): ComponentInfo => {
     reactDevTools.setIsDevToolsRenderingTracedComponent()
     return componentInfo
   }
-  const componentInfo = getCurrentComponentInfoOrThrow('registerComponent: no current owner')
+  const componentInfo = getComponentInfoForFiber(currentOwner)
 
   componentInfo.nextHookIndex = 0 // Reset nextHookIndex
 

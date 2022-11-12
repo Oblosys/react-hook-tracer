@@ -65,3 +65,17 @@ test('does not error when useTracer is omitted', () => {
   expect(screen.getByText('Rendering')).toBeInTheDocument()
   // TODO: check console
 })
+
+test('throws when useTracer is not the first hook call', () => {
+  jest.spyOn(console, 'error').mockImplementation() // Don't fail this test on console.error logging.
+
+  const Test = () => {
+    useState()
+    useTracer()
+    return <></>
+  }
+
+  expect(() => {
+    render(<Test />)
+  }).toThrow('`useTracer` needs to be called at the start of the component')
+})

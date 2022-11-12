@@ -90,7 +90,7 @@ Rendering the component with `<Counter title="Trace test" />` yields:
   />
 </p>
 
-To trace this component, import any hook functions (here only `useState`) from `'react-hook-tracer'`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function. Traced hooks accept an optional argument to add a custom label, so we will also pass `{ label: 'n' }` to `useState`. The `TracePanel` component returned by `useTracer` is included in the rendering:
+To trace this component, import any hook functions (here only `useState`) from `'react-hook-tracer'`, together with the `useTracer` hook, and insert `const { TracePanel } = useTracer()` at the start of the component function (or at least before any traced hook calls). Traced hooks accept an optional argument to show a custom label, so as an example we pass `{ label: 'n' }` to `useState` here. The `TracePanel` component returned by `useTracer` is included in the rendering:
 
 ```tsx
 import { useState, useTracer } from 'react-hook-tracer' // Update import
@@ -123,7 +123,7 @@ Now the rendering of `<Counter title="Trace test" />` together with the trace lo
 
 To experiment with this example, open the [CodeSandbox playground at `/src/demos/Counter.tsx`](https://codesandbox.io/s/github/Oblosys/react-hook-tracer/tree/demo/apps/react-hook-tracer-demo?file=/src/demos/Counter.tsx) and select 'Counter' instead of 'Demo' in the running app.
 
-Note that traces are generated only by hooks imported from `'react-hook-tracer'`, and only for the calls that follow a `useTracer` call. Regular React hook calls following `useTracer` call do not generate traces, and neither do traced-hook calls in components without a `useTracer` call.
+Note that traces are generated only by hooks imported from `'react-hook-tracer'`, and only in components that start with a `useTracer` call. Regular React hook calls following `useTracer` call do not generate traces, and neither do traced-hook calls in components without a `useTracer` call.
 
 Besides `TracePanel`, `useTracer` also returns a function `trace: (message: string) => void`, which can be used to log custom trace messages.
 
@@ -197,7 +197,7 @@ interface UserProps {
 }
 ```
 
-The trace log will contain entries like `render props: user={"name":"Stimpy","color":"red"} count=1`, which could be made more concise by declaring an override for prop `user`:
+The trace log will contain entries like `render props: user={"name":"Stimpy","color":"red"} count=1`, which can be made more concise by declaring an override for prop `user`:
 
 ```ts
 const showProps: ShowProps<UserProps> = { user: ({ name, color }) => `<<${name}:${color}>>` }
