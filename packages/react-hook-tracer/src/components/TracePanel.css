@@ -1,6 +1,7 @@
 .trace-panel {
   font-family: system-ui, Arial, sans-serif;
   font-size: 13px;
+  text-align: left;
   align-self: flex-start; /* to prevent stretching when parent is flex */
   display: inline-flex; /* inline to prevent stretching when parent is not flex */
   min-width: 250px;
