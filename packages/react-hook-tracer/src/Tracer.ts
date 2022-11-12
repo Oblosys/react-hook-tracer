@@ -31,6 +31,11 @@ export class Tracer {
   }
 
   setShouldTraceToConsole(shouldTraceToConsole: boolean) {
+    if (shouldTraceToConsole !== this.shouldTraceToConsole) {
+      console.log(
+        `react-hook-tracer: Trace to console turned ${shouldTraceToConsole ? 'on' : 'off'}.`,
+      )
+    }
     this.shouldTraceToConsole = shouldTraceToConsole
   }
 

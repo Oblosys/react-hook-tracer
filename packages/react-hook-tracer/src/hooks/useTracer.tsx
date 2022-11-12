@@ -54,7 +54,8 @@ export const useTracer = (
       // Any traces before this point will already have been queued in timeouts, so we need to queue a timeout as well.
       setTimeout(() => {
         console.log(
-          'react-hook-tracer: No TraceLog component found, tracing to the console instead.',
+          'react-hook-tracer: Since no <TraceLog/> element was rendered, traces will be sent to the console instead.' +
+            ' Queued traces so far:',
         )
         logPendingToConsole()
         setTracerConfig({ traceToConsole: true })
