@@ -17,7 +17,7 @@ export interface FiberNode {
   //   const IndeterminateComponent = 2; // Before we know whether it is function or class
 
   // The resolved function/class/ associated with this fiber.
-  type: { name: string } // TODO: check whether type is fn first.
+  type: { name?: string; displayName?: string }
 
   // This is a pooled version of a Fiber. Every fiber that gets updated will
   // eventually have a pair. There are cases when we can clean up pairs to save

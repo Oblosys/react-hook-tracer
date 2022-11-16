@@ -42,6 +42,30 @@ test('shows props in TracePanel', () => {
   expect(getPanelProps()).toEqual(['n=42', 'f=<function>'])
 })
 
+test("uses component's displayName when available", () => {
+  const Test = () => {
+    const { TracePanel } = useTracer()
+    return <TracePanel />
+  }
+  Test.displayName = 'DisplayNameTest'
+  render(<Test />)
+  const componentLabel = screen.getByTestId('trace-panel').querySelector('.component-label')
+  expect(componentLabel).toHaveTextContent('DisplayNameTest-1')
+})
+
+test('uses Anonymous for unnamed components', () => {
+  const Test = [
+    () => {
+      const { TracePanel } = useTracer()
+      return <TracePanel />
+    },
+  ][0]
+
+  render(<Test />)
+  const componentLabel = screen.getByTestId('trace-panel').querySelector('.component-label')
+  expect(componentLabel).toHaveTextContent('Anonymous-1')
+})
+
 test('supports custom showProps', () => {
   const Parent = () => <Test n={42} f={() => {}} />
   const Test = (_props: { n: number; f: () => void }) => {

@@ -31,8 +31,12 @@ const mkComponentInfoForComponentName = (name: string): ComponentInfo => {
 
 const mkDummyComponentInfo = () => mkComponentInfoForComponentName('DevToolsShallowRendered')
 
-const mkComponentInfoForFiber = (currentOwner: FiberNode) =>
-  mkComponentInfoForComponentName(currentOwner.type.name)
+const mkComponentInfoForFiber = (currentOwner: FiberNode) => {
+  const component = currentOwner.type
+  const name = component.displayName || component.name || 'Anonymous' // component.name can be ''.
+
+  return mkComponentInfoForComponentName(name)
+}
 
 const getComponentInfoForFiber = (currentOwner: FiberNode): ComponentInfo => {
   const componentInfo = componentInfoMap.get(currentOwner)
