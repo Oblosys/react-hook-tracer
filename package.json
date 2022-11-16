@@ -54,17 +54,17 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
-    "eslint": "^8.26.0",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "27.1.3",
+    "eslint-plugin-jest": "27.1.5",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1",
     "tslib": "^2.4.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "packageManager": "yarn@3.3.0"
 }
