@@ -1,0 +1,32 @@
+.parent,
+.child {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px 4px 10px;
+  border-radius: 10px;
+}
+
+.parent .trace-panel,
+.child .trace-panel {
+  align-self: inherit;
+}
+
+.parent {
+  background-color: #ddd;
+}
+
+.parent input {
+  margin-top: 4px;
+}
+
+.child {
+  margin-top: 6px;
+  background-color: #eee;
+}
+
+.child input {
+  margin-top: 4px;
+  margin-bottom: 6px;
+}

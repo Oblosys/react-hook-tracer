@@ -5,6 +5,7 @@ import * as contextDemo from './demos/ContextDemo'
 import * as demo from './demos/Demo'
 import * as counter from './demos/Counter'
 import * as reducer from './demos/Reducer'
+import * as domRef from './demos/DomRef'
 import { ItemSelector } from './ItemSelector'
 
 import './App.css'
@@ -14,6 +15,7 @@ const demoComponents = [
   { label: 'Context', component: contextDemo.Demo },
   { label: 'Counter', component: counter.Demo },
   { label: 'Reducer', component: reducer.Demo },
+  { label: 'DOM ref', component: domRef.Demo },
 ]
 
 const sessionStorageKeyBase = '@@react-hook-tracer-demo--persistent-state:'
