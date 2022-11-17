@@ -105,6 +105,16 @@ export const isCurrentComponentTraced = (): boolean => {
 }
 
 export const registerCurrentComponent = (): ComponentInfo => {
+  if (reactDevTools.getIsRenderedByDevTools()) {
+    // If the component is being rendered by React DevTools, create a dummy ComponentInfo to be used by subsequent
+    // traced hook calls, and mark that we're currently shallow-rendering a traced component (mark will get cleared
+    // after render).
+    const componentInfo = mkDummyComponentInfo()
+    reactDevTools.setCurrentComponentInfo(componentInfo)
+    reactDevTools.setIsDevToolsRenderingTracedComponent()
+    return componentInfo
+  }
+
   const currentOwner = getCurrentOwner()
   if (currentOwner === null) {
     throw new Error('registerCurrentComponent: no current owner')
@@ -120,15 +130,6 @@ export const registerCurrentComponent = (): ComponentInfo => {
     )
   }
 
-  if (reactDevTools.getIsRenderedByDevTools()) {
-    // If the component is being rendered by React DevTools, create a dummy ComponentInfo to be used by subsequent
-    // traced hook calls, and mark that we're currently shallow-rendering a traced component (mark will get cleared
-    // after render).
-    const componentInfo = mkDummyComponentInfo()
-    reactDevTools.setCurrentComponentInfo(componentInfo)
-    reactDevTools.setIsDevToolsRenderingTracedComponent()
-    return componentInfo
-  }
   const componentInfo = getComponentInfoForFiber(currentOwner)
 
   componentInfo.nextHookIndex = 0 // Reset nextHookIndex
