@@ -27,7 +27,6 @@ test('renders TracePanel', () => {
     'effect',
     'callback',
     'trace',
-    'unmount',
   ])
 })
 

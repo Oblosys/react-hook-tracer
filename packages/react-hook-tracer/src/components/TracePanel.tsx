@@ -48,8 +48,8 @@ export const TracePanel = ({
     .getObjectKeys(props)
     .map((key) => ({ propKey: key, propValue: props[key] }))
 
-  const { mount, render, trace, unmount, hooks } = traceOrigins
-  const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace, unmount]
+  const { mount, render, trace, hooks } = traceOrigins
+  const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace]
 
   return (
     <div className="trace-panel" data-testid="trace-panel">
