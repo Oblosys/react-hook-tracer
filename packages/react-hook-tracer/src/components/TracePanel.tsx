@@ -97,11 +97,18 @@ interface TraceOriginEntryProps {
   traceOrigin: TraceOrigin
   isHighlighted: boolean
 }
-const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => (
-  <div className="trace-origin" data-is-highlighted={isHighlighted} data-testid="trace-origin">
-    <span className="origin-type">{traceOrigin.originType}</span>
-    {traceOrigin.label && <span className="origin-label">{`«${traceOrigin.label}»`}</span>}
-    {traceOrigin.info && ':'}
-    {traceOrigin.info && <span className="origin-info">{traceOrigin.info}</span>}
-  </div>
-)
+const TraceOriginEntry = ({ traceOrigin, isHighlighted }: TraceOriginEntryProps) => {
+  const { originType, label, info } = traceOrigin
+
+  // To match the styles, the colon before info is added to typeStr if there's no label, and to labelStr if there is.
+  const typeStr = `${originType}${info !== null && label === null ? ':' : ''}`
+  const labelStr = `«${label}»${info !== null ? ':' : ''}`
+
+  return (
+    <div className="trace-origin" data-is-highlighted={isHighlighted} data-testid="trace-origin">
+      <span className="origin-type">{typeStr}</span>
+      {label !== null && <span className="origin-label">{labelStr}</span>}
+      {info !== null && <span className="origin-info">{info}</span>}
+    </div>
+  )
+}
