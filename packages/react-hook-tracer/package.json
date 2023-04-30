@@ -39,7 +39,6 @@
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "build-watch": "yarn build --watch --configIncludeDeclarationMap",
-    "copy-css": "mkdir -p dist/components && cp src/components/*.css dist/components",
     "clean": "rm -r dist 2>/dev/null || true && rm -f package.tgz 2>/dev/null || true",
     "lint-check": "eslint . --cache . --max-warnings 0",
     "lint-fix": "yarn lint-check --fix",
