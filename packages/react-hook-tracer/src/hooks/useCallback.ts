@@ -15,7 +15,11 @@ export function useCallback<F extends Function>(
   deps: React.DependencyList,
   traceOptions?: UseCallbackTraceOptions,
 ): F {
-  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
+  if (
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
+  ) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useCallbackTraced(
       callback as unknown as (...args: never[]) => unknown, // Convert untyped Function to explicit function type.

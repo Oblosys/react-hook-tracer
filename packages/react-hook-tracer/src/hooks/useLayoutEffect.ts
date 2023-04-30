@@ -16,7 +16,9 @@ export function useLayoutEffect(
   traceOptions?: UseLayoutEffectTraceOptions,
 ): void {
   const hook =
-    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
       ? useLayoutEffectTraced
       : React.useEffect
   return hook(effect, deps, traceOptions)

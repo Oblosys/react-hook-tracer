@@ -15,7 +15,9 @@ export function useInsertionEffect(
   traceOptions?: UseInsertionEffectTraceOptions,
 ): void {
   const hook =
-    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
       ? useInsertionEffectTraced
       : React.useEffect
   return hook(effect, deps, traceOptions)

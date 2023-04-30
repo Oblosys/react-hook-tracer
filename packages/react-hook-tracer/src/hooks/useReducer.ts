@@ -76,7 +76,11 @@ export function useReducer<I, S, A>(
   initializer?: (arg: I) => S,
   traceOptions?: UseReducerTraceOptions<S, A>,
 ): [S, Dispatch<A>] {
-  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
+  if (
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
+  ) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useReducerTraced(reducer, initialArg, initializer, traceOptions)
   } else {

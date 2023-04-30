@@ -15,7 +15,9 @@ export function useEffect(
   traceOptions?: UseEffectTraceOptions,
 ): void {
   const hook =
-    !util.isProductionBuild && componentRegistry.isCurrentComponentTraced()
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
       ? useEffectTraced
       : React.useEffect
   return hook(effect, deps, traceOptions)

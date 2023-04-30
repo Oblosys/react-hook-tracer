@@ -12,7 +12,11 @@ export interface UseContextTraceOptions<T> {
 }
 
 export function useContext<T>(context: Context<T>, traceOptions?: UseContextTraceOptions<T>): T {
-  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
+  if (
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
+  ) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useContextTraced(context, traceOptions)
   } else {

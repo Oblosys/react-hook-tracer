@@ -24,7 +24,11 @@ export function useState<S = undefined>(
   initialState?: S | (() => S),
   traceOptions?: UseStateTraceOptions<S>,
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
-  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
+  if (
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
+  ) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStateTraced(initialState, traceOptions)
   } else {

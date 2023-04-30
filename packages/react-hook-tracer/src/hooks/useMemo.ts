@@ -14,7 +14,11 @@ export function useMemo<T>(
   deps: React.DependencyList | undefined,
   traceOptions?: UseMemoTraceOptions<T>,
 ): T {
-  if (!util.isProductionBuild && componentRegistry.isCurrentComponentTraced()) {
+  if (
+    !util.isProductionBuild &&
+    !util.isServerRendered &&
+    componentRegistry.isCurrentComponentTraced()
+  ) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useMemoTraced(factory, deps, traceOptions)
   } else {
