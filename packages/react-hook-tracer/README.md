@@ -155,7 +155,7 @@ You may want to temporarily disable [React strict mode](https://reactjs.org/docs
 To enable tracing to the browser console, leave out the `TraceLog` component, or call `setTracerConfig` anywhere in your project:
 
 ```ts
-setTracerConfig({ shouldTraceToConsole: true })
+setTracerConfig({ traceToConsole: true })
 ```
 
 Instead of a string representation, console traces show the actual object values for props, state, and refs, which means they can be expanded to inspect properties:
