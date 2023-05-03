@@ -12237,7 +12237,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-tracer: 1.3.1
     react-scripts: 5.0.1
-    typescript: 4.5.5
+    typescript: 4.9.3
   languageName: unknown
   linkType: soft
 
@@ -14108,13 +14108,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.5.5":
-  version: 4.5.5
-  resolution: "typescript@npm:4.5.5"
+"typescript@npm:4.9.3":
+  version: 4.9.3
+  resolution: "typescript@npm:4.9.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 506f4c919dc8aeaafa92068c997f1d213b9df4d9756d0fae1a1e7ab66b585ab3498050e236113a1c9e57ee08c21ec6814ca7a7f61378c058d79af50a4b1f5a5e
+  checksum: 17b8f816050b412403e38d48eef0e893deb6be522d6dc7caf105e54a72e34daf6835c447735fd2b28b66784e72bfbf87f627abb4818a8e43d1fa8106396128dc
   languageName: node
   linkType: hard
 
@@ -14128,13 +14128,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
-  version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=bcec9a"
+"typescript@patch:typescript@4.9.3#~builtin<compat/typescript>":
+  version: 4.9.3
+  resolution: "typescript@patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=a66ed4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 858c61fa63f7274ca4aaaffeced854d550bf416cff6e558c4884041b3311fb662f476f167cf5c9f8680c607239797e26a2ee0bcc6467fbc05bfcb218e1c6c671
+  checksum: d7bdcf5e18193f709339540d69577f7b0389000265db2bf10edfaa67336a29d6bcbee11828084150f7fdd110d605794cfa6df33bebc0a2e33daad2dbe2a7a59f
   languageName: node
   linkType: hard
 
