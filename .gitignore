@@ -21,6 +21,7 @@
 
 # production
 /packages/react-hook-tracer/dist
+/apps/react-hook-tracer-demo/build
 
 # misc
 .DS_Store
