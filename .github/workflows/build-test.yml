@@ -20,6 +20,6 @@ jobs:
       - run: yarn prettier-check
       - run: yarn lint-check
       - run: yarn build-lib
-      - run: yarn build-app
+      - run: yarn type-check-app
       - run: yarn test-lib
       - run: yarn test-app
