@@ -6,7 +6,7 @@ import './ContextDemo.css'
 
 const themes = ['dark', 'light'] as const
 
-type Theme = typeof themes[number]
+type Theme = (typeof themes)[number]
 
 const themeNames: Record<Theme, string> = { dark: 'Dark', light: 'Light' }
 
