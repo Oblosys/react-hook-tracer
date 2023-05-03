@@ -12,9 +12,9 @@
     "logging",
     "devtool"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "typings": "dist/esm/src/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/types/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oblosys/react-hook-tracer.git",
@@ -25,10 +25,10 @@
     "url": "https://github.com/Oblosys/react-hook-tracer/issues"
   },
   "files": [
-    "dist/cjs/index.js",
-    "dist/esm/index.js",
-    "dist/esm/src/**/*.d.ts",
-    "dist/esm/src/**/*.d.ts.map",
+    "dist/index.cjs.js",
+    "dist//index.esm.js",
+    "dist/types/src/**/*.d.ts",
+    "dist/types/src/**/*.d.ts.map",
     "!**/test/*",
     "!**/__mocks__/*",
     "!**/*.test.*"
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^9.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
