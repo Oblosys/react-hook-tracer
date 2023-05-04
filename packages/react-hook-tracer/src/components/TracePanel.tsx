@@ -28,6 +28,12 @@ export const TracePanel = ({
   traceOrigins,
   refreshTracePanelRef,
 }: TracePanelProps) => {
+  const [isInitialized, setIsInitialized] = useState(false)
+
+  useEffect(() => {
+    setIsInitialized(true)
+  }, [])
+
   const [selectedLogEntry, setSelectedLogEntry] = useState<LogEntry | null>(null)
 
   const [, setRefreshDummy] = useState([]) // Dummy state to trigger re-render.
@@ -58,32 +64,37 @@ export const TracePanel = ({
   const { mount, render, trace, hooks } = traceOrigins
   const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace]
 
+  // Rendering inner trace panel is delayed until after initialization effect to avoid SSR hydration mismatch.
   return (
     <TracePanelWrapper>
-      <div className="component-label">
-        <div>{componentLabel}</div>
-      </div>
-      {propKeyValues.length > 0 && (
-        <div className="props">
-          {propKeyValues.map(({ propKey, propValue }) => (
-            <Prop
-              propKey={propKey}
-              propValue={propValue}
-              showPropValue={showPropValue}
-              key={propKey}
-            />
-          ))}
-        </div>
+      {isInitialized && (
+        <>
+          <div className="component-label">
+            <div>{componentLabel}</div>
+          </div>
+          {propKeyValues.length > 0 && (
+            <div className="props">
+              {propKeyValues.map(({ propKey, propValue }) => (
+                <Prop
+                  propKey={propKey}
+                  propValue={propValue}
+                  showPropValue={showPropValue}
+                  key={propKey}
+                />
+              ))}
+            </div>
+          )}
+          <div className="trace-origins">
+            {traceOriginList.map((origin, index) => (
+              <TraceOriginEntry
+                key={index}
+                traceOrigin={origin}
+                isHighlighted={origin === selectedLogEntry?.origin}
+              />
+            ))}
+          </div>
+        </>
       )}
-      <div className="trace-origins">
-        {traceOriginList.map((origin, index) => (
-          <TraceOriginEntry
-            key={index}
-            traceOrigin={origin}
-            isHighlighted={origin === selectedLogEntry?.origin}
-          />
-        ))}
-      </div>
     </TracePanelWrapper>
   )
 }
