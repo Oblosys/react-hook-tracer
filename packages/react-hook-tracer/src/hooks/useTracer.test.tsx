@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
 import { getPanelProps, getPanelTraceOrigins } from '../test/util'
+
 import { useCallback } from './useCallback'
 import { useEffect } from './useEffect'
 import { useState } from './useState'

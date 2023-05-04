@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react'
 
 import { TraceLog } from '../components/TraceLog'
 import { getLogEntries, getPanelTraceOrigins, setupUser } from '../test/util'
+
 import { useState } from './useState'
 import { useTracer } from './useTracer'
 
