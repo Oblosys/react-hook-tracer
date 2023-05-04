@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useState } from 'react'
+import { MutableRefObject, ReactNode, useCallback, useEffect, useState } from 'react'
 
 import { tracer } from '../Tracer'
 import { LogEntry, TraceOrigin, TraceOrigins } from '../types'
@@ -14,6 +14,13 @@ interface TracePanelProps {
   traceOrigins: TraceOrigins
   refreshTracePanelRef: MutableRefObject<(() => void) | null>
 }
+
+const TracePanelWrapper = ({ children }: { children?: ReactNode | undefined }) => (
+  <div className="trace-panel" data-testid="trace-panel">
+    {children}
+  </div>
+)
+
 export const TracePanel = ({
   componentLabel,
   props,
@@ -52,7 +59,7 @@ export const TracePanel = ({
   const traceOriginList: TraceOrigin[] = [mount, render, ...hooks, trace]
 
   return (
-    <div className="trace-panel" data-testid="trace-panel">
+    <TracePanelWrapper>
       <div className="component-label">
         <div>{componentLabel}</div>
       </div>
@@ -77,9 +84,11 @@ export const TracePanel = ({
           />
         ))}
       </div>
-    </div>
+    </TracePanelWrapper>
   )
 }
+
+export const TracePanelServerSide = () => <TracePanelWrapper />
 
 interface PropProps {
   propKey: string
