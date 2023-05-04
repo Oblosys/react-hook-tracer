@@ -16,7 +16,9 @@ const defaultDelay: Delay = 0.5
 
 // Keep replay-timer delay in session storage, so it survives a page reload.
 export const getSessionReplayTimerDelay = (): Delay => {
-  const storedDelay = sessionStorage.getItem(sessionReplayTimerDelayKey)
+  const storedDelay = util.isServerRendered
+    ? null
+    : sessionStorage.getItem(sessionReplayTimerDelayKey)
   if (storedDelay === null) {
     return defaultDelay
   }
@@ -24,7 +26,9 @@ export const getSessionReplayTimerDelay = (): Delay => {
   return isDelay(delayValue) ? delayValue : defaultDelay
 }
 export const setSessionReplayTimerDelay = (delay: Delay): void => {
-  sessionStorage.setItem(sessionReplayTimerDelayKey, '' + delay)
+  if (!util.isServerRendered) {
+    sessionStorage.setItem(sessionReplayTimerDelayKey, '' + delay)
+  }
 }
 
 interface DelaySelectorProps {
