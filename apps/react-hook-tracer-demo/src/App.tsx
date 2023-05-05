@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { ReactEventHandler, useCallback, useEffect, useState } from 'react'
-import { clearLog, resetComponentRegistry, setTracerConfig, TraceLog } from 'react-hook-tracer'
-import * as contextDemo from './demos/ContextDemo'
-import * as demo from './demos/Demo'
-import * as counter from './demos/Counter'
-import * as reducer from './demos/Reducer'
-import * as domRef from './demos/DomRef'
+import { TraceLog, clearLog, resetComponentRegistry, setTracerConfig } from 'react-hook-tracer'
+
 import { ItemSelector } from './ItemSelector'
+import * as contextDemo from './demos/ContextDemo'
+import * as counter from './demos/Counter'
+import * as demo from './demos/Demo'
+import * as domRef from './demos/DomRef'
+import * as reducer from './demos/Reducer'
 
 import './App.css'
 

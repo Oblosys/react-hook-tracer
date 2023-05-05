@@ -14,7 +14,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'prettier',
   ],
-  ignorePatterns: ['/packages/*/dist/'],
+  ignorePatterns: ['/apps/*/build/', '/packages/*/dist/'],
   root: true, // Prevents eslint from looking for config files in parent directories of project root.
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -78,6 +78,7 @@ module.exports = {
     'jest/prefer-to-have-length': 'warn',
     'jest/valid-expect': 'warn',
     'react/display-name': 'off', // Triggers incorrectly, and is about obsolete createReactClass anyway.
+    'react/no-unescaped-entities': 'off', // Not that useful, and makes source less readable.
     'sort-imports': ['warn', { ignoreDeclarationSort: true }], // `import {B, A} from ..` ~> `import {A, B} from ..`
   },
 }
