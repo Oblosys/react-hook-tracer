@@ -86,7 +86,7 @@ interface SvgButtonProps {
 }
 export const SvgButton = ({ type, tooltip, onClick, isDisabled }: SvgButtonProps) => (
   <div
-    className={'replay-control-button'}
+    className="svg-button"
     title={tooltip}
     data-is-disabled={isDisabled ?? false}
     onClick={onClick}
