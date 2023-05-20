@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react'
 
 import { isTraceLogRegistered, logPendingToConsole, setTracerConfig, tracer } from '../Tracer'
 import * as componentRegistry from '../componentRegistry'
-import { TracePanel, TracePanelServerSide } from '../components/TracePanel'
+import { DummyTracePanel, TracePanel } from '../components/TracePanel'
 import * as reactInternals from '../reactInternals'
 import { ShowProps } from '../types'
 import * as util from '../util'
@@ -28,8 +28,8 @@ export const useTracer = (
   trace: (message: string) => void
   TracePanel: () => JSX.Element
 } => {
-  if (util.isServerRendered) {
-    return { trace: (_message: string) => {}, TracePanel: TracePanelServerSide }
+  if (util.isProductionBuild || util.isServerRendered) {
+    return { trace: (_message: string) => {}, TracePanel: DummyTracePanel }
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useTracerClientSide(options)

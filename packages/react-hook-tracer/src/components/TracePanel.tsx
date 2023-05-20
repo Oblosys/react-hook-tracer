@@ -99,7 +99,8 @@ export const TracePanel = ({
   )
 }
 
-export const TracePanelServerSide = () => <TracePanelWrapper />
+// Empty TracePanelWrapper for production build or server-side rendering.
+export const DummyTracePanel = () => <TracePanelWrapper />
 
 interface PropProps {
   propKey: string
