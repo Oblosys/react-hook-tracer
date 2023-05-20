@@ -1,9 +1,9 @@
+// @ts-check
 /* eslint-disable no-undef */
 'use strict'
 
-// @ts-check
 /** @type {import('@jest/types').Config.InitialOptions} */
-module.exports = {
+const initialOptions = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
   roots: ['<rootDir>/src'],
@@ -15,3 +15,5 @@ module.exports = {
     '\\.css$': '<rootDir>/src/__mocks__/cssMock.ts',
   },
 }
+
+module.exports = initialOptions

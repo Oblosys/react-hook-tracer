@@ -1,5 +1,8 @@
-/* eslint-disable no-undef */
-module.exports = {
+// @ts-check
+/* eslint-disable no-undef  */
+
+/** @type {import("eslint").ESLint.ConfigData } */
+const config = {
   env: {
     browser: true,
     es2021: true,
@@ -82,3 +85,5 @@ module.exports = {
     'sort-imports': ['warn', { ignoreDeclarationSort: true }], // `import {B, A} from ..` ~> `import {A, B} from ..`
   },
 }
+
+module.exports = config
