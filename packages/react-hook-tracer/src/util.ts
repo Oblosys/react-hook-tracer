@@ -1,6 +1,14 @@
 import * as types from './types'
 
-export const isProductionBuild = process.env.NODE_ENV === 'production'
+// Declare `process` type in case we're not in a node environment.
+declare const process: { env: { NODE_ENV?: string } }
+export const isProductionBuild = (() => {
+  try {
+    return process.env.NODE_ENV === 'production'
+  } catch {
+    return false
+  }
+})()
 
 export const isServerRendered = typeof window === 'undefined'
 
