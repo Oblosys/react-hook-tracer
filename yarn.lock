@@ -12232,7 +12232,6 @@ __metadata:
     "@types/react": ^18.2.5
     "@types/react-dom": ^18.2.3
     eslint: ^8.39.0
-    eslint-config-react-app: ^7.0.1
     react: ^18.2.0
     react-dom: ^18.2.0
     react-hook-tracer: 1.4.0
