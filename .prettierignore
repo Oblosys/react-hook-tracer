@@ -5,4 +5,3 @@
 .yarnrc.yml
 bash-scripts/
 dist/
-package-lock.json
