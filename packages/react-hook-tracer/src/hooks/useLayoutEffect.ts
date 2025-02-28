@@ -20,7 +20,7 @@ export function useLayoutEffect(
     !util.isServerRendered &&
     componentRegistry.isCurrentComponentTraced()
       ? useLayoutEffectTraced
-      : React.useEffect
+      : React.useLayoutEffect
   return hook(effect, deps, traceOptions)
 }
 

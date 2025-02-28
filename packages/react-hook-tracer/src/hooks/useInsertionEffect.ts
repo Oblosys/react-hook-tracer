@@ -19,7 +19,7 @@ export function useInsertionEffect(
     !util.isServerRendered &&
     componentRegistry.isCurrentComponentTraced()
       ? useInsertionEffectTraced
-      : React.useEffect
+      : React.useInsertionEffect
   return hook(effect, deps, traceOptions)
 }
 
