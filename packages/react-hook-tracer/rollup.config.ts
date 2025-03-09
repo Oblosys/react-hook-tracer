@@ -23,7 +23,7 @@ export default (args: { configIncludeDeclarationMap?: boolean }) => {
     typescript({
       declaration: true,
       declarationMap: includeDeclarationMap,
-      outDir: 'dist/types',
+      outDir: 'types',
       // outDir 'dist/types' produces the same directory layout as 'types', as the 'dist' is stripped, but adds an extra
       // '../' to the sources path in the source maps.
       //
