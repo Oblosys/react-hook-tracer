@@ -24,6 +24,8 @@
 /apps/react-hook-tracer-demo/build
 
 # misc
+/.cursorrules
+/.cursor/
 .DS_Store
 .env.local
 .env.development.local
