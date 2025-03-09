@@ -92,12 +92,12 @@ export const showPayload = <T>(payload: types.Payload<T>): string => {
   }
 }
 
-// Rewrite {originType: 'mount', phase: 'mounting'/'mounted' } to {originType: 'mounting'/'mounted', phase: undefined }
+// Rewrite {originType: 'mount', phase: 'mounting'|'mounted' } to {originType: 'mounting'|'mounted', phase: undefined }
 // to avoid logging 'mount mounting' and 'mount mounted'.
 export const rewriteOriginTypeMount = (
   originType: types.TraceOriginType,
   phase: types.Phase | undefined,
 ) =>
   originType === 'mount' && (phase === 'mounting' || phase === 'mounted')
-    ? { originType: phase, undefined }
+    ? { originType: phase, phase: undefined }
     : { originType, phase }
