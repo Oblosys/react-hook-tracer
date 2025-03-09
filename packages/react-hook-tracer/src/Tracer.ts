@@ -121,8 +121,8 @@ export class Tracer {
       messageOrObject === undefined
         ? { type: 'empty' }
         : typeof messageOrObject === 'string'
-        ? { type: 'string', message: messageOrObject }
-        : { type: 'value', value: messageOrObject.value, show: messageOrObject.show }
+          ? { type: 'string', message: messageOrObject }
+          : { type: 'value', value: messageOrObject.value, show: messageOrObject.show }
 
     const logEntry: LogEntry = { componentLabel, origin, phase, payload }
 
