@@ -54,6 +54,9 @@
     ]
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
     "@rollup/plugin-typescript": "^12.1.2",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
@@ -63,6 +66,7 @@
     "eslint-plugin-jest": "28.11.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
     "prettier": "^3.5.3",
     "tslib": "^2.8.1",
     "typescript": "^5.8.2"
