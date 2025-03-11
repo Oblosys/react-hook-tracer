@@ -12,9 +12,9 @@
   "scripts": {
     "start": "yarn start-app",
     "build": "yarn build-lib && yarn type-check-app",
-    "clean": "yarn workspaces foreach run clean",
-    "lint-check": "yarn workspaces foreach run lint-check",
-    "lint-fix": "yarn workspaces foreach run lint-check",
+    "clean": "yarn workspaces foreach --all run clean",
+    "lint-check": "yarn workspaces foreach --all run lint-check",
+    "lint-fix": "yarn workspaces foreach --all run lint-check",
     "test": "yarn test-lib && yarn test-app",
     "prettier-check": "prettier -l '**/*.{ts,tsx,json,md,js,scss,yml}'",
     "prettier-fix": "yarn prettier-check --write",
@@ -67,5 +67,5 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.7.0"
 }
