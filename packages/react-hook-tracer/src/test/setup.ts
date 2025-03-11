@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
 import failOnConsole from 'jest-fail-on-console'
 
