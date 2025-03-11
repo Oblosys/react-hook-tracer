@@ -39,6 +39,7 @@ const useInsertionEffectTraced = (
     effectRaw()
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // ESLint react-hooks/exhaustive-deps is bugged (https://github.com/facebook/react/issues/31308)
+  // and configuring additionalHooks doesn't work when calling as React.useInsertionEffect.
   React.useInsertionEffect(effect, deps)
 }
