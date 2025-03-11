@@ -1,19 +1,14 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
-import * as fs from 'fs'
-import * as path from 'path'
 import { defineConfig } from 'rollup'
 import external from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
 
-// Importing JSON yields experimental-feature warnings and requires node >== 17, so we just read & parse the file.
-const packageJson = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf8' }))
-
 // Pass --configIncludeDeclarationMap to rollup to enable declarationMap (enables cmd click to jump to source).
 export default (args: { configIncludeDeclarationMap?: boolean }) => {
   const includeDeclarationMap = args.configIncludeDeclarationMap ?? false
-  console.log(`Building '${packageJson.name}' package, declarationMap: ${includeDeclarationMap}`)
+  console.log(`Building package, declarationMap: ${includeDeclarationMap}`)
 
   const plugins = [
     external(),
@@ -31,11 +26,11 @@ export default (args: { configIncludeDeclarationMap?: boolean }) => {
   return defineConfig({
     input: 'src/index.ts',
     output: [
-      { file: packageJson.module, format: 'esm' },
-      { file: packageJson.main, format: 'cjs' },
+      { file: 'dist/index.esm.js', format: 'esm' },
+      { file: 'dist/index.cjs.js', format: 'cjs' },
     ],
     watch: {
-      include: path.resolve('src/**'),
+      include: 'src/**',
       clearScreen: false,
     },
     plugins,
