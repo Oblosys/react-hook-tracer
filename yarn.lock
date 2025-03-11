@@ -3646,15 +3646,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/rollup-plugin-peer-deps-external@npm:^2.2.5":
-  version: 2.2.5
-  resolution: "@types/rollup-plugin-peer-deps-external@npm:2.2.5"
-  dependencies:
-    rollup: "npm:^0.63.4"
-  checksum: 10/3f0d130fc15c80eac737391e180e77597da1200ff1f6d28a44f785a0de7f29144df805ab5b020ba38b243af6959e9da0757efa4141c4e737cd04eebe50f59c07
-  languageName: node
-  linkType: hard
-
 "@types/scheduler@npm:*":
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
@@ -12686,7 +12677,6 @@ __metadata:
     "@types/jest": "npm:^29.5.1"
     "@types/react": "npm:^18.2.5"
     "@types/react-dom": "npm:^18.2.3"
-    "@types/rollup-plugin-peer-deps-external": "npm:^2.2.5"
     "@types/testing-library__jest-dom": "npm:^5.14.5"
     eslint: "npm:^8.39.0"
     jest: "npm:^29.5.0"
@@ -12696,7 +12686,6 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     rollup: "npm:^4.35.0"
-    rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-postcss: "npm:^4.0.2"
     ts-jest: "npm:^29.1.0"
     tslib: "npm:^2.5.0"
@@ -13146,15 +13135,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-peer-deps-external@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "rollup-plugin-peer-deps-external@npm:2.2.4"
-  peerDependencies:
-    rollup: "*"
-  checksum: 10/49b7b3f5ca14550146249b5fd86043bffb82a2c40750c80a1845c3b694fadde58435bae0c912ad8cb1c1ef6c1f8ad64914153793391cb13d52e2bc3aa2ac61e2
-  languageName: node
-  linkType: hard
-
 "rollup-plugin-postcss@npm:^4.0.2":
   version: 4.0.2
   resolution: "rollup-plugin-postcss@npm:4.0.2"
@@ -13198,18 +13178,6 @@ __metadata:
   dependencies:
     estree-walker: "npm:^0.6.1"
   checksum: 10/f3dc20a8731523aff43e07fa50ed84857e9dd3ab81e2cfb0351d517c46820e585bfbd1530a5dddec3ac14d61d41eb9bf50b38ded987e558292790331cc5b0628
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^0.63.4":
-  version: 0.63.5
-  resolution: "rollup@npm:0.63.5"
-  dependencies:
-    "@types/estree": "npm:0.0.39"
-    "@types/node": "npm:*"
-  bin:
-    rollup: ./bin/rollup
-  checksum: 10/c52ad022bb732ea0e962b3ec45779d9d0523f75283bded8d0c97788f97946781d617b971e7e732ad7a63af60aad76ca534c415d8b101c7ff7d3f5cc879aba025
   languageName: node
   linkType: hard
 

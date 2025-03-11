@@ -2,7 +2,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
-import external from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
 
 // Pass --configIncludeDeclarationMap to rollup to enable declarationMap (enables cmd click to jump to source).
@@ -11,7 +10,6 @@ export default (args: { configIncludeDeclarationMap?: boolean }) => {
   console.log(`Building package, declarationMap: ${includeDeclarationMap}`)
 
   const plugins = [
-    external(),
     resolve(),
     commonjs(),
     postcss(),
@@ -25,6 +23,7 @@ export default (args: { configIncludeDeclarationMap?: boolean }) => {
 
   return defineConfig({
     input: 'src/index.ts',
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
     output: [
       { file: 'dist/index.esm.js', format: 'esm' },
       { file: 'dist/index.cjs.js', format: 'cjs' },
