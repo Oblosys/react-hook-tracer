@@ -23,14 +23,6 @@ export default (args: { configIncludeDeclarationMap?: boolean }) => {
     typescript({
       declaration: true,
       declarationMap: includeDeclarationMap,
-      outDir: 'types',
-      // outDir 'dist/types' produces the same directory layout as 'types', as the 'dist' is stripped, but adds an extra
-      // '../' to the sources path in the source maps.
-      //
-      // For example, in dist/types/src/Tracer.d.ts.map
-      // outDir: 'types' yields the incorrect "sources":["../../src/Tracer.ts"]
-      // whereas outDir: 'dist/types' yields "sources":["../../../src/Tracer.ts"]
-      // The output js file is not affected as it is specified in defineConfig below.
     }),
     // No terser, as rollup-plugin-terser has peer-dep warnings and seems unmaintained.
     // It also only reduces the tgz by 20%.

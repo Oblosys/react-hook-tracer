@@ -14,7 +14,7 @@
   ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "typings": "dist/types/src/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oblosys/react-hook-tracer.git",
@@ -26,9 +26,9 @@
   },
   "files": [
     "dist/index.cjs.js",
-    "dist//index.esm.js",
-    "dist/types/src/**/*.d.ts",
-    "dist/types/src/**/*.d.ts.map",
+    "dist/index.esm.js",
+    "dist/src/**/*.d.ts",
+    "dist/src/**/*.d.ts.map",
     "!**/test/*",
     "!**/__mocks__/*",
     "!**/*.test.*"
