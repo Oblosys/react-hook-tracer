@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { forwardRef } from 'react'
 import { useRef, useTracer } from 'react-hook-tracer'
 

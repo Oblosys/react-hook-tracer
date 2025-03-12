@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useCallback, useEffect, useRef, useState, useTracer } from 'react-hook-tracer'
 
 import { SimpleButton } from '../SimpleButton'

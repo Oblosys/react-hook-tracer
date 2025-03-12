@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { ReactEventHandler, useCallback, useEffect, useState } from 'react'
 import { TraceLog, clearLog, resetComponentRegistry, setTracerConfig } from 'react-hook-tracer'
 

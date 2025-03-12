@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState, useTracer } from 'react-hook-tracer'
 
 import './Counter.css'

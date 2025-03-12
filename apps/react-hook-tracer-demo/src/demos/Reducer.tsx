@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { ChangeEvent } from 'react'
 import { useReducer, useTracer } from 'react-hook-tracer'
 
