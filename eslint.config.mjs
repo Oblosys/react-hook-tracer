@@ -10,14 +10,15 @@ import pluginReactHooks from 'eslint-plugin-react-hooks'
 // @ts-check
 
 // Docs: https://eslint.org/docs/latest/use/configure/configuration-files
-// Use `yarn  lint-check --inspect-config` to launch web-based config inspector.
+// Use `yarn lint-check --inspect-config` to launch web-based config inspector.
+
 export default typescriptEslint.config([
   {
     name: 'global-ignores',
     ignores: [
-      // - Implicitly contains '**/node_modules/' & '**/.git/.'
-      // - Does not take .gitignore into account
-      // - Paths are relative to project root (location of this config file)
+      // - Implicitly contains '**/node_modules/' & '**/.git/.'.
+      // - Does not take .gitignore into account.
+      // - Paths are relative to project root (location of this config file).
       'apps/*/build/',
       'packages/*/dist/',
       '.yarn/',
@@ -25,38 +26,36 @@ export default typescriptEslint.config([
       '**/.history/',
     ],
   },
+
+  //
+  // Core ESLint
+  //
   eslint.configs.recommended,
-  typescriptEslint.configs.recommendedTypeChecked,
   {
-    languageOptions: {
-      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
-    },
-  },
-  {
-    // Disable type-aware linting for non-TypeScript files.
-    name: 'disable-type-aware-linting',
-    files: ['**/*.{js,cjs,mjs}'],
-    extends: [typescriptEslint.configs.disableTypeChecked],
-  },
-  pluginImport.flatConfigs.recommended,
-  pluginReact.configs.flat.recommended,
-  pluginReactHooks.configs['recommended-latest'],
-  {
-    name: 'custom-rules',
-    languageOptions: { globals: pluginJest.environments.globals.globals },
-    settings: { react: { version: 'detect' } },
+    name: 'core-rules',
     rules: {
       'arrow-body-style': ['warn', 'as-needed'],
       curly: ['warn', 'all'],
       eqeqeq: ['warn', 'always'],
       'no-console': 'warn',
       'sort-imports': ['warn', { ignoreDeclarationSort: true }],
+      'no-unused-vars': 'off', // Turned off in favor of TypeScript-specific version
+    },
+    settings: { react: { version: 'detect' } },
+    languageOptions: { globals: pluginJest.environments.globals.globals },
+  },
 
-      // Plugin '@typescript-eslint/' rules:
-
+  //
+  // TypeScript
+  //
+  typescriptEslint.configs.recommendedTypeChecked,
+  {
+    name: 'typescript-rules',
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+    rules: {
       '@typescript-eslint/no-empty-function': 'off',
-
-      'no-unused-vars': 'off', // Needs to be off, see https://typescript-eslint.io/rules/no-unused-vars/#how-to-use
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -66,9 +65,22 @@ export default typescriptEslint.config([
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+    },
+  },
+  {
+    // Disable type-aware linting for non-TypeScript files.
+    name: 'disable-type-aware-linting',
+    files: ['**/*.{js,cjs,mjs}'],
+    extends: [typescriptEslint.configs.disableTypeChecked],
+  },
 
-      // Plugin 'import/' rules:
-
+  //
+  // Import-plugin
+  //
+  pluginImport.flatConfigs.recommended,
+  {
+    name: 'import-rules',
+    rules: {
       'import/no-unresolved': 'off', // handled by TypeScript
       'import/order': [
         'warn',
@@ -99,23 +111,38 @@ export default typescriptEslint.config([
           pathGroupsExcludedImportTypes: ['react', 'react-dom'],
         },
       ],
+    },
+  },
 
-      // Plugin 'react/' rules:
-
+  //
+  // React
+  //
+  pluginReact.configs.flat.recommended,
+  pluginReactHooks.configs['recommended-latest'],
+  {
+    name: 'react-rules',
+    rules: {
       'react/react-in-jsx-scope': 'off',
       'react/no-unescaped-entities': 'off',
     },
   },
+
+  //
+  // Jest
+  //
   {
-    // Jest linting is only needed for test files.
-    name: 'jest',
+    name: 'jest-rules',
     files: ['**/test/**/*.*', '**/*.test.*'],
-    ...pluginJest.configs['flat/recommended'],
+    extends: [pluginJest.configs['flat/recommended']],
     rules: {
-      ...pluginJest.configs['flat/recommended'].rules,
       'jest/no-disabled-tests': 'warn',
       'jest/no-focused-tests': 'warn',
     },
   },
-  configPrettier, // Must be last to properly override other configs
+
+  //
+  // Prettier
+  //
+  // Must be last to properly override other configs. Turns off rules that are handled by or conflict with prettier.
+  configPrettier,
 ])
