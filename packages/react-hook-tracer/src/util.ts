@@ -56,12 +56,14 @@ export const showValue = (value: unknown): string => {
       }
       // For DOM elements, toString is just fine.
       if (value instanceof HTMLElement) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         return value.toString()
       }
       // For other objects, try to stringify first.
       try {
         return JSON.stringify(value)
       } catch (_error) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         return value.toString()
       }
     }
