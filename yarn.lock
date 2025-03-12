@@ -3722,13 +3722,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.16.3":
-  version: 18.16.3
-  resolution: "@types/node@npm:18.16.3"
-  checksum: 10/4f4425ba49a46e7efa88346dc2ea63ea9aab88c04d244d77710fe8019587f3c163ba2ea1e4854fd20cb5cdec9abd3bfb324ad60aabddf395cee6b0b195bd57bb
-  languageName: node
-  linkType: hard
-
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -13650,7 +13643,6 @@ __metadata:
     "@testing-library/react": "npm:^16.2.0"
     "@testing-library/user-event": "npm:^14.6.1"
     "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:^18.16.3"
     "@types/react": "npm:^18.2.5"
     "@types/react-dom": "npm:^18.2.3"
     eslint: "npm:^9.22.0"
