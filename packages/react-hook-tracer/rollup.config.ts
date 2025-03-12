@@ -7,6 +7,7 @@ import postcss from 'rollup-plugin-postcss'
 // Pass --configIncludeDeclarationMap to rollup to enable declarationMap (enables cmd click to jump to source).
 export default (args: { configIncludeDeclarationMap?: boolean }) => {
   const includeDeclarationMap = args.configIncludeDeclarationMap ?? false
+  // eslint-disable-next-line no-console
   console.log(`Building package, declarationMap: ${includeDeclarationMap}`)
 
   const plugins = [

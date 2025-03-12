@@ -104,6 +104,7 @@ export default [
       'jest/no-identical-title': 'warn',
       'jest/prefer-to-have-length': 'warn',
       'jest/valid-expect': 'warn',
+      'no-console': 'warn',
       'react/display-name': 'off',
       'react/no-unescaped-entities': 'off',
 

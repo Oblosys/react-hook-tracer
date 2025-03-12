@@ -32,6 +32,7 @@ export class Tracer {
 
   setShouldTraceToConsole(shouldTraceToConsole: boolean) {
     if (shouldTraceToConsole !== this.shouldTraceToConsole) {
+      // eslint-disable-next-line no-console
       console.log(
         `react-hook-tracer: Trace to console turned ${shouldTraceToConsole ? 'on' : 'off'}.`,
       )
@@ -180,5 +181,6 @@ const traceToConsole = (logEntry: LogEntry) => {
   const objectArg: unknown[] = payload.type === 'value' ? [payload.value] : []
 
   const logArgs = [...initialArgs, ...objectArg]
+  // eslint-disable-next-line no-console
   console.log(...logArgs)
 }

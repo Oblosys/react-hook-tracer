@@ -67,6 +67,7 @@ const useTracerClientSide = (
     if (!isTraceLogRegistered()) {
       // Any traces before this point will already have been queued in timeouts, so we need to queue a timeout as well.
       setTimeout(() => {
+        // eslint-disable-next-line no-console
         console.log(
           'react-hook-tracer: Since no <TraceLog/> element was rendered, traces will be sent to the console instead.' +
             ' Queued traces so far:',
