@@ -90,3 +90,5 @@ const LogEntry = memo(
     )
   },
 )
+
+LogEntry.displayName = 'LogEntry'
