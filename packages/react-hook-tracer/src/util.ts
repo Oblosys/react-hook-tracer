@@ -61,7 +61,7 @@ export const showValue = (value: unknown): string => {
       // For other objects, try to stringify first.
       try {
         return JSON.stringify(value)
-      } catch (error) {
+      } catch (_error) {
         return value.toString()
       }
     }
