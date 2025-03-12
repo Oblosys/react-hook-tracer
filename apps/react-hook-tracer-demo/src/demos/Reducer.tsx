@@ -42,7 +42,6 @@ function reducer(state: State, action: Action) {
       }
     }
   }
-  throw Error('Unknown action: ' + actionType)
 }
 
 function Form() {
