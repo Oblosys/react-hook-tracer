@@ -9,7 +9,7 @@ export interface UseCallbackTraceOptions {
 }
 
 // Typing useCallback is a bit of a nuisance as it uses Function.
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function useCallback<F extends Function>(
   callback: F,
   deps: React.DependencyList,
