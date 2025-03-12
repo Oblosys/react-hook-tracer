@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 'use strict'
 
-/** @type {import('@jest/types').Config.InitialOptions} */
+/** @type {import('jest').Config} */
 const initialOptions = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
