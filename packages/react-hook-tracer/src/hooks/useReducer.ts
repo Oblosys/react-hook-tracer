@@ -84,7 +84,7 @@ export function useReducer<I, S, A>(
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useReducerTraced(reducer, initialArg, initializer, traceOptions)
   } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     return React.useReducer(reducer, initialArg as any, initializer as any)
   }
 }
@@ -120,7 +120,7 @@ const useReducerTraced = <I, S, A>(
     return state
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
   const [state, dispatch] = React.useReducer(reducer, initialArg as any, initializer as any) // Unavoidable any's.
 
   const showActionRef = React.useRef(showAction) // Ref to pass showAction to dispatch function.

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { act, render, screen } from '@testing-library/react'
 
 import { TraceLog } from '../components/TraceLog'

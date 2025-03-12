@@ -164,7 +164,7 @@ const traceToConsole = (logEntry: LogEntry) => {
   // TODO: Would be nice to use show if it is user-specified, but we currently cannot determine that here.
   const message = payload.type === 'string' ? payload.message : ''
 
-  const initialArgs: (string | unknown)[] = [
+  const initialArgs: string[] = [
     `${componentLabel} %c${originType}%c ` +
       `%c${origin.label ? `«${origin.label}» ` : ''}%c` +
       `%c${phase ?? ''}%c${colon}` +
