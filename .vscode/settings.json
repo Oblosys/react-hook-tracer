@@ -8,6 +8,8 @@
     "**/.pnp.*": true
   },
   "eslint.nodePath": ".yarn/sdks",
+  // Show eslint errors as warnings, keeping red squigglies reserved for actual problems.
+  "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
   "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
   "typescript.enablePromptUseWorkspaceTsdk": true
 }
