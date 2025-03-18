@@ -39,7 +39,7 @@
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "build-watch": "yarn build --watch --configIncludeDeclarationMap",
-    "clean": "rm -r dist 2>/dev/null || true && rm -f package.tgz 2>/dev/null || true",
+    "clean": "rm -f package.tgz && rm -f .eslintcache && rm -rf dist && rm -rf node_modules",
     "lint-check": "eslint . --cache . --max-warnings 0",
     "lint-fix": "yarn lint-check --fix",
     "test": "jest",

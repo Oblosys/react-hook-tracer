@@ -13,6 +13,7 @@
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "react-scripts build",
+    "clean": "rm -f .eslintcache && rm -rf build && rm -rf node_modules",
     "eject": "react-scripts eject",
     "lint-check": "eslint . --cache . --max-warnings 0",
     "lint-fix": "yarn lint-check --fix",
