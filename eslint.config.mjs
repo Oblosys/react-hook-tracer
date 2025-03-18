@@ -48,6 +48,8 @@ export default typescriptEslint.config([
   //
   // TypeScript
   //
+  // NOTE: 'recommendedTypeChecked' requires a build step before linting. Unfortunately there is no clear error if
+  // packages/react-hook-tracer/dist is missing, just lots of @typescript-eslint/no-unsafe-.. errors.
   typescriptEslint.configs.recommendedTypeChecked,
   {
     name: 'typescript-rules',

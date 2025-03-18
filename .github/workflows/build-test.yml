@@ -18,8 +18,9 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn prettier-check
-      - run: yarn lint-check
+      # Need to build before linting because of linting rules that use type information.
       - run: yarn build-lib
+      - run: yarn lint-check
       - run: yarn type-check-app
       - run: yarn test-lib
       - run: yarn test-app

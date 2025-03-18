@@ -31,7 +31,7 @@
     "login": "yarn workspace react-hook-tracer npm login --publish",
     "pack-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer pack -o 'dist/%s@%v.tgz'",
     "pack-lib-no-test": "yarn clean && yarn build-lib && yarn workspace react-hook-tracer pack -o 'dist/%s@%v.tgz'",
-    "pre-pack-publish": "yarn prettier-check && yarn lint-check && yarn clean && yarn build",
+    "pre-pack-publish": "yarn prettier-check && yarn clean && yarn build && yarn lint-check",
     "publish-lib": "yarn pre-pack-publish && yarn workspace react-hook-tracer npm publish",
     "tag-release": "bash-scripts/tag-release.sh",
     "test-lib": "yarn workspace react-hook-tracer test",
